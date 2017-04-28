@@ -28,30 +28,28 @@ namespace Tasks
         ManualResetEvent opCompletedEvent = null;
         BackgroundTaskDeferral deferral;
         //static bool firstTimePresenceMonitoringCheck = true;
-        static List<string> pluggedRegisteredDeviceList = new List<string>();
-        static List<string> pluggedRegisteredDeviceListAfterRemove = new List<string>();
-        //List<registeredDevice> presentRegisteredDevicesList = new List<registeredDevice>();
+        //static List<Tuple<string,bool>> pluggedRegisteredDeviceList = new List<Tuple<string,bool>>();
+        //static List<Tuple<string, bool>> pluggedRegisteredDeviceListAfterRemove = new List<Tuple<string, bool>>();
 
-        //private class registeredDevice
-        //{
-        //    bool isPresent;
-        //    string guid;
+        static List<dLock> pluggedRegisteredDeviceList = new List<dLock>();
+        static List<dLock> pluggedRegisteredDeviceListAfterRemove = new List<dLock>();
 
-        //    public registeredDevice(string id)
-        //    {
-        //        isPresent = true;
-        //        guid = id;
-        //    }
-        //    public string getGuid()
-        //    {
-        //        return guid;
-        //    }
-        //}
+        private class dLock
+        {
+            public string DeviceId { get; set; }
+            public bool isDlockEnabled { get; set; }
 
+            public dLock(string id, bool state)
+            {
+                DeviceId = id;
+                isDlockEnabled = state;
+            }
+        } 
+        
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
-            
+
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
             SecondaryAuthenticationFactorAuthentication.AuthenticationStageChanged += OnStageChanged;
@@ -114,11 +112,20 @@ namespace Tasks
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
                             pluggedRegisteredDeviceListAfterRemove = await getPluggedRegisteredDeviceListAsync();
                             //Debugger.Break();
-                            if (!pluggedRegisteredDeviceListAfterRemove.SequenceEqual(pluggedRegisteredDeviceList))
-                            {
-                                await LockDevice();
+                            if (pluggedRegisteredDeviceList.Count() != pluggedRegisteredDeviceListAfterRemove.Count())
+                            {// A registered device has been removed
+                                //We have to check wether dLock is activated on that device before locking the workstation
+                                if (checkIfRemovedDeviceHasDlockEnabled())
+                                {
+                                    await LockDevice();
+                                }                                
                                 pluggedRegisteredDeviceList = pluggedRegisteredDeviceListAfterRemove;
                             }
+                            //if (!pluggedRegisteredDeviceListAfterRemove.SequenceEqual(pluggedRegisteredDeviceList))
+                            //{
+                            //    await LockDevice();
+                            //    pluggedRegisteredDeviceList = pluggedRegisteredDeviceListAfterRemove;
+                            //}
                             //ShowToastNotification("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
                             //tuple = await isPluggedDeviceRegisteredAsync();                            
                             //Debugger.Break();
@@ -132,7 +139,25 @@ namespace Tasks
 
             deferral.Complete();           
         }
-        private async Task<List<string>> getPluggedRegisteredDeviceListAsync()
+        private bool checkIfRemovedDeviceHasDlockEnabled()
+        {
+            List<dLock> listbkp = pluggedRegisteredDeviceList;
+            foreach (dLock device in pluggedRegisteredDeviceListAfterRemove)
+            {
+                int idx = 0;
+                foreach (dLock dev in listbkp)
+                {
+                    if (dev.DeviceId == device.DeviceId)
+                    {
+                        listbkp.RemoveAt(idx);
+                    }
+                    idx++;
+                }
+            }
+            //Debugger.Break();
+            return listbkp[0].isDlockEnabled;
+        }
+        private async Task<List<dLock>> getPluggedRegisteredDeviceListAsync()
         {
             System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] start listing devices");
             string NanosATR = "3b00";
@@ -140,7 +165,7 @@ namespace Tasks
             byte[] response = { 0 };
             string sw1sw2 = null;
 
-            List<string> pluggedRegisteredDeviceList = new List<string>();
+            List<dLock> pluggedRegisteredDeviceList = new List<dLock>();
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                     SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
@@ -170,12 +195,22 @@ namespace Tasks
                             sw1sw2 = Apdu.ApduResponseParser(response, out response);
                             string deviceId = BitConverter.ToString(response).Replace("-", "");
 
+                            response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
+                            sw1sw2 = Apdu.ApduResponseParser(response, out response);
+
                             foreach (SecondaryAuthenticationFactorInfo registeredDevice in registeredDeviceList)
                             {
                                 if (registeredDevice.DeviceId == deviceId)
                                 {
-                                    pluggedRegisteredDeviceList.Add(deviceId);
-                                    System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] found new device "+ deviceId);
+                                    //pluggedRegisteredDeviceList.Add(deviceId);
+                                    //pluggedRegisteredDeviceList = new Tuple<deviceId,true>();
+                                    dLock deviceToAdd = new dLock(deviceId, true);
+                                    if (response[0] == 0)
+                                    {
+                                        deviceToAdd.isDlockEnabled = false;
+                                    }
+                                    pluggedRegisteredDeviceList.Add(deviceToAdd);
+                                    System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] found new device "+ deviceId + "dLockEnabled : " + pluggedRegisteredDeviceList.ElementAt(pluggedRegisteredDeviceList.Count()-1).isDlockEnabled.ToString());
                                 }
                             }
                         }
