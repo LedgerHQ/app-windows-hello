@@ -1,0 +1,16 @@
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\bin\x86\Debug\Apdu.dll
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\bin\x86\Debug\Apdu.pdb
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\bin\x86\Debug\Apdu.pri
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\Apdu.dll
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\Apdu.pdb
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\priconfig.xml
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\priconfig.xml.intermediate
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\layout.resfiles
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\layout.resfiles.intermediate
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\resources.resfiles
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\resources.resfiles.intermediate
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\pri.resfiles
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\pri.resfiles.intermediate
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\qualifiers.txt
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\qualifiers.txt.intermediate
+C:\Users\Philippe\Downloads\companion-device-framework-master\CDFSampleApp\Apdu\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DebugEngines>
+    </DebugEngines>
+    <BackgroundTaskDebugEngines>
+    </BackgroundTaskDebugEngines>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Source>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</Source>
+    <SmallTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</MediumTileSource>
+    <WideTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</WideTileSource>
+    <LargeTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</LargeTileSource>
+    <AppIconSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</SplashScreenSource>
+    <BadgeLogoSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</BadgeLogoSource>
+    <PackageLogoSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</PackageLogoSource>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
+    <UseEmulator>true</UseEmulator>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
+    <UseEmulator>true</UseEmulator>
+  </PropertyGroup>
+</Project>
