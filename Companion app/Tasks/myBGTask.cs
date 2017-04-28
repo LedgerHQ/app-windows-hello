@@ -26,27 +26,31 @@ namespace Tasks
     public sealed class myBGTask : IBackgroundTask
     {
         ManualResetEvent opCompletedEvent = null;
+        BackgroundTaskDeferral deferral;
+        //static bool firstTimePresenceMonitoringCheck = true;
+        static List<string> pluggedRegisteredDeviceList = new List<string>();
+        static List<string> pluggedRegisteredDeviceListAfterRemove = new List<string>();
         //List<registeredDevice> presentRegisteredDevicesList = new List<registeredDevice>();
 
-        private class registeredDevice
-        {
-            bool isPresent;
-            string guid;
+        //private class registeredDevice
+        //{
+        //    bool isPresent;
+        //    string guid;
 
-            public registeredDevice(string id)
-            {
-                isPresent = true;
-                guid = id;
-            }
-            public string getGuid()
-            {
-                return guid;
-            }
-        }
+        //    public registeredDevice(string id)
+        //    {
+        //        isPresent = true;
+        //        guid = id;
+        //    }
+        //    public string getGuid()
+        //    {
+        //        return guid;
+        //    }
+        //}
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            var deferral = taskInstance.GetDeferral();
+            deferral = taskInstance.GetDeferral();
             
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
@@ -63,6 +67,8 @@ namespace Tasks
                     {
                         case DeviceWatcherEventKind.Add:
                             Debug.WriteLine("[RUN] Add: " + e.DeviceInformation.Id);
+                            pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
+                            //Debugger.Break();
                             //ShowToastNotification("[RUN] Add: " + e.DeviceInformation.Id);
                             //Debugger.Break();
                             //var tuple = await isPluggedDeviceRegisteredAsync();
@@ -106,8 +112,15 @@ namespace Tasks
 
                         case DeviceWatcherEventKind.Remove:
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
+                            pluggedRegisteredDeviceListAfterRemove = await getPluggedRegisteredDeviceListAsync();
+                            //Debugger.Break();
+                            if (!pluggedRegisteredDeviceListAfterRemove.SequenceEqual(pluggedRegisteredDeviceList))
+                            {
+                                await LockDevice();
+                                pluggedRegisteredDeviceList = pluggedRegisteredDeviceListAfterRemove;
+                            }
                             //ShowToastNotification("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
-                            //tuple = await isPluggedDeviceRegisteredAsync();
+                            //tuple = await isPluggedDeviceRegisteredAsync();                            
                             //Debugger.Break();
                             //await LockDevice();
                             break;
@@ -118,7 +131,79 @@ namespace Tasks
             opCompletedEvent.WaitOne();
 
             deferral.Complete();           
-        }        
+        }
+        private async Task<List<string>> getPluggedRegisteredDeviceListAsync()
+        {
+            System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] start listing devices");
+            string NanosATR = "3b00";
+
+            byte[] response = { 0 };
+            string sw1sw2 = null;
+
+            List<string> pluggedRegisteredDeviceList = new List<string>();
+
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                    SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+
+            string selector = SmartCardReader.GetDeviceSelector();
+
+            DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
+
+            foreach (DeviceInformation device in devices)
+            {
+                SmartCardReader reader = await SmartCardReader.FromIdAsync(device.Id);
+                SmartCardReaderStatus readerstatus = await reader.GetStatusAsync();
+                //System.Diagnostics.Debug.WriteLine("Reader : " + reader.Name + " status : " + readerstatus.ToString());
+                IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
+
+                foreach (SmartCard card in cards)
+                {
+                    try
+                    {
+                        IBuffer ATR = await card.GetAnswerToResetAsync();
+                        string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
+
+                        if (ATR_str.Equals(NanosATR))
+                        {
+                            SmartCardConnection connection = await card.ConnectAsync();
+                            response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
+                            sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                            string deviceId = BitConverter.ToString(response).Replace("-", "");
+
+                            foreach (SecondaryAuthenticationFactorInfo registeredDevice in registeredDeviceList)
+                            {
+                                if (registeredDevice.DeviceId == deviceId)
+                                {
+                                    pluggedRegisteredDeviceList.Add(deviceId);
+                                    System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] found new device "+ deviceId);
+                                }
+                            }
+                        }
+                    }
+                    catch (CompanionDeviceNotFoundException ex)
+                    {
+                        ex.DisplayError();
+                        //await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
+                        //    "a registered companion device",
+                        //    SecondaryAuthenticationFactorAuthenticationMessage.LookingForDevicePluggedin);
+                        //showNotificationFlag = false;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        //Debugger.Break();
+                        System.Diagnostics.Debug.WriteLine("[getPluggedRegisteredDeviceListAsync] Unhandled Exception / " + ex.Message);
+                        //showNotificationFlag = false;
+                        break;
+                    }
+                    finally
+                    {
+
+                    }
+                }
+            }
+            return pluggedRegisteredDeviceList;
+        }
         private async Task AuthenticateWithSmartCardAsync(SmartCard card)
         {
             var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -334,86 +419,92 @@ namespace Tasks
                                 SecondaryAuthenticationFactorAuthenticationMessage.LookingForDevicePluggedin);
             }
             showNotificationFlag = true;
-        }
-        private async Task<Tuple<bool, string>> isPluggedDeviceRegisteredAsync()
+        } 
+        private async Task LockDevice()
         {
-            bool isRegistered = false;
-            string guid = "no device";
+            //Debugger.Break();
+            // Query the devices which can do presence check for the console user
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
 
-            string NanosATR = "3b00";
-
-            string selector = SmartCardReader.GetDeviceSelector();
-
-            DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
-
-            foreach (DeviceInformation device in devices)
+            if (deviceInfoList.Count == 0)
             {
-                SmartCardReader reader = await SmartCardReader.FromIdAsync(device.Id);
-                SmartCardReaderStatus readerstatus = await reader.GetStatusAsync();
-                //System.Diagnostics.Debug.WriteLine("Reader : " + reader.Name + " status : " + readerstatus.ToString());
-                IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
-
-                foreach (SmartCard card in cards)
-                {
-                    IBuffer ATR = await card.GetAnswerToResetAsync();
-                    string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
-                    Debugger.Break();
-                    if (ATR_str.Equals(NanosATR))
-                    {
-                        SmartCardConnection connection = await card.ConnectAsync();
-
-                        byte[] response = { 0 };
-                        string sw1sw2 = null;
-
-                        response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
-                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
-
-                        string deviceId = BitConverter.ToString(response).Replace("-", "");
-
-                        IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
-                        for (int i = 0; i < deviceList.Count(); i++)
-                        {
-                            if (deviceList.ElementAt(i).DeviceId == deviceId)
-                            {
-                                guid = deviceId;
-                                isRegistered = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                return;
             }
-            return new Tuple<bool, string>(isRegistered, guid);
+
+            foreach (SecondaryAuthenticationFactorInfo deviceInfo in deviceInfoList)
+            {
+                if (deviceInfo.PresenceMonitoringMode !=
+                        SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged)
+                {
+                    // Skip the device which doesn't need to be monitored in the background task
+                    continue;
+                }
+
+                SecondaryAuthenticationFactorDevicePresence state =
+                    SecondaryAuthenticationFactorDevicePresence.Absent;
+
+                await deviceInfo.UpdateDevicePresenceAsync(state);
+                //string buf = deviceInfo.DeviceConfigurationData.ToString();
+                SecondaryAuthenticationFactorDevicePresenceMonitoringMode mode = deviceInfo.PresenceMonitoringMode;
+            }
         }
-        //private async Task LockDevice()
-        //{
-        //    // Query the devices which can do presence check for the console user
-        //    IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
-        //        await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
+        private async Task PresenceMonitor()
+        {
+            //ShowToastNotification("Presence monitor triggered!");
+            System.Diagnostics.Debug.WriteLine("[PresenceMonitor] triggered");
+            //Debugger.Break();
+            // Query the devices which can do presence check for the console user
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
 
-        //    if (deviceInfoList.Count == 0)
-        //    {
-        //        return;
-        //    }
+            if (deviceInfoList.Count == 0)
+            {
+                return;
+            }
 
-        //    foreach (SecondaryAuthenticationFactorInfo deviceInfo in deviceInfoList)
-        //    {
-        //        if (deviceInfo.PresenceMonitoringMode !=
-        //                SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged)
-        //        {
-        //            // Skip the device which doesn't need to be monitored in the background task
-        //            continue;
-        //        }
+            foreach (SecondaryAuthenticationFactorInfo deviceInfo in deviceInfoList)
+            {
+                if (deviceInfo.PresenceMonitoringMode !=
+                        SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged)
+                {
+                    // Skip the device which doesn't need to be monitored in the background task
+                    continue;
+                }
 
-        //        SecondaryAuthenticationFactorDevicePresence state =
-        //            SecondaryAuthenticationFactorDevicePresence.Absent;
+                //
+                // 3rd party device specific code
+                //
+                // The background task should check if the device is near-by or not and update the state value
+                // if (device is nearby)
+                // {
+                //     state = SecondaryAuthenticationFactorDevicePresenceState.Present;
+                // }
 
-        //        await deviceInfo.UpdateDevicePresenceAsync(state);
-        //        //string buf = deviceInfo.DeviceConfigurationData.ToString();
-        //        SecondaryAuthenticationFactorDevicePresenceMonitoringMode mode = deviceInfo.PresenceMonitoringMode;
-        //    }
-        //}
+                //use firstTimePresenceMonitoringCheck only for test/debug purposes
+                //The first call for presence monitoring comes after 10seconds of STOPPING AUTH
+                //At this time, we need to send Present back to natural auth, else it won't ask again.
+                //The subsequent calls come after 30 seconds of system idle which should send
+                //actual prsence state.   We are sending Absent, just to test/illustrate how
+                //goodbye works.
+                await deviceInfo.UpdateDevicePresenceAsync(SecondaryAuthenticationFactorDevicePresence.Present);
+                //firstTimePresenceMonitoringCheck = false;
+
+                //if (firstTimePresenceMonitoringCheck)
+                //{
+                //    //firsttime after lock should set to "yes" else cdf goodbye will not check for this logon until
+                //    //locked again
+                //    await deviceInfo.UpdateDevicePresenceAsync(SecondaryAuthenticationFactorDevicePresence.Present);
+                //    firstTimePresenceMonitoringCheck = false;
+                //}
+                //else
+                //{
+                //    firstTimePresenceMonitoringCheck = true;
+                //    await deviceInfo.UpdateDevicePresenceAsync(SecondaryAuthenticationFactorDevicePresence.Absent);
+                //}
+
+            }
+        }
         public static void ShowToastNotification(string message)
         {
 
@@ -456,6 +547,14 @@ namespace Tasks
         async void OnStageChanged(Object sender, SecondaryAuthenticationFactorAuthenticationStageChangedEventArgs args)
         {
             //ShowToastNotification("In StageChanged!" + args.StageInfo.Stage.ToString());
+            if (args.StageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CheckingDevicePresence)
+            {
+                Task t = PresenceMonitor();
+                t.Wait();
+                opCompletedEvent.Set();
+                deferral.Complete();
+                return;
+            }
             if (args.StageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
             {
                 //ShowToastNotification("Stage = WaitingForUserConfirmation");

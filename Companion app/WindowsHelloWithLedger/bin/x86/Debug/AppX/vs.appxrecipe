@@ -10,7 +10,7 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>bd01bd19-d124-49a4-8ce0-da850c3b7d91</PackageIdentityName>
     <PackageIdentityPublisher>CN=Ledger</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\obj\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType>
     </RemoteDeploymentType>
     <PackageRegistrationPath>
@@ -18,7 +18,7 @@
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\AppX</LayoutDir>
+    <LayoutDir>C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\AppX</LayoutDir>
     <RegisteredManifestChecksum>6D859A74EB9793338274675A60F620BCA01DDBCC9A6431D98B23FA0E6BE514F5</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>bd01bd19-d124-49a4-8ce0-da850c3b7d91_1.0.0.0_x86__enxxt1zfz39me</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>bd01bd19-d124-49a4-8ce0-da850c3b7d91_enxxt1zfz39me!App</RegisteredUserModeAppID>
@@ -28,16 +28,16 @@
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-27T16:00:32.881</Modified>
+      <Modified>2017-04-28T12:32:29.926</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
       <PackagePath>entrypoint\WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-04-27T16:00:30.966</Modified>
+      <Modified>2017-04-28T12:32:28.390</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -463,284 +463,284 @@
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
       <Modified>2015-07-22T21:11:12.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\bin\x86\Debug\Tasks.winmd">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\bin\x86\Debug\Tasks.winmd">
       <PackagePath>Tasks.winmd</PackagePath>
-      <Modified>2017-04-27T16:00:28.905</Modified>
+      <Modified>2017-04-28T12:32:26.751</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\ApplicationInsights.config">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
-      <Modified>2017-04-05T15:01:34.361</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LargeTile.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\LargeTile.scale-100.png">
       <PackagePath>Assets\LargeTile.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.454</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LargeTile.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\LargeTile.scale-125.png">
       <PackagePath>Assets\LargeTile.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.463</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LargeTile.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\LargeTile.scale-150.png">
       <PackagePath>Assets\LargeTile.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.471</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LargeTile.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\LargeTile.scale-200.png">
       <PackagePath>Assets\LargeTile.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.482</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LargeTile.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\LargeTile.scale-400.png">
       <PackagePath>Assets\LargeTile.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.506</Modified>
+      <Modified>2017-04-28T09:00:23.610</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallLogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallLogo.scale-100.png">
       <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.583</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallLogo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallLogo.scale-125.png">
       <PackagePath>Assets\SmallLogo.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.695</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallLogo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallLogo.scale-150.png">
       <PackagePath>Assets\SmallLogo.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.701</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallLogo.scale-200.png">
       <PackagePath>Assets\SmallLogo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.562</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallLogo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallLogo.scale-400.png">
       <PackagePath>Assets\SmallLogo.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.722</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallTile.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallTile.scale-100.png">
       <PackagePath>Assets\SmallTile.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.337</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallTile.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallTile.scale-125.png">
       <PackagePath>Assets\SmallTile.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.343</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallTile.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallTile.scale-150.png">
       <PackagePath>Assets\SmallTile.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.349</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallTile.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallTile.scale-200.png">
       <PackagePath>Assets\SmallTile.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.356</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SmallTile.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SmallTile.scale-400.png">
       <PackagePath>Assets\SmallTile.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.364</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SplashScreen.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SplashScreen.scale-100.png">
       <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.615</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SplashScreen.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SplashScreen.scale-125.png">
       <PackagePath>Assets\SplashScreen.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.624</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SplashScreen.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SplashScreen.scale-150.png">
       <PackagePath>Assets\SplashScreen.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.634</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.648</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\SplashScreen.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\SplashScreen.scale-400.png">
       <PackagePath>Assets\SplashScreen.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.682</Modified>
+      <Modified>2017-04-28T09:00:23.625</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-100.png">
       <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.371</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-125.png">
       <PackagePath>Assets\Square150x150Logo.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.380</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-150.png">
       <PackagePath>Assets\Square150x150Logo.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.387</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.395</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square150x150Logo.scale-400.png">
       <PackagePath>Assets\Square150x150Logo.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.406</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-16.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.576</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-24.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-24.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-24.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.583</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-256.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.606</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-32.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.590</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-48.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.596</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-100.png">
       <PackagePath>Assets\Square44x44Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.512</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-125.png">
       <PackagePath>Assets\Square44x44Logo.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.518</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-150.png">
       <PackagePath>Assets\Square44x44Logo.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.524</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.531</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.scale-400.png">
       <PackagePath>Assets\Square44x44Logo.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.538</Modified>
+      <Modified>2017-04-28T09:00:23.641</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-16.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-16.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-16.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.544</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-24.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-24.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.550</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-256.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-256.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-256.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.571</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-32.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-32.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-32.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.556</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-48.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Square44x44Logo.targetsize-48.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-48.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.562</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\StoreLogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\StoreLogo.scale-100.png">
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.728</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\StoreLogo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\StoreLogo.scale-125.png">
       <PackagePath>Assets\StoreLogo.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.734</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\StoreLogo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\StoreLogo.scale-150.png">
       <PackagePath>Assets\StoreLogo.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.740</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\StoreLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\StoreLogo.scale-200.png">
       <PackagePath>Assets\StoreLogo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.747</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\StoreLogo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\StoreLogo.scale-400.png">
       <PackagePath>Assets\StoreLogo.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.756</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-100.png">
       <PackagePath>Assets\Wide310x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.413</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-125.png">
       <PackagePath>Assets\Wide310x150Logo.scale-125.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.419</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-150.png">
       <PackagePath>Assets\Wide310x150Logo.scale-150.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.427</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.434</Modified>
+      <Modified>2017-04-28T09:00:23.656</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Assets\Wide310x150Logo.scale-400.png">
       <PackagePath>Assets\Wide310x150Logo.scale-400.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-21T08:17:20.447</Modified>
+      <Modified>2017-04-28T09:00:23.672</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Properties\Default.rd.xml">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
-      <Modified>2017-04-05T15:01:34.579</Modified>
+      <Modified>2017-04-28T09:00:23.813</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.xr.xml">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.xr.xml">
       <PackagePath>WindowsHelloWithLedger.xr.xml</PackagePath>
-      <Modified>2017-04-20T08:51:45.326</Modified>
+      <Modified>2017-04-28T09:00:31.618</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.15063.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
       <Modified>2017-04-26T18:27:27.693</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-27T16:00:31.467</Modified>
+      <Modified>2017-04-28T12:32:28.788</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
       <PackagePath>WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-04-27T16:00:32.875</Modified>
+      <Modified>2017-04-28T12:32:29.922</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

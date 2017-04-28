@@ -17,3 +17,22 @@ C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\obj\x86\Release\pri.res
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\obj\x86\Release\qualifiers.txt
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\obj\x86\Release\qualifiers.txt.intermediate
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\obj\x86\Release\MultipleQualifiersPerDimensionFound.txt
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\bin\x86\Release\Tasks.winmd
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\bin\x86\Release\Tasks.pdb
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\bin\x86\Release\Tasks.pri
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\Tasks.csprojResolveAssemblyReference.cache
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\Tasks.winmd
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\Tasks.pdb
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\Tasks.winmdobj
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\Tasks.compile.pdb
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\priconfig.xml
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\priconfig.xml.intermediate
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\layout.resfiles
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\layout.resfiles.intermediate
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\resources.resfiles
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\resources.resfiles.intermediate
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\pri.resfiles
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\pri.resfiles.intermediate
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\qualifiers.txt
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\qualifiers.txt.intermediate
+C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\obj\x86\Release\MultipleQualifiersPerDimensionFound.txt

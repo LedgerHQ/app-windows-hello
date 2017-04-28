@@ -238,22 +238,22 @@ namespace WindowsHelloWithLedger
                         IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                             SecondaryAuthenticationFactorDeviceFindScope.User);
 
-                        //SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus status =
-                        //    await SecondaryAuthenticationFactorRegistration.RegisterDevicePresenceMonitoringAsync(
-                        //    deviceId,
-                        //    deviceId,
-                        //    SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged);
+                        SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus status =
+                            await SecondaryAuthenticationFactorRegistration.RegisterDevicePresenceMonitoringAsync(
+                            deviceId,
+                            deviceId,
+                            SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged);
 
-                        //switch (status)
-                        //{
-                        //    case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.Succeeded:
-                        //        await new MessageDialog("Registered for presence monitoring!").ShowAsync();
-                        //        break;
+                        switch (status)
+                        {
+                            case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.Succeeded:
+                                await new MessageDialog("Registered for presence monitoring!").ShowAsync();
+                                break;
 
-                        //    case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.DisabledByPolicy:
-                        //        await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
-                        //        break;
-                        //}
+                            case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.DisabledByPolicy:
+                                await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
+                                break;
+                        }
 
                         RefreshDeviceList(deviceList);
                         StartWatcher();

@@ -1,8 +1,8 @@
-# Hello World application for Ledger Blue 
+# Windows hello application for ledger blue 
 
-This application demonstrates the User Interface and Secure Element proxy logic 
+This application allows using Windows hello with companion device
 
-After installing and running the application, you can launch demo.py to test a data exchange over USB
+Companion device app (in companion app folder) has to be installed on the Windows devices you want to lock/unlock with ledger blue/nano-s
 
 
 

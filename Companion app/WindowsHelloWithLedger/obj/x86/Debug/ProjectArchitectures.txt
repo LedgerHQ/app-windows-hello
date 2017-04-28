@@ -1,2 +1,0 @@
-C:\Users\Philippe\Downloads\WindowsHelloWithLedger\Tasks\Tasks.csproj;x86
-C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\WindowsHelloWithLedger.csproj;x86
