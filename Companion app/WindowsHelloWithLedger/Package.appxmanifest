@@ -26,8 +26,9 @@
         <uap:LockScreen BadgeLogo="Assets\SmallLogo.png" Notification="badgeAndTileText" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.myBGTask">
+        <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.authBGTask">
           <BackgroundTasks>
+            <Task Type="timer" />
             <Task Type="pushNotification" />
           </BackgroundTasks>
         </Extension>

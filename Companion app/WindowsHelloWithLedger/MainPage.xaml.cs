@@ -44,8 +44,8 @@ namespace WindowsHelloWithLedger
     {
         String m_selectedDeviceId = String.Empty;
         bool taskRegistered = false;
-        static string myBGTaskName = "myBGTask";
-        static string myBGTaskEntryPoint = "Tasks.myBGTask";
+        static string authBGTaskName = "authBGTask";
+        static string authBGTaskEntryPoint = "Tasks.authBGTask";
         String deviceFriendlyName = "";
         // TODO : get deviceModelNumber from device
         String deviceModelNumber = "0001";
@@ -277,10 +277,12 @@ namespace WindowsHelloWithLedger
             DeviceWatcher deviceWatcher = null;
 
             string selector = SmartCardReader.GetDeviceSelector();
+
             deviceWatcher = DeviceInformation.CreateWatcher(selector, null);
             DeviceWatcherTrigger deviceWatcherTrigger = deviceWatcher.GetBackgroundTrigger(triggerEventKinds);
             RegisterTask(deviceWatcherTrigger);
         }
+
         private async void DeviceListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DeviceListBox.Items.Count > 0)
@@ -366,7 +368,7 @@ namespace WindowsHelloWithLedger
 
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
-                if (task.Value.Name == myBGTaskName)
+                if (task.Value.Name == authBGTaskName)
                 {
                     taskRegistered = true;
                     break;
@@ -378,23 +380,29 @@ namespace WindowsHelloWithLedger
 
                 if (access == BackgroundAccessStatus.AllowedSubjectToSystemPolicy)
                 {
-                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-                    BackgroundTaskBuilder taskBuilder2 = new BackgroundTaskBuilder();
-                    taskBuilder.Name = myBGTaskName;
-                    taskBuilder2.Name = myBGTaskName;
-                    // Create the trigger.
-                    SecondaryAuthenticationFactorAuthenticationTrigger myTrigger = new SecondaryAuthenticationFactorAuthenticationTrigger();                   
-
-                    // Add event handlers
-                    taskBuilder.TaskEntryPoint = myBGTaskEntryPoint;
-                    taskBuilder2.TaskEntryPoint = myBGTaskEntryPoint;
-
-
+                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();                    
+                    taskBuilder.Name = authBGTaskName;                    
+                    SecondaryAuthenticationFactorAuthenticationTrigger myTrigger = new SecondaryAuthenticationFactorAuthenticationTrigger();
+                    taskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
                     taskBuilder.SetTrigger(myTrigger);
-                    taskBuilder2.SetTrigger(deviceWatcherTrigger);
-
                     BackgroundTaskRegistration taskReg = taskBuilder.Register();
+
+                    BackgroundTaskBuilder taskBuilder2 = new BackgroundTaskBuilder();
+                    taskBuilder2.Name = authBGTaskName;
+                    taskBuilder2.TaskEntryPoint = authBGTaskEntryPoint;
+                    taskBuilder2.SetTrigger(deviceWatcherTrigger);
                     BackgroundTaskRegistration taskReg2 = taskBuilder2.Register();
+
+                    BackgroundTaskBuilder dLockCheckTaskBuilder = new BackgroundTaskBuilder();
+                    dLockCheckTaskBuilder.Name = authBGTaskName;
+                    dLockCheckTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
+                    TimeTrigger dLockCheckTrigger = new TimeTrigger(15, false);
+                    dLockCheckTaskBuilder.SetTrigger(dLockCheckTrigger);
+                    //await BackgroundExecutionManager.RequestAccessAsync();
+                    BackgroundTaskRegistration taskReg3 = dLockCheckTaskBuilder.Register();
+                    
+
+
                     String taskRegName = taskReg.Name;
                     //taskReg.Progress += OnBgTaskProgress;
                     System.Diagnostics.Debug.WriteLine("[RegisterTask] Background task registration is completed.");

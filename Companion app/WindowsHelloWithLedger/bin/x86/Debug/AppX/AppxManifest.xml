@@ -35,8 +35,9 @@
         <uap:LockScreen BadgeLogo="Assets\SmallLogo.png" Notification="badgeAndTileText" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.myBGTask">
+        <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.authBGTask">
           <BackgroundTasks>
+            <Task Type="timer" />
             <Task Type="pushNotification" />
           </BackgroundTasks>
         </Extension>
@@ -52,7 +53,8 @@
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
         <Path>WindowsHelloWithLedger.exe</Path>
-        <ActivatableClass ActivatableClassId="Tasks.myBGTask" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Tasks.authBGTask" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Tasks.dLock" ThreadingModel="both" />
       </InProcessServer>
     </Extension>
   </Extensions>

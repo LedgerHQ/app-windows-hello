@@ -23,28 +23,25 @@ using System.Runtime.InteropServices;
 
 namespace Tasks
 {
-    public sealed class myBGTask : IBackgroundTask
+    public sealed class dLock
+    {
+        public string DeviceId { get; set; }
+        public bool isDlockEnabled { get; set; }
+
+        public dLock(string id, bool state)
+        {
+            DeviceId = id;
+            isDlockEnabled = state;
+        }
+    }
+
+    public sealed class authBGTask : IBackgroundTask
     {
         ManualResetEvent opCompletedEvent = null;
         BackgroundTaskDeferral deferral;
-        //static bool firstTimePresenceMonitoringCheck = true;
-        //static List<Tuple<string,bool>> pluggedRegisteredDeviceList = new List<Tuple<string,bool>>();
-        //static List<Tuple<string, bool>> pluggedRegisteredDeviceListAfterRemove = new List<Tuple<string, bool>>();
 
         static List<dLock> pluggedRegisteredDeviceList = new List<dLock>();
-        static List<dLock> pluggedRegisteredDeviceListAfterRemove = new List<dLock>();
-
-        private class dLock
-        {
-            public string DeviceId { get; set; }
-            public bool isDlockEnabled { get; set; }
-
-            public dLock(string id, bool state)
-            {
-                DeviceId = id;
-                isDlockEnabled = state;
-            }
-        } 
+        static List<dLock> pluggedRegisteredDeviceListAfterRemove = new List<dLock>();         
         
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -53,52 +50,27 @@ namespace Tasks
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
             SecondaryAuthenticationFactorAuthentication.AuthenticationStageChanged += OnStageChanged;
-            //ShowToastNotification("BG Task Hit!");        
+            //ShowToastNotification("BG Task Hit!");
+            
+
             if (taskInstance.TriggerDetails is DeviceWatcherTriggerDetails)
             {
                 DeviceWatcherTriggerDetails triggerDetails = (DeviceWatcherTriggerDetails)taskInstance.TriggerDetails;
-                //Debugger.Break();
-
+                
                 foreach (DeviceWatcherEvent e in triggerDetails.DeviceWatcherEvents)
                 {
                     switch (e.Kind)
                     {
                         case DeviceWatcherEventKind.Add:
                             Debug.WriteLine("[RUN] Add: " + e.DeviceInformation.Id);
-                            pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
-                            //Debugger.Break();
-                            //ShowToastNotification("[RUN] Add: " + e.DeviceInformation.Id);
-                            //Debugger.Break();
-                            //var tuple = await isPluggedDeviceRegisteredAsync();
-                            //if (tuple.Item1 == true)
-                            //{
-                            //    bool alreadyInList = false;
-                            //    foreach (registeredDevice device in presentRegisteredDevicesList)
-                            //    {
-                            //        if (tuple.Item2 == device.getGuid())
-                            //        {
-                            //            alreadyInList = true;
-                            //            break;
-                            //        }
-                            //    }
-                            //    if (!alreadyInList)
-                            //    {
-                            //        Debugger.Break();
-                            //        registeredDevice deviceToAdd = new registeredDevice(tuple.Item2);
-                            //        presentRegisteredDevicesList.Add(deviceToAdd);
-                            //    }
-                            //}                           
-
+                            if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
+                            {
+                                pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
+                            }
                             SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
                             if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
                                 || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
-                            //if (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
                             {
-                                //String deviceName = deviceList.ElementAt(deviceList.Count() - 1).DeviceFriendlyName;
-
-                                //await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
-                                //    "test",
-                                //    SecondaryAuthenticationFactorAuthenticationMessage.SwipeUpWelcome);
                                 System.Diagnostics.Debug.WriteLine("[RUN] Perform Auth / plug trigger");
                                 PerformAuthentication();
                             }                            
@@ -121,18 +93,15 @@ namespace Tasks
                                 }                                
                                 pluggedRegisteredDeviceList = pluggedRegisteredDeviceListAfterRemove;
                             }
-                            //if (!pluggedRegisteredDeviceListAfterRemove.SequenceEqual(pluggedRegisteredDeviceList))
-                            //{
-                            //    await LockDevice();
-                            //    pluggedRegisteredDeviceList = pluggedRegisteredDeviceListAfterRemove;
-                            //}
-                            //ShowToastNotification("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
-                            //tuple = await isPluggedDeviceRegisteredAsync();                            
-                            //Debugger.Break();
-                            //await LockDevice();
                             break;
                     }
                 }
+            }
+            else
+            {
+                Debug.WriteLine("[RUN] Unknown trigger");
+                pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
+                //Debugger.Break();
             }
             // Wait until the operation completes
             opCompletedEvent.WaitOne();
@@ -154,7 +123,6 @@ namespace Tasks
                     idx++;
                 }
             }
-            //Debugger.Break();
             return listbkp[0].isDlockEnabled;
         }
         private async Task<List<dLock>> getPluggedRegisteredDeviceListAsync()
@@ -498,6 +466,8 @@ namespace Tasks
                 return;
             }
 
+            
+
             foreach (SecondaryAuthenticationFactorInfo deviceInfo in deviceInfoList)
             {
                 if (deviceInfo.PresenceMonitoringMode !=
@@ -505,6 +475,11 @@ namespace Tasks
                 {
                     // Skip the device which doesn't need to be monitored in the background task
                     continue;
+                }
+                else
+                {
+                    //Debugger.Break();
+                    //pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
                 }
 
                 //
