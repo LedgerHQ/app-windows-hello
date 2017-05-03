@@ -1,0 +1,3 @@
+Code optimization : 
+	Add filters to device selectors, to select "Ledger" devices only
+Add txt file logs in app data

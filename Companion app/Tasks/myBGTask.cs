@@ -20,6 +20,7 @@ using System.Numerics;
 using Windows.System.UserProfile;
 using Windows.Storage;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Tasks
 {
@@ -41,12 +42,17 @@ namespace Tasks
         BackgroundTaskDeferral deferral;
 
         static List<dLock> pluggedRegisteredDeviceList = new List<dLock>();
-        static List<dLock> pluggedRegisteredDeviceListAfterRemove = new List<dLock>();         
+        static List<dLock> pluggedRegisteredDeviceListAfterRemove = new List<dLock>();
         
+
+
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
-
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+            string txt = "";
+            
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
             SecondaryAuthenticationFactorAuthentication.AuthenticationStageChanged += OnStageChanged;
@@ -63,10 +69,17 @@ namespace Tasks
                     {
                         case DeviceWatcherEventKind.Add:
                             Debug.WriteLine("[RUN] Add: " + e.DeviceInformation.Id);
+                            txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine ;
+                            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[RUN] Add: " + e.DeviceInformation.Id);
                             if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
                             {
                                 pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync();
                             }
+
+                            Debug.WriteLine("\tNbDevices = " + pluggedRegisteredDeviceList.Count());
+                            txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+                            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "\tNbDevices = " + pluggedRegisteredDeviceList.Count());
+
                             SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
                             if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
                                 || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
@@ -77,16 +90,27 @@ namespace Tasks
                             break;
 
                         case DeviceWatcherEventKind.Update:
-                            //Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
+                            Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
+                            txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+                            await Windows.Storage.FileIO.WriteTextAsync(sampleFile,txt + "[RUN] Update: " + e.DeviceInformationUpdate.Id);
                             break;
 
                         case DeviceWatcherEventKind.Remove:
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
+                            txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+                            await Windows.Storage.FileIO.WriteTextAsync(sampleFile,txt +  "[RUN] Remove: " + e.DeviceInformationUpdate.Id);
                             pluggedRegisteredDeviceListAfterRemove = await getPluggedRegisteredDeviceListAsync();
-                            //Debugger.Break();
+
+                            Debug.WriteLine("\tNbDevicesBefore = " + pluggedRegisteredDeviceList.Count() + "\n\tNbDevicesAfter =" + pluggedRegisteredDeviceListAfterRemove.Count());
+                            txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+                            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "\tNbDevicesBefore = " + pluggedRegisteredDeviceList.Count() + "\n\tNbDevicesAfter =" + pluggedRegisteredDeviceListAfterRemove.Count());
+
                             if (pluggedRegisteredDeviceList.Count() != pluggedRegisteredDeviceListAfterRemove.Count())
                             {// A registered device has been removed
                                 //We have to check wether dLock is activated on that device before locking the workstation
+                                Debug.WriteLine("[RUN] different");
+                                txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+                                await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[RUN] different");
                                 if (checkIfRemovedDeviceHasDlockEnabled())
                                 {
                                     await LockDevice();
@@ -139,6 +163,7 @@ namespace Tasks
                     SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             string selector = SmartCardReader.GetDeviceSelector();
+            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
 
             DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
 
@@ -346,7 +371,7 @@ namespace Tasks
             bool showNotificationFlag = true;
 
             string selector = SmartCardReader.GetDeviceSelector();
-
+            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
             DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);             
 
             foreach (DeviceInformation device in devices)
@@ -425,6 +450,13 @@ namespace Tasks
         } 
         private async Task LockDevice()
         {
+            Debug.WriteLine("[LockDevice]");
+
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+
+            string txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[LockDevice]");
             //Debugger.Break();
             // Query the devices which can do presence check for the console user
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =

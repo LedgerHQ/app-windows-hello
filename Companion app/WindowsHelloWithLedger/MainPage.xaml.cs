@@ -98,6 +98,8 @@ namespace WindowsHelloWithLedger
             Boolean IsNanosPresent = false;
             
             string selector = SmartCardReader.GetDeviceSelector();
+            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
+            //string test = selector.Replace(" ", ((char)34).ToString());
             DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
 
             foreach (DeviceInformation device in devices)
@@ -232,7 +234,7 @@ namespace WindowsHelloWithLedger
 
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration Started!");
                         await registrationResult.Registration.FinishRegisteringDeviceAsync(null);
-                        DeviceListBox.Items.Add(deviceId);
+                        DeviceListBox.Items.Add(deviceFriendlyName);
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration is Complete!");
 
                         IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
@@ -277,6 +279,7 @@ namespace WindowsHelloWithLedger
             DeviceWatcher deviceWatcher = null;
 
             string selector = SmartCardReader.GetDeviceSelector();
+            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
 
             deviceWatcher = DeviceInformation.CreateWatcher(selector, null);
             DeviceWatcherTrigger deviceWatcherTrigger = deviceWatcher.GetBackgroundTrigger(triggerEventKinds);
