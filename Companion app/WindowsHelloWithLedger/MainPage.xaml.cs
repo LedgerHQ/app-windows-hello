@@ -14,6 +14,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.Security.Credentials;
 
 
 
@@ -46,6 +47,8 @@ namespace WindowsHelloWithLedger
         bool taskRegistered = false;
         static string authBGTaskName = "authBGTask";
         static string authBGTaskEntryPoint = "Tasks.authBGTask";
+        static string dLockCheckBGTaskName = "dLockCheckBGTask";
+        static string dLockCheckBGTaskEntryPoint = "Tasks.dLockCheckBGTask";
         String deviceFriendlyName = "";
         // TODO : get deviceModelNumber from device
         String deviceModelNumber = "0001";
@@ -64,7 +67,7 @@ namespace WindowsHelloWithLedger
         {
             base.OnNavigatedTo(e);
 
-            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             RefreshDeviceList(deviceList);
 
@@ -89,14 +92,26 @@ namespace WindowsHelloWithLedger
             IBuffer authKey = CryptographicBuffer.GenerateRandom(32);
             byte[] deviceKeyArray = new byte[32];
             byte[] authKeyArray = new byte[32];
+            byte[] deviceIdArray = new byte[16];
+            byte[] deviceDlockState = new byte[1];
             byte[] response = { 0 };
             string sw1sw2 = null;
             //byte[] combinedDataArray = new byte[64];
             string NanosATR = "3b00";
             List<SmartCardListItem> cardItems = new List<SmartCardListItem>();
+            MessageDialog myDlg;
 
-            Boolean IsNanosPresent = false;
-            
+            bool IsNanosPresent = false;
+            bool isSupported;
+            isSupported = await KeyCredentialManager.IsSupportedAsync();
+
+            if (!isSupported)
+            {
+                myDlg = new MessageDialog("Please setup PIN for your device and try again.");
+                await myDlg.ShowAsync();
+                return;
+            }
+
             string selector = SmartCardReader.GetDeviceSelector();
             selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
             //string test = selector.Replace(" ", ((char)34).ToString());
@@ -124,16 +139,17 @@ namespace WindowsHelloWithLedger
                     if (ATR_str.Equals(NanosATR))
                     {
                         IsNanosPresent = true;
-                        MessageDialog myDlg;
+                        
                         deviceFriendlyName = "";
                         bool foundCompanionDevice = false;
                         // List the registered devices to prevent registering twice the same device
                         IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.User);
+                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
                         SmartCardConnection connection = await card.ConnectAsync();
                         response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
                         sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                        deviceIdArray = response;
                         deviceId = BitConverter.ToString(response).Replace("-", "");
                         // Loop on registered devices to check if device to register has already been registered
                         for (int i = 0; i < registeredDeviceList.Count(); i++)
@@ -169,8 +185,9 @@ namespace WindowsHelloWithLedger
 
                         connection = await card.ConnectAsync();
 
-                        //response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
-                        //sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                        response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
+                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                        deviceDlockState = response;
 
                         response = await Apdu.TransmitApduAsync(connection, Apdu.startRegistrationCmdApdu);
                         sw1sw2 = Apdu.ApduResponseParser(response, out response);
@@ -197,8 +214,23 @@ namespace WindowsHelloWithLedger
                         }
                         authKey = CryptographicBuffer.CreateFromByteArray(authKeyArray);
 
+                        byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate and 1 byte counter initialized to 0
+
+                        for (int i = 0; i < 16; i++)
+                        {
+                            deviceConfigDataArray[i] = deviceIdArray[i];
+                        }
+                        deviceConfigDataArray[16] = deviceDlockState[0];
+                        deviceConfigDataArray[17] = 0;
+                        //string test = BitConverter.ToString(deviceConfigDataArray).Replace("-", "");
+
+
+                        // Get a Ibuffer from combinedDataArray
+                        IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+
                         SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;                            
-                        SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(deviceId,
+                        SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(
+                                deviceId,
                                 capabilities,
                                 deviceFriendlyName,
                                 deviceModelNumber,
@@ -233,18 +265,21 @@ namespace WindowsHelloWithLedger
                         }
 
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration Started!");
-                        await registrationResult.Registration.FinishRegisteringDeviceAsync(null);
+                        await registrationResult.Registration.FinishRegisteringDeviceAsync(deviceConfigData);
                         DeviceListBox.Items.Add(deviceFriendlyName);
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration is Complete!");
 
                         IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.User);
+                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
                         SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus status =
                             await SecondaryAuthenticationFactorRegistration.RegisterDevicePresenceMonitoringAsync(
                             deviceId,
-                            deviceId,
-                            SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged);
+                            device.Id,
+                            SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged/*,
+                            deviceFriendlyName,
+                            deviceModelNumber,
+                            deviceConfigData*/);
 
                         switch (status)
                         {
@@ -266,7 +301,6 @@ namespace WindowsHelloWithLedger
             }
             if (IsNanosPresent == false)
             {
-                MessageDialog myDlg = null;
                 myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
                 await myDlg.ShowAsync();
                 return;
@@ -300,7 +334,7 @@ namespace WindowsHelloWithLedger
             //SecondaryAuthenticationFactorInfo info = DeviceListBox.FindName("HelloDevice");
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                           SecondaryAuthenticationFactorDeviceFindScope.User);
+                           SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             if (deviceList.Count() != 0)
             {
@@ -334,7 +368,7 @@ namespace WindowsHelloWithLedger
             //InfoList.Items.Add("Device unregistration is completed.");
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                SecondaryAuthenticationFactorDeviceFindScope.User);
+                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             RefreshDeviceList(deviceList);
         }
@@ -374,6 +408,7 @@ namespace WindowsHelloWithLedger
                 if (task.Value.Name == authBGTaskName)
                 {
                     taskRegistered = true;
+                    //task.Value.Unregister(true);
                     break;
                 }
             }
@@ -383,18 +418,18 @@ namespace WindowsHelloWithLedger
 
                 if (access == BackgroundAccessStatus.AllowedSubjectToSystemPolicy)
                 {
-                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();                    
-                    taskBuilder.Name = authBGTaskName;                    
+                    BackgroundTaskBuilder authTaskBuilder = new BackgroundTaskBuilder();
+                    authTaskBuilder.Name = authBGTaskName;                    
                     SecondaryAuthenticationFactorAuthenticationTrigger myTrigger = new SecondaryAuthenticationFactorAuthenticationTrigger();
-                    taskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
-                    taskBuilder.SetTrigger(myTrigger);
-                    BackgroundTaskRegistration taskReg = taskBuilder.Register();
+                    authTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
+                    authTaskBuilder.SetTrigger(myTrigger);
+                    BackgroundTaskRegistration taskReg = authTaskBuilder.Register();
 
-                    BackgroundTaskBuilder taskBuilder2 = new BackgroundTaskBuilder();
-                    taskBuilder2.Name = authBGTaskName;
-                    taskBuilder2.TaskEntryPoint = authBGTaskEntryPoint;
-                    taskBuilder2.SetTrigger(deviceWatcherTrigger);
-                    BackgroundTaskRegistration taskReg2 = taskBuilder2.Register();
+                    BackgroundTaskBuilder plugTaskBuilder = new BackgroundTaskBuilder();
+                    plugTaskBuilder.Name = authBGTaskName;
+                    plugTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
+                    plugTaskBuilder.SetTrigger(deviceWatcherTrigger);
+                    BackgroundTaskRegistration taskReg2 = plugTaskBuilder.Register();
 
                     BackgroundTaskBuilder dLockCheckTaskBuilder = new BackgroundTaskBuilder();
                     dLockCheckTaskBuilder.Name = authBGTaskName;

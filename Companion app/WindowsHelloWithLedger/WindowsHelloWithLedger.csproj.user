@@ -6,6 +6,7 @@
     </DebugEngines>
     <BackgroundTaskDebugEngines>
     </BackgroundTaskDebugEngines>
+    <CreateCleanLayout>true</CreateCleanLayout>
   </PropertyGroup>
   <PropertyGroup>
     <Source>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</Source>
