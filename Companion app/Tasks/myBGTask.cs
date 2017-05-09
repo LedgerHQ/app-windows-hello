@@ -71,67 +71,45 @@ namespace Tasks
                     {
                         case DeviceWatcherEventKind.Add:
                             Debug.WriteLine("[RUN] Add: " + e.DeviceInformation.Id);
-                            //storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                            //sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
-                            //txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine ;
-                            //await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[RUN] Add: " + e.DeviceInformation.Id);
-                            //Debugger.Break();
-                            IReadOnlyList<SecondaryAuthenticationFactorInfo> RegisteredDeviceList_addEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
-                            await UpdateDevicesConfigData(RegisteredDeviceList_addEvent);
+                            deferral = taskInstance.GetDeferral();
                             if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
                             {
-                                //storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                                //deviceListsFile = await storageFolder.CreateFileAsync("deviceLists.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
-                                //pluggedRegisteredDeviceList = await getPluggedRegisteredDeviceListAsync(null);
+                                IReadOnlyList<SecondaryAuthenticationFactorInfo> RegisteredDeviceList_addEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                                await UpdateDevicesConfigData(RegisteredDeviceList_addEvent);
                             }
-
-                            //Debug.WriteLine("\tNbDevices = " + pluggedRegisteredDeviceList.Count());
-                            //txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
-                            //await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "\tNbDevices = " + pluggedRegisteredDeviceList.Count());
-
                             SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
                             if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
                                 || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
                             {
                                 System.Diagnostics.Debug.WriteLine("[RUN] Perform Auth / plug trigger");
-                                PerformAuthentication();
-                            }                            
+                                await PerformAuthentication();
+                            }
+                            deferral.Complete();
                             break;
 
                         case DeviceWatcherEventKind.Update:
                             Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
-                            //storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                            //sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
-                            //txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
-                            //await Windows.Storage.FileIO.WriteTextAsync(sampleFile,txt + "[RUN] Update: " + e.DeviceInformationUpdate.Id);
                             break;
 
                         case DeviceWatcherEventKind.Remove:
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
-                            txt = "[RUN] Remove: " + e.DeviceInformationUpdate.Id;
-                            StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                            StorageFile logsFile = await folder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
-                            await FileIO.WriteTextAsync(logsFile, txt);
+                            deferral = taskInstance.GetDeferral();
+                            //txt = "[RUN] Remove: " + e.DeviceInformationUpdate.Id;
+                            //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                            //StorageFile logsFile = await folder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
 
                             IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList_removeEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                                 SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
-                            txt = Environment.NewLine + "nb registered devices = " + registeredDeviceList_removeEvent.Count();
-                            await FileIO.WriteTextAsync(logsFile, txt);
 
                             List<SecondaryAuthenticationFactorInfo> list = await AreRegisteredDeviceConnected(registeredDeviceList_removeEvent);
 
-                            txt = Environment.NewLine + "nb registered connected devices = " + list.Count();
-                            await FileIO.WriteTextAsync(logsFile, txt);
                             if (list.Count() == 0)
                             {
-                                txt = Environment.NewLine + "LOCK" ;
-                                await FileIO.WriteTextAsync(logsFile, txt);
                                 await LockDevice();
-                                txt = Environment.NewLine + "2LOCK";
-                                await FileIO.WriteTextAsync(logsFile, txt);
                             }
-                            //await FileIO.WriteTextAsync(logsFile, txt);
+                            //await FileIO.AppendTextAsync(logsFile, txt);
+                            deferral.Complete();
                             break;
                     }
                 }
@@ -165,9 +143,6 @@ namespace Tasks
             foreach (SecondaryAuthenticationFactorInfo device in devicesToUpdate)
             {
                 //Debugger.Break();
-                
-                
-
                 foreach (DeviceInformation smartcardreader in readers)
                 {
                     //Debugger.Break();
@@ -523,13 +498,14 @@ namespace Tasks
                 throw new Exception("Unable to complete authentication!");
             }
 
-            byte[] deviceConfigDataArray = new byte[17]; //16 bytes for GUID and 1 byte for dLockstate
+            byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate
 
             for (int i = 0; i < 16; i++)
             {
                 deviceConfigDataArray[i] = deviceIdArray[i];
             }
             deviceConfigDataArray[16] = deviceDlockState[0];
+            deviceConfigDataArray[17] = 0;
             IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
             //Update the device configuration 
             await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
@@ -538,7 +514,7 @@ namespace Tasks
             //return 0;
         }
 
-        async void PerformAuthentication()
+        private async Task PerformAuthentication()
         {
             string NanosATR = "3b00";
             bool showNotificationFlag = true;
@@ -790,7 +766,7 @@ namespace Tasks
             {
                 //ShowToastNotification("Stage = CollectingCredential");
                 System.Diagnostics.Debug.WriteLine("[OnStageChanged] Perform Auth / auth trigger");
-                PerformAuthentication();
+                await PerformAuthentication();
             }
             else
             {
