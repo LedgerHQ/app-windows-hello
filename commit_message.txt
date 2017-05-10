@@ -1,2 +1,5 @@
-Added a dynamic list to track connected and resgistered devices, list is updated and saved in file at every device insertion
-On device removal we read that file to get the list of connected registered devices before removal, and choose to lock workstation or not
+New function writeConnectedRegisteredDevices(), this function lists all the connected registered devices, and writes then to a txt file
+Code optimisation
+Remove commented old code
+
+(commit before new strategy for dLock : add bool to device config data to indicate if device was used for last login)

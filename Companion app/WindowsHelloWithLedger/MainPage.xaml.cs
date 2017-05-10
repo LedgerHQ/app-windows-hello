@@ -47,8 +47,8 @@ namespace WindowsHelloWithLedger
         bool taskRegistered = false;
         static string authBGTaskName = "authBGTask";
         static string authBGTaskEntryPoint = "Tasks.authBGTask";
-        static string dLockCheckBGTaskName = "dLockCheckBGTask";
-        static string dLockCheckBGTaskEntryPoint = "Tasks.dLockCheckBGTask";
+        //static string dLockCheckBGTaskName = "dLockCheckBGTask";
+        //static string dLockCheckBGTaskEntryPoint = "Tasks.dLockCheckBGTask";
         String deviceFriendlyName = "";
         // TODO : get deviceModelNumber from device
         String deviceModelNumber = "0001";
@@ -437,7 +437,7 @@ namespace WindowsHelloWithLedger
                     dLockCheckTaskBuilder.SetTrigger(dLockCheckTrigger);
                     //await BackgroundExecutionManager.RequestAccessAsync();
                     BackgroundTaskRegistration taskReg3 = dLockCheckTaskBuilder.Register();
-                    
+
 
 
                     String taskRegName = taskReg.Name;
