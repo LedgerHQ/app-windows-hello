@@ -1,2 +1,2 @@
-DLock can now lock workstation in BGtask
-TODO : select depending on deviceConfigData if workstation has to be locked or not
+Added a dynamic list to track connected and resgistered devices, list is updated and saved in file at every device insertion
+On device removal we read that file to get the list of connected registered devices before removal, and choose to lock workstation or not

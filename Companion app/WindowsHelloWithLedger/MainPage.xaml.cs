@@ -214,14 +214,13 @@ namespace WindowsHelloWithLedger
                         }
                         authKey = CryptographicBuffer.CreateFromByteArray(authKeyArray);
 
-                        byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate and 1 byte counter initialized to 0
+                        byte[] deviceConfigDataArray = new byte[17]; //16 bytes for GUID and 1 byte for dLockstate
 
                         for (int i = 0; i < 16; i++)
                         {
                             deviceConfigDataArray[i] = deviceIdArray[i];
                         }
                         deviceConfigDataArray[16] = deviceDlockState[0];
-                        deviceConfigDataArray[17] = 0;
                         //string test = BitConverter.ToString(deviceConfigDataArray).Replace("-", "");
 
 
