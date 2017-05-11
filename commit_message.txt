@@ -1,5 +1,5 @@
-New function writeConnectedRegisteredDevices(), this function lists all the connected registered devices, and writes then to a txt file
-Code optimisation
-Remove commented old code
+Add call to writeConnectedRegisteredDevices() in .update trigger (without this call dLock state is not updated properly)
 
-(commit before new strategy for dLock : add bool to device config data to indicate if device was used for last login)
+TODO:
+- new strategy for dLock : add bool to device config data to indicate if device was used for last login
+- split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event

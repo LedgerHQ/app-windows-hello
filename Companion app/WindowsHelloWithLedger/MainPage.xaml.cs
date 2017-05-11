@@ -221,6 +221,7 @@ namespace WindowsHelloWithLedger
                             deviceConfigDataArray[i] = deviceIdArray[i];
                         }
                         deviceConfigDataArray[16] = deviceDlockState[0];
+
                         //string test = BitConverter.ToString(deviceConfigDataArray).Replace("-", "");
 
 
@@ -290,6 +291,17 @@ namespace WindowsHelloWithLedger
                                 await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
                                 break;
                         }
+
+                        //IReadOnlyList<SecondaryAuthenticationFactorInfo> list = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                        //SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+
+                        //CryptographicBuffer.CopyToByteArray(list[0].DeviceConfigurationData, out deviceConfigDataArray);
+                        
+                        //deviceConfigDataArray[16]++;
+
+                        //deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+                        //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(list[0].DeviceId, deviceConfigData);
+                        //CryptographicBuffer.CopyToByteArray(list[0].DeviceConfigurationData, out deviceConfigDataArray);
 
                         RefreshDeviceList(deviceList);
                         StartWatcher();
@@ -430,13 +442,13 @@ namespace WindowsHelloWithLedger
                     plugTaskBuilder.SetTrigger(deviceWatcherTrigger);
                     BackgroundTaskRegistration taskReg2 = plugTaskBuilder.Register();
 
-                    BackgroundTaskBuilder dLockCheckTaskBuilder = new BackgroundTaskBuilder();
-                    dLockCheckTaskBuilder.Name = authBGTaskName;
-                    dLockCheckTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
-                    TimeTrigger dLockCheckTrigger = new TimeTrigger(15, false);
-                    dLockCheckTaskBuilder.SetTrigger(dLockCheckTrigger);
-                    //await BackgroundExecutionManager.RequestAccessAsync();
-                    BackgroundTaskRegistration taskReg3 = dLockCheckTaskBuilder.Register();
+                    //BackgroundTaskBuilder dLockCheckTaskBuilder = new BackgroundTaskBuilder();
+                    //dLockCheckTaskBuilder.Name = authBGTaskName;
+                    //dLockCheckTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
+                    //TimeTrigger dLockCheckTrigger = new TimeTrigger(15, false);
+                    //dLockCheckTaskBuilder.SetTrigger(dLockCheckTrigger);
+                    ////await BackgroundExecutionManager.RequestAccessAsync();
+                    //BackgroundTaskRegistration taskReg3 = dLockCheckTaskBuilder.Register();
 
 
 

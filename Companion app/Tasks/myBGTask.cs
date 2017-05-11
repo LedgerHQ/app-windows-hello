@@ -22,6 +22,7 @@ using Windows.Storage;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
+using Windows.ApplicationModel;
 
 namespace Tasks
 {
@@ -84,11 +85,13 @@ namespace Tasks
                                 Task t = PerformAuthentication();
                                 await t;
                             }
-                            deferral.Complete();
+                            //deferral.Complete();
                             break;
 
                         case DeviceWatcherEventKind.Update:
                             Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
+                            Task i = writeConnectedRegisteredDevices();
+                            await i;
                             break;
 
                         case DeviceWatcherEventKind.Remove:
@@ -119,7 +122,7 @@ namespace Tasks
                                 Task t = LockDevice();
                                 await t;
                             }
-                            deferral.Complete();
+                            //deferral.Complete();
                             break;
                     }
                 }
@@ -128,7 +131,8 @@ namespace Tasks
             {
                 Debug.WriteLine("[RUN] Unknown trigger");
                 //deferral = taskInstance.GetDeferral();
-                //writeConnectedRegisteredDevices();
+                //Task t = writeConnectedRegisteredDevices();
+                //await t;
                 //Debugger.Break();
             }
             // Wait until the operation completes
@@ -139,7 +143,6 @@ namespace Tasks
         private async Task writeConnectedRegisteredDevices()
         {
             byte[] deviceConfigurationDataArray;
-
             IReadOnlyList<SecondaryAuthenticationFactorInfo> RegisteredDeviceList_addEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                                 SecondaryAuthenticationFactorDeviceFindScope.AllUsers);            
 
@@ -157,7 +160,7 @@ namespace Tasks
             {
                 CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
                 txt = BitConverter.ToString(deviceConfigurationDataArray) + "\r";
-                Debugger.Break();
+                //Debugger.Break();
             }
             
             await FileIO.WriteTextAsync(ConnectedRegisteredDeviceListFile, txt);
@@ -236,6 +239,10 @@ namespace Tasks
                                     //Debugger.Break();
                                     IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigurationDataArray);
                                     await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
+                                    //Debugger.Break();
+                                    //CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
+                                    //Debugger.Break();
+                                    //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
                                 }                                
                             }
                         }
@@ -438,10 +445,13 @@ namespace Tasks
             {
                 deviceConfigDataArray[i] = deviceIdArray[i];
             }
-            //deviceConfigDataArray[16] = deviceDlockState[0];
+            deviceConfigDataArray[16] = deviceDlockState[0];
             IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
             //Update the device configuration 
             await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
+
+            //Task t = writeConnectedRegisteredDevices();
+            //await t;
 
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Auth completed");
         }
