@@ -1,4 +1,5 @@
-Add call to writeConnectedRegisteredDevices() in .update trigger (without this call dLock state is not updated properly)
+Switched calls to writeConnectedRegisteredDevices and PerformAuthentication in BGtask (.add trigger), to speed up the autentication time on plug autnetication
+Added 'deferral = taskInstance.GetDeferral();' at every trigger begin, and 'deferral.Complete();' at every trigger end
 
 TODO:
 - new strategy for dLock : add bool to device config data to indicate if device was used for last login
