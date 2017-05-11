@@ -1,6 +1,5 @@
-Switched calls to writeConnectedRegisteredDevices and PerformAuthentication in BGtask (.add trigger), to speed up the autentication time on plug autnetication
-Added 'deferral = taskInstance.GetDeferral();' at every trigger begin, and 'deferral.Complete();' at every trigger end
+New feature, when removing a device, we lock the workstation if dLock is activated on that device and if that device was used for last logon.
+On registration we initialize that value as if the device was used for last logon (to allow dLock feature to be available before using the device for first logo)
 
 TODO:
-- new strategy for dLock : add bool to device config data to indicate if device was used for last login
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event

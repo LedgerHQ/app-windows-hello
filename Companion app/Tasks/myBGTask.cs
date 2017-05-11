@@ -30,11 +30,13 @@ namespace Tasks
     {
         public string DeviceId { get; set; }
         public bool isDlockEnabled { get; set; }
+        public bool isUsedForLastLogin { get; set; }
 
-        public dLock(string id, bool state)
+        public dLock(string id, bool dLockState, bool lastLogin)
         {
             DeviceId = id;
-            isDlockEnabled = state;
+            isDlockEnabled = dLockState;
+            isUsedForLastLogin = lastLogin;
         }
     }
 
@@ -121,12 +123,15 @@ namespace Tasks
                                 }
                             }
                             //Debugger.Break();
-                            if (pluggedRegisteredDeviceListBeforeRemove[0].isDlockEnabled)
+                            if (pluggedRegisteredDeviceListBeforeRemove.Count() != 0)
                             {
-                                //deferral = taskInstance.GetDeferral();
-                                Task t = LockDevice();
-                                await t;
-                            }
+                                if ((pluggedRegisteredDeviceListBeforeRemove[0].isDlockEnabled) && (pluggedRegisteredDeviceListBeforeRemove[0].isUsedForLastLogin))
+                                {
+                                    //deferral = taskInstance.GetDeferral();
+                                    Task t = LockDevice();
+                                    await t;
+                                }
+                            }                            
                             deferral.Complete();
                             //deferral.Complete();
                             break;
@@ -201,6 +206,7 @@ namespace Tasks
                                     deviceDlockState = response;
 
                                     deviceConfigurationDataArray[16] = deviceDlockState[0];
+
                                     //Debugger.Break();
                                     IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigurationDataArray);
                                     await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
@@ -246,11 +252,25 @@ namespace Tasks
                 }
                 if (bytes[16] == "00")
                 {
-                    pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, false));
+                    if (bytes[17] == "00")
+                    {
+                        pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, false, false));
+                    }
+                    else
+                    {
+                        pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, false, true));
+                    }
                 }
                 else
                 {
-                    pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, true));
+                    if (bytes[17] == "00")
+                    {
+                        pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, true, false));
+                    }
+                    else
+                    {
+                        pluggedRegisteredDeviceListBeforeRemove.Add(new dLock(deviceGUID, true, true));
+                    }    
                 }
             }
             return pluggedRegisteredDeviceListBeforeRemove;
@@ -381,6 +401,9 @@ namespace Tasks
             byte[] response = { 0 };
             string sw1sw2 = null;
 
+
+
+
             SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
 
             if (authStageInfo.Stage != SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential)
@@ -412,16 +435,26 @@ namespace Tasks
 
             string deviceFriendlyName = null;
             //Debugger.Break();
-            for (int i = 0; i < deviceList.Count(); i++)
+
+            byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate
+            IBuffer deviceConfigData;
+
+            foreach (SecondaryAuthenticationFactorInfo device in deviceList)
             {
-                deviceFriendlyName = deviceList.ElementAt(i).DeviceFriendlyName;
-                if (deviceList.ElementAt(i).DeviceId == deviceId)
+                deviceFriendlyName = device.DeviceFriendlyName;
+                CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigDataArray);
+
+                deviceConfigDataArray[17] = 0; // Reset las logon status
+                deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+                await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
+                if (device.DeviceId == deviceId)
                 {
                     m_selectedDeviceId = deviceId;
                     foundCompanionDevice = true;
                     break;
                 }
             }
+            //Debugger.Break();
             if (!foundCompanionDevice)
             {
                 throw new CompanionDeviceNotFoundException();
@@ -499,14 +532,15 @@ namespace Tasks
                 throw new Exception("Unable to complete authentication!");
             }
 
-            byte[] deviceConfigDataArray = new byte[17]; //16 bytes for GUID and 1 byte for dLockstate
+            
 
             for (int i = 0; i < 16; i++)
             {
                 deviceConfigDataArray[i] = deviceIdArray[i];
             }
             deviceConfigDataArray[16] = deviceDlockState[0];
-            IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+            deviceConfigDataArray[17] = 1; // To indicate that device was used for logon
+            deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
             //Update the device configuration 
             await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
 
