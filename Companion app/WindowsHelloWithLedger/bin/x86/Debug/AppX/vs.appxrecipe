@@ -19,7 +19,7 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>E36A3DE3AC741EDA0086412323F4BE0E6D478E56B6CAB8758BF0A9EB08233A08</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>D4495C874C2D9956EC41F264BD8FEC3F36A3D55106A8227772468EBD3D75E4B4</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>bd01bd19-d124-49a4-8ce0-da850c3b7d91_1.0.0.0_x86__enxxt1zfz39me</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>bd01bd19-d124-49a4-8ce0-da850c3b7d91_enxxt1zfz39me!App</RegisteredUserModeAppID>
     <RegisteredPackageID>bd01bd19-d124-49a4-8ce0-da850c3b7d91</RegisteredPackageID>
@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-05-11T15:27:27.029</Modified>
+      <Modified>2017-05-12T09:53:31.016</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
       <PackagePath>entrypoint\WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-05-11T15:27:26.207</Modified>
+      <Modified>2017-05-12T09:53:27.974</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -465,7 +465,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\bin\x86\Debug\Tasks.winmd">
       <PackagePath>Tasks.winmd</PackagePath>
-      <Modified>2017-05-11T15:22:24.362</Modified>
+      <Modified>2017-05-12T09:53:25.670</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
@@ -736,11 +736,11 @@
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-05-11T15:27:26.834</Modified>
+      <Modified>2017-05-12T09:53:28.517</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
       <PackagePath>WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-05-11T15:27:27.025</Modified>
+      <Modified>2017-05-12T09:53:31.008</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

@@ -53,8 +53,8 @@
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
         <Path>WindowsHelloWithLedger.exe</Path>
-        <ActivatableClass ActivatableClassId="Tasks.authBGTask" ThreadingModel="both" />
         <ActivatableClass ActivatableClassId="Tasks.dLock" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Tasks.authBGTask" ThreadingModel="both" />
       </InProcessServer>
     </Extension>
   </Extensions>

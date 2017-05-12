@@ -73,66 +73,94 @@ namespace Tasks
                         case DeviceWatcherEventKind.Add:
                             Debug.WriteLine("[RUN] Add: " + e.DeviceInformation.Id);
                             deferral = taskInstance.GetDeferral();
-                            //Debugger.Break();
-                            SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
-                            if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
-                                || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
+                            try
                             {
-                                System.Diagnostics.Debug.WriteLine("[RUN] Perform Auth / plug trigger");
-                                Task t = PerformAuthentication();
-                                await t;
-                            }
-
-                            if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
-                            {
-                                Task t = writeConnectedRegisteredDevices();
-                                await t;
+                                SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
+                                if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
+                                    || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
+                                {
+                                    System.Diagnostics.Debug.WriteLine("[RUN] Perform Auth / plug trigger");
+                                    Task t = PerformAuthentication();
+                                    await t;
+                                }
                                 //Debugger.Break();
-                            }                            
-                            deferral.Complete();
+                                if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
+                                {
+                                    Task t = writeConnectedRegisteredDevices();
+                                    await t;
+                                    //Debugger.Break();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Debugger.Break();
+                            }
+                            finally
+                            {
+                                deferral.Complete();
+                            }
                             break;
 
                         case DeviceWatcherEventKind.Update:
                             Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
                             deferral = taskInstance.GetDeferral();
                             //Debugger.Break();
-                            Task i = writeConnectedRegisteredDevices();
-                            await i;
-                            deferral.Complete();
+                            try
+                            {
+                                Task i = writeConnectedRegisteredDevices();
+                                await i;
+                            }
+                            catch (Exception ex)
+                            {
+                                Debugger.Break();
+                            }
+                            finally
+                            {
+                                deferral.Complete();
+                            }
                             break;
 
                         case DeviceWatcherEventKind.Remove:
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
                             deferral = taskInstance.GetDeferral();
-                           
-                            List<dLock> pluggedRegisteredDeviceListBeforeRemove = await readConnectedRegisteredDevices();
-
-                            IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList_removeEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
-
-                            List<SecondaryAuthenticationFactorInfo> pluggedRegisteredDeviceListAfterRemove = await getConnectedRegisteredDeviceList(registeredDeviceList_removeEvent);
-                            //Debugger.Break();
-                            foreach (SecondaryAuthenticationFactorInfo deviceToCheck in pluggedRegisteredDeviceListAfterRemove)
+                            try
                             {
-                                foreach(dLock device in pluggedRegisteredDeviceListBeforeRemove)
+                                List<dLock> pluggedRegisteredDeviceListBeforeRemove = await readConnectedRegisteredDevices();
+
+                                IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList_removeEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                                    SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+
+                                List<SecondaryAuthenticationFactorInfo> pluggedRegisteredDeviceListAfterRemove = await getConnectedRegisteredDeviceList(registeredDeviceList_removeEvent);
+                                //Debugger.Break();
+                                foreach (SecondaryAuthenticationFactorInfo deviceToCheck in pluggedRegisteredDeviceListAfterRemove)
                                 {
-                                    if (deviceToCheck.DeviceId == device.DeviceId)
+                                    foreach (dLock device in pluggedRegisteredDeviceListBeforeRemove)
                                     {
-                                        pluggedRegisteredDeviceListBeforeRemove.Remove(device);
+                                        if (deviceToCheck.DeviceId == device.DeviceId)
+                                        {
+                                            pluggedRegisteredDeviceListBeforeRemove.Remove(device);
+                                        }
+                                    }
+                                }
+                                //Debugger.Break();
+                                if (pluggedRegisteredDeviceListBeforeRemove.Count() != 0)
+                                {
+                                    if ((pluggedRegisteredDeviceListBeforeRemove[0].isDlockEnabled) && (pluggedRegisteredDeviceListBeforeRemove[0].isUsedForLastLogin))
+                                    {
+                                        //deferral = taskInstance.GetDeferral();
+                                        Task t = LockDevice();
+                                        await t;
                                     }
                                 }
                             }
-                            //Debugger.Break();
-                            if (pluggedRegisteredDeviceListBeforeRemove.Count() != 0)
+                            catch (Exception ex)
                             {
-                                if ((pluggedRegisteredDeviceListBeforeRemove[0].isDlockEnabled) && (pluggedRegisteredDeviceListBeforeRemove[0].isUsedForLastLogin))
-                                {
-                                    //deferral = taskInstance.GetDeferral();
-                                    Task t = LockDevice();
-                                    await t;
-                                }
-                            }                            
-                            deferral.Complete();
+                                Debugger.Break();
+                            }
+                            finally
+                            {
+                                deferral.Complete();
+                            }
                             //deferral.Complete();
                             break;
                     }
@@ -141,9 +169,29 @@ namespace Tasks
             else
             {
                 Debug.WriteLine("[RUN] Unknown trigger");
-                //deferral = taskInstance.GetDeferral();
-                //Task t = writeConnectedRegisteredDevices();
-                //await t;
+                deferral = taskInstance.GetDeferral();
+                try
+                {
+                    Task t = writeConnectedRegisteredDevices();
+                    await t;
+                }
+                catch (ConnectedRegisteredDevicesListTxtFileEmpty Ex)
+                {
+                    try
+                    {
+                        Task t = writeConnectedRegisteredDevices();
+                        await t;
+                    }
+                    catch (Exception ee)
+                    {
+                        Debugger.Break();
+                    }
+                }
+                finally
+                {
+                    deferral.Complete();
+                }           
+                
                 //Debugger.Break();
             }
             // Wait until the operation completes
@@ -162,6 +210,7 @@ namespace Tasks
             string sw1sw2 = null;
             byte[] deviceDlockState = new byte[1];
             byte[] deviceIdArray = new byte[16];
+            string txt = "";
 
             DeviceInformationCollection readers = await DeviceInformation.FindAllAsync(selector);
 
@@ -175,9 +224,7 @@ namespace Tasks
 
             //UpdateDevicesConfigData(ConnectedRegisteredDeviceList).Wait();
             // Save list to file
-            string txt = "";
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile ConnectedRegisteredDeviceListFile = await folder.CreateFileAsync("connectedRegisteredDeviceList.txt", CreationCollisionOption.ReplaceExisting);
+            
             foreach (SecondaryAuthenticationFactorInfo device in ConnectedRegisteredDeviceList)
             {
                 foreach (DeviceInformation smartcardreader in readers)
@@ -228,8 +275,16 @@ namespace Tasks
                 txt = BitConverter.ToString(deviceConfigurationDataArray) + "\r";
                 //Debugger.Break();
             }
-            
-            await FileIO.WriteTextAsync(ConnectedRegisteredDeviceListFile, txt);
+            if (txt.Length == 0)
+            {
+                throw new ConnectedRegisteredDevicesListTxtFileEmpty();
+            }
+            else
+            {
+                StorageFolder folder = ApplicationData.Current.LocalFolder;
+                StorageFile ConnectedRegisteredDeviceListFile = await folder.CreateFileAsync("connectedRegisteredDeviceList.txt", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(ConnectedRegisteredDeviceListFile, txt);
+            }            
             //ConnectedRegisteredDeviceListFile.
         }
         private async Task<List<dLock>> readConnectedRegisteredDevices()
@@ -240,6 +295,11 @@ namespace Tasks
             readTxt = await FileIO.ReadTextAsync(readFile);
             string[] lines = readTxt.Split('\r');
             List<dLock> pluggedRegisteredDeviceListBeforeRemove = new List<dLock>();
+
+            if (readTxt == "")
+            {
+                throw new ConnectedRegisteredDevicesListTxtFileEmpty();
+            }
 
             for (int i = 0; i < lines.Count() - 1; i++)
             {
@@ -275,65 +335,65 @@ namespace Tasks
             }
             return pluggedRegisteredDeviceListBeforeRemove;
         }
-        private async Task UpdateDevicesConfigData(IReadOnlyList<SecondaryAuthenticationFactorInfo> devicesToUpdate)
-        {
-            string NanosATR = "3b00";
-            string selector = SmartCardReader.GetDeviceSelector();
-            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
-            byte[] response = { 0 };
-            string sw1sw2 = null;
-            byte[] deviceDlockState = new byte[1];
-            byte[] deviceIdArray = new byte[16];
-            byte[] deviceConfigurationDataArray;
+        //private async Task UpdateDevicesConfigData(IReadOnlyList<SecondaryAuthenticationFactorInfo> devicesToUpdate)
+        //{
+        //    string NanosATR = "3b00";
+        //    string selector = SmartCardReader.GetDeviceSelector();
+        //    selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
+        //    byte[] response = { 0 };
+        //    string sw1sw2 = null;
+        //    byte[] deviceDlockState = new byte[1];
+        //    byte[] deviceIdArray = new byte[16];
+        //    byte[] deviceConfigurationDataArray;
 
-            DeviceInformationCollection readers = await DeviceInformation.FindAllAsync(selector);
+        //    DeviceInformationCollection readers = await DeviceInformation.FindAllAsync(selector);
 
-            foreach (SecondaryAuthenticationFactorInfo device in devicesToUpdate)
-            {
-                foreach (DeviceInformation smartcardreader in readers)
-                {
-                    SmartCardReader reader = await SmartCardReader.FromIdAsync(smartcardreader.Id);
-                    SmartCardReaderStatus readerstatus = await reader.GetStatusAsync();
-                    IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
-                    foreach (SmartCard card in cards)
-                    {
-                        try
-                        {
-                            IBuffer ATR = await card.GetAnswerToResetAsync();
-                            string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
-                            if (ATR_str.Equals(NanosATR))
-                            {
-                                SmartCardConnection connection = await card.ConnectAsync();
-                                response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
-                                sw1sw2 = Apdu.ApduResponseParser(response, out response);
-                                deviceIdArray = response;
-                                string deviceId = BitConverter.ToString(response).Replace("-", "");                    
-                                if (deviceId == device.DeviceId) //update config data with dLockState
-                                {
-                                    CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
-                                    response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
-                                    sw1sw2 = Apdu.ApduResponseParser(response, out response);
-                                    deviceDlockState = response;
+        //    foreach (SecondaryAuthenticationFactorInfo device in devicesToUpdate)
+        //    {
+        //        foreach (DeviceInformation smartcardreader in readers)
+        //        {
+        //            SmartCardReader reader = await SmartCardReader.FromIdAsync(smartcardreader.Id);
+        //            SmartCardReaderStatus readerstatus = await reader.GetStatusAsync();
+        //            IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
+        //            foreach (SmartCard card in cards)
+        //            {
+        //                try
+        //                {
+        //                    IBuffer ATR = await card.GetAnswerToResetAsync();
+        //                    string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
+        //                    if (ATR_str.Equals(NanosATR))
+        //                    {
+        //                        SmartCardConnection connection = await card.ConnectAsync();
+        //                        response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
+        //                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
+        //                        deviceIdArray = response;
+        //                        string deviceId = BitConverter.ToString(response).Replace("-", "");                    
+        //                        if (deviceId == device.DeviceId) //update config data with dLockState
+        //                        {
+        //                            CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
+        //                            response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
+        //                            sw1sw2 = Apdu.ApduResponseParser(response, out response);
+        //                            deviceDlockState = response;
 
-                                    deviceConfigurationDataArray[16] = deviceDlockState[0];
-                                    //Debugger.Break();
-                                    IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigurationDataArray);
-                                    await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
-                                    //Debugger.Break();
-                                    //CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
-                                    //Debugger.Break();
-                                    //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
-                                }                                
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Debugger.Break();
-                        }
-                    }
-                }
-            }
-        }
+        //                            deviceConfigurationDataArray[16] = deviceDlockState[0];
+        //                            //Debugger.Break();
+        //                            IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigurationDataArray);
+        //                            await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
+        //                            //Debugger.Break();
+        //                            //CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
+        //                            //Debugger.Break();
+        //                            //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
+        //                        }                                
+        //                    }
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Debugger.Break();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         private async Task<List<SecondaryAuthenticationFactorInfo>> getConnectedRegisteredDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> devicesToCheck)
         {
             byte[] deviceConfigurationDataArray;
@@ -441,12 +501,7 @@ namespace Tasks
 
             foreach (SecondaryAuthenticationFactorInfo device in deviceList)
             {
-                deviceFriendlyName = device.DeviceFriendlyName;
-                CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigDataArray);
-
-                deviceConfigDataArray[17] = 0; // Reset las logon status
-                deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
-                await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
+                deviceFriendlyName = device.DeviceFriendlyName;                
                 if (device.DeviceId == deviceId)
                 {
                     m_selectedDeviceId = deviceId;
@@ -544,9 +599,17 @@ namespace Tasks
             //Update the device configuration 
             await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData);
 
-            //Task t = writeConnectedRegisteredDevices();
-            //await t;
+            foreach (SecondaryAuthenticationFactorInfo device in deviceList)
+            {
+                if (device.DeviceId != deviceId)
+                {
+                    CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigDataArray);
 
+                    deviceConfigDataArray[17] = 0; // Reset last logon status
+                    deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+                    await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
+                }
+            }
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Auth completed");
         }
 
@@ -633,13 +696,13 @@ namespace Tasks
         {
             Debug.WriteLine("[LockDevice]");
 
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            Windows.Storage.StorageFile sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+            //StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            //StorageFile sampleFile = await storageFolder.CreateFileAsync("logs.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
 
-            string txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
-            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[LockDevice]");
+            //string txt = await Windows.Storage.FileIO.ReadTextAsync(sampleFile) + Environment.NewLine;
+            //await Windows.Storage.FileIO.WriteTextAsync(sampleFile, txt + "[LockDevice]");
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
-                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             if (deviceInfoList.Count == 0)
             {
@@ -669,7 +732,7 @@ namespace Tasks
             System.Diagnostics.Debug.WriteLine("[PresenceMonitor] triggered");
             // Query the devices which can do presence check for the console user
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
-                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             if (deviceInfoList.Count == 0)
             {
@@ -738,7 +801,7 @@ namespace Tasks
                 // Getting the dispatcher from the MainView works as long as we only have one view.               
 
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.User);
+                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
                 String deviceName = deviceList.ElementAt(deviceList.Count()-1).DeviceFriendlyName;               
 
@@ -750,8 +813,22 @@ namespace Tasks
             {
                 //ShowToastNotification("Stage = CollectingCredential");
                 System.Diagnostics.Debug.WriteLine("[OnStageChanged] Perform Auth / auth trigger");
-                Task t = PerformAuthentication(); ;
-                await t;
+                try
+                {
+                    
+                    Task t = PerformAuthentication(); ;
+                    await t;
+                    t = writeConnectedRegisteredDevices();
+                    await t;
+                }
+                catch (Exception ex)
+                {
+                    Debugger.Break();
+                }
+                finally
+                {
+                    deferral.Complete();
+                }
             }
             else
             {
@@ -763,6 +840,28 @@ namespace Tasks
 
                 SecondaryAuthenticationFactorAuthenticationStage stage = args.StageInfo.Stage;
             }
+        }
+    }
+    internal class ConnectedRegisteredDevicesListTxtFileEmpty : Exception
+    {
+        DateTime m_errorTime;
+        static ushort s_errorNumber;
+
+        public ConnectedRegisteredDevicesListTxtFileEmpty()
+            : base("Companion device not found")
+        {
+            m_errorTime = DateTime.Now;
+            s_errorNumber++;
+        }
+        public ConnectedRegisteredDevicesListTxtFileEmpty(string message)
+            : base(message)
+        {
+            m_errorTime = DateTime.Now;
+            s_errorNumber++;
+        }
+        public void DisplayError()
+        {
+            Debug.WriteLine("ConnectedRegisteredDevicesListTxtFileEmpty n." + s_errorNumber + " Date: " + m_errorTime);
         }
     }
     internal class CompanionDeviceNotFoundException : Exception

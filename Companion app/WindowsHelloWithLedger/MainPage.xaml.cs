@@ -294,10 +294,10 @@ namespace WindowsHelloWithLedger
                         }
 
                         //IReadOnlyList<SecondaryAuthenticationFactorInfo> list = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                        //SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                        //SecondaryAuthenticationFactorDeviceFindScope.User);
 
                         //CryptographicBuffer.CopyToByteArray(list[0].DeviceConfigurationData, out deviceConfigDataArray);
-                        
+
                         //deviceConfigDataArray[16]++;
 
                         //deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
@@ -380,7 +380,7 @@ namespace WindowsHelloWithLedger
             //InfoList.Items.Add("Device unregistration is completed.");
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                SecondaryAuthenticationFactorDeviceFindScope.User);
 
             RefreshDeviceList(deviceList);
         }
