@@ -15832,16 +15832,16 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
+      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
       "projectName": "WindowsHelloWithLedger",
-      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
-      "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\WindowsHelloWithLedger\\project.json",
+      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
+      "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\project.json",
       "projectStyle": "ProjectJson",
       "frameworks": {
         "uap10.0": {
           "projectReferences": {
-            "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\Tasks\\Tasks.csproj": {
-              "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\Tasks\\Tasks.csproj"
+            "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj": {
+              "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj"
             }
           }
         }

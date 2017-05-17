@@ -15490,10 +15490,10 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\Tasks\\Tasks.csproj",
+      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj",
       "projectName": "Tasks",
-      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\Tasks\\Tasks.csproj",
-      "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win-hello\\Companion app\\Tasks\\project.json",
+      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj",
+      "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
