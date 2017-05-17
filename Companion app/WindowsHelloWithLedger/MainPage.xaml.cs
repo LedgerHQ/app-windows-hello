@@ -303,7 +303,7 @@ namespace WindowsHelloWithLedger
                         //deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
                         //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(list[0].DeviceId, deviceConfigData);
                         //CryptographicBuffer.CopyToByteArray(list[0].DeviceConfigurationData, out deviceConfigDataArray);
-
+                        connection.Dispose();
                         RefreshDeviceList(deviceList);
                         StartWatcher();
                         //RegisterTask();
@@ -320,7 +320,7 @@ namespace WindowsHelloWithLedger
         }
         private void StartWatcher()
         {
-            DeviceWatcherEventKind[] triggerEventKinds = { DeviceWatcherEventKind.Add, DeviceWatcherEventKind.Remove, DeviceWatcherEventKind.Update };
+            DeviceWatcherEventKind[] triggerEventKinds = { DeviceWatcherEventKind.Add, DeviceWatcherEventKind.Remove/*, DeviceWatcherEventKind.Update */};
             //IEnumerable<DeviceWatcherEventKind> triggerEventKinds = DeviceWatcherEventKind.Add;
             DeviceWatcher deviceWatcher = null;
 

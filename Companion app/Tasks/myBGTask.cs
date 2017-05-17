@@ -98,7 +98,7 @@ namespace Tasks
                             }
                             catch (Exception ex)
                             {
-                                Debugger.Break();
+                                //Debugger.Break();
                             }
                             finally
                             {
@@ -106,24 +106,24 @@ namespace Tasks
                             }
                             break;
 
-                        case DeviceWatcherEventKind.Update:
-                            Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
-                            deferral = taskInstance.GetDeferral();
-                            //Debugger.Break();
-                            try
-                            {
-                                Task i = writeConnectedRegisteredDevices();
-                                await i;
-                            }
-                            catch (Exception ex)
-                            {
-                                Debugger.Break();
-                            }
-                            finally
-                            {
-                                deferral.Complete();
-                            }
-                            break;
+                        //case DeviceWatcherEventKind.Update:
+                        //    Debug.WriteLine("[RUN] Update: " + e.DeviceInformationUpdate.Id);
+                        //    deferral = taskInstance.GetDeferral();
+                        //    //Debugger.Break();
+                        //    try
+                        //    {
+                        //        Task i = writeConnectedRegisteredDevices();
+                        //        await i;
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        Debugger.Break();
+                        //    }
+                        //    finally
+                        //    {
+                        //        deferral.Complete();
+                        //    }
+                        //    break;
 
                         case DeviceWatcherEventKind.Remove:
                             Debug.WriteLine("[RUN] Remove: " + e.DeviceInformationUpdate.Id);
@@ -181,7 +181,7 @@ namespace Tasks
                             }
                             catch (Exception ex)
                             {
-                                Debugger.Break();
+                                //Debugger.Break();
                             }
                             finally
                             {
@@ -289,11 +289,12 @@ namespace Tasks
                                     //Debugger.Break();
                                     //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData);
                                 }
+                                connection.Dispose();
                             }
                         }
                         catch (Exception e)
                         {
-                            Debugger.Break();
+                            //Debugger.Break();
                         }
                     }
                 }
@@ -468,6 +469,7 @@ namespace Tasks
                                 {
                                     outList.Add(device);
                                 }
+                                connection.Dispose();
                             }
                         }
                         catch
@@ -642,6 +644,7 @@ namespace Tasks
                 }
             }
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Auth completed");
+            connection.Dispose();
         }
 
         private async Task PerformAuthentication()
@@ -851,12 +854,12 @@ namespace Tasks
                     
                     Task t = PerformAuthentication(); ;
                     await t;
-                    //t = writeConnectedRegisteredDevices();
-                    //await t;
+                    t = writeConnectedRegisteredDevices();
+                    await t;
                 }
                 catch (Exception ex)
                 {
-                    Debugger.Break();
+                    //Debugger.Break();
                 }
                 finally
                 {

@@ -1,8 +1,5 @@
-No more exception thrown when writing/reading empty text file
-Update device presence in writeConnectedRegisteredDevices() for every connected device
-Remove trigger action in Run method : add a tuple<deviceId,dlockState,latLogin> list to back up pluggedRegisteredDeviceListBeforeRemove, we use that tuple list to determine if we have to lock the workstation when removing a device
-Unknown trigger action in Run method : do nothing (removed call to writeConnectedRegisteredDevices
+Commented all code executed on Update trigger
+Dispose all connections
 
 TODO:
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
-- find a way to filter the triggered events (every event is triggered several times for the same device
