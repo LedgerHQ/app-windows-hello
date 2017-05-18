@@ -164,10 +164,11 @@ namespace WindowsHelloWithLedger
                         if (foundCompanionDevice)// This device has already been registered
                         {
                             // New message dialog to inform user, and break from card loop
-                            myDlg = null;
-                            myDlg = new MessageDialog("The device \"" + deviceFriendlyName + "\" has already been registered");
-                            await myDlg.ShowAsync();
-                            break;
+                            //myDlg = null;
+                            //myDlg = new MessageDialog("The device \"" + deviceFriendlyName + "\" has already been registered");
+                            //await myDlg.ShowAsync();
+                            connection.Dispose();
+                            continue;
                         }
                         // Device naming loop
                         while (deviceFriendlyName == "")
@@ -221,13 +222,21 @@ namespace WindowsHelloWithLedger
                             deviceConfigDataArray[i] = deviceIdArray[i];
                         }
                         deviceConfigDataArray[16] = deviceDlockState[0];
-                        deviceConfigDataArray[17] = 1; // 1 if used for last logon, 0 instead
+                        deviceConfigDataArray[17] = 0; // 1 if used for last logon, 0 instead
 
-                        //string test = BitConverter.ToString(deviceConfigDataArray).Replace("-", "");
-
+                        string deviceConfigString = "";
+                        if (deviceDlockState[0] == 0)
+                        {
+                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName;
+                        }
+                        else
+                        {
+                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName;
+                        }                        
 
                         // Get a Ibuffer from combinedDataArray
-                        IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+                        IBuffer deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigString, 0);
+                        //IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
 
                         SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;                            
                         SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(
@@ -284,9 +293,9 @@ namespace WindowsHelloWithLedger
 
                         switch (status)
                         {
-                            case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.Succeeded:
-                                await new MessageDialog("Registered for presence monitoring!").ShowAsync();
-                                break;
+                            //case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.Succeeded:
+                            //    await new MessageDialog("Registered for presence monitoring!").ShowAsync();
+                            //    break;
 
                             case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.DisabledByPolicy:
                                 await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
@@ -384,14 +393,6 @@ namespace WindowsHelloWithLedger
 
             RefreshDeviceList(deviceList);
         }
-
-
-        //void RegisterBgTask_Click(object sender, RoutedEventArgs e)
-        //{
-        //    RegisterTask();
-        //}
-
-
         private async void OnBgTaskProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
         {
             // WARNING: Test code
@@ -404,7 +405,6 @@ namespace WindowsHelloWithLedger
                 });
             }
         }
-
         async void RegisterTask(DeviceWatcherTrigger deviceWatcherTrigger)
         {
             System.Diagnostics.Debug.WriteLine("[RegisterTask] Register the background task.");
@@ -442,17 +442,6 @@ namespace WindowsHelloWithLedger
                     plugTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
                     plugTaskBuilder.SetTrigger(deviceWatcherTrigger);
                     BackgroundTaskRegistration taskReg2 = plugTaskBuilder.Register();
-
-                    //BackgroundTaskBuilder dLockCheckTaskBuilder = new BackgroundTaskBuilder();
-                    //dLockCheckTaskBuilder.Name = authBGTaskName;
-                    //dLockCheckTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
-                    //TimeTrigger dLockCheckTrigger = new TimeTrigger(15, false);
-                    //dLockCheckTaskBuilder.SetTrigger(dLockCheckTrigger);
-                    ////await BackgroundExecutionManager.RequestAccessAsync();
-                    //BackgroundTaskRegistration taskReg3 = dLockCheckTaskBuilder.Register();
-
-
-
                     String taskRegName = taskReg.Name;
                     //taskReg.Progress += OnBgTaskProgress;
                     System.Diagnostics.Debug.WriteLine("[RegisterTask] Background task registration is completed.");

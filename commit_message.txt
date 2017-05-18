@@ -1,5 +1,5 @@
-Commented all code executed on Update trigger
-Dispose all connections
+Bug correction: it is now possible to register a new device when a previously registered device is still plugged (before modif, we had to unplug the first device before registering a new one)
+Add device friendly name in deviceConfigurationData, and in the connectedRegisteredDevices file
 
 TODO:
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
