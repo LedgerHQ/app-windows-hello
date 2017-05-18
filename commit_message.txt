@@ -1,5 +1,8 @@
-Bug correction: it is now possible to register a new device when a previously registered device is still plugged (before modif, we had to unplug the first device before registering a new one)
-Add device friendly name in deviceConfigurationData, and in the connectedRegisteredDevices file
+UI pre-integration :
+- New page "waitingForDevice" : when no devices are registered yet, app opens on a new page asking the user tu plug a device to register
+- When the user inserts a device with win hello app running, switch to Mainpage with nameyourdevice pop-up
+- If the user unregisters all the devices, the app swithes to "waitingForDevice" page
 
 TODO:
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
+- add a clickable icon on listbox for device unregistration

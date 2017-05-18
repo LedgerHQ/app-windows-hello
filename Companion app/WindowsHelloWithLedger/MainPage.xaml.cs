@@ -61,6 +61,8 @@ namespace WindowsHelloWithLedger
             this.InitializeComponent();
 
             DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
+
+            RegisterDevice_Click(null,null);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -370,9 +372,8 @@ namespace WindowsHelloWithLedger
                 //Store the selected device in settings to be used in the BG task
                 var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 localSettings.Values["SelectedDevice"] = m_selectedDeviceId;
+                UnregisterDevice_Click(null, null);
             }
-            
-
         }
 
         private async void UnregisterDevice_Click(object sender, RoutedEventArgs e)
@@ -392,6 +393,11 @@ namespace WindowsHelloWithLedger
                 SecondaryAuthenticationFactorDeviceFindScope.User);
 
             RefreshDeviceList(deviceList);
+
+            if(deviceList.Count == 0)
+            {
+                this.Frame.Navigate(typeof(waitingForDevice));
+            }
         }
         private async void OnBgTaskProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
         {
