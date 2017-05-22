@@ -12,7 +12,16 @@
             <Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="RegisterDevice_Click"/>
 
             <Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>
-            <ListBox x:Name="DeviceListBox" Height="100" VerticalAlignment="Top" Margin="0,0,160,0"/>
+            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}" Height="100" VerticalAlignment="Top" Margin="0,0,160,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding deviceFriendlyName}"></TextBlock>
+                            <Button Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="Visible"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <!--<ListBox x:Name="InfoList" HorizontalAlignment="Left" Height="329" Margin="32,295,0,0" VerticalAlignment="Top" Width="764"/>-->
         </StackPanel>

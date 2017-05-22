@@ -26,21 +26,30 @@ namespace WindowsHelloWithLedger
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     /// 
-    public class SmartCardListItem
+    //public class SmartCardListItem
+    //{
+    //    public string ReaderName
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public string CardName
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //}
+    
+    public class listContent
     {
-        public string ReaderName
-        {
-            get;
-            set;
-        }
+        public string deviceFriendlyName { get; set; }
+        //public string deviceGUID { get; set; }
+    }
 
-        public string CardName
-        {
-            get;
-            set;
-        }
+    
 
-    }    
     public sealed partial class MainPage : Page
     {
         String m_selectedDeviceId = String.Empty;
@@ -54,6 +63,8 @@ namespace WindowsHelloWithLedger
         String deviceModelNumber = "0001";
         bool first_registration = true;
 
+        public List<listContent> ContentList { get; set; }        
+
         //DeviceWatcher watcher = null;
 
         public MainPage()
@@ -61,8 +72,10 @@ namespace WindowsHelloWithLedger
             this.InitializeComponent();
 
             DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
+            ContentList = new List<listContent>();
 
-            RegisterDevice_Click(null,null);
+            //IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
+            
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -71,20 +84,54 @@ namespace WindowsHelloWithLedger
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
+            //DeviceListBox.DataContext = ContentList;
+            
             RefreshDeviceList(deviceList);
 
+            var registerDevice = e.Parameter as string;
+            if (registerDevice == "true")
+            {
+                RegisterDevice_Click(null, null);
+            }            
         }
 
         void RefreshDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList)
         {
-            DeviceListBox.Items.Clear();
+            //DeviceListBox.Items.Clear();
+            listContent listItem;
 
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
+                listItem = new listContent();
+                listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
+                ContentList.Remove(listItem);
                 //DeviceListBox.Items.Add(deviceInfo.DeviceId);
-                DeviceListBox.Items.Add(deviceInfo.DeviceFriendlyName);
+                //DeviceListBox.Items.Add(deviceInfo.DeviceFriendlyName);
             }
+
+            //for (int i = 0; i < DeviceListBox.Items.Count; i++)
+            //{
+            //    DeviceListBox.Items.RemoveAt(i);
+            //}
+
+            
+            
+            //listItem.deviceGUID = deviceId;
+                       
+
+            for (int index = 0; index < deviceList.Count; ++index)
+            {
+                SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
+                listItem = new listContent();
+                listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
+                ContentList.Add(listItem);
+                //DeviceListBox.Items.Add(deviceInfo.DeviceId);
+                //DeviceListBox.Items.Add(deviceInfo.DeviceFriendlyName);
+            }
+            //DeviceListBox.DataContext = null;
+            DeviceListBox.DataContext = ContentList;
+            
         }
 
         private async void RegisterDevice_Click(object sender, RoutedEventArgs e)
@@ -100,7 +147,7 @@ namespace WindowsHelloWithLedger
             string sw1sw2 = null;
             //byte[] combinedDataArray = new byte[64];
             string NanosATR = "3b00";
-            List<SmartCardListItem> cardItems = new List<SmartCardListItem>();
+            //List<SmartCardListItem> cardItems = new List<SmartCardListItem>();
             MessageDialog myDlg;
 
             bool IsNanosPresent = false;
@@ -129,14 +176,14 @@ namespace WindowsHelloWithLedger
 
                     IBuffer ATR = await card.GetAnswerToResetAsync();
                     string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
-                    if (first_registration) {
-                        SmartCardListItem item = new SmartCardListItem()
-                        {
-                            ReaderName = card.Reader.Name,
-                            CardName = await provisioning.GetNameAsync()
-                        };
-                        cardItems.Add(item);
-                    }                   
+                    //if (first_registration) {
+                    //    SmartCardListItem item = new SmartCardListItem()
+                    //    {
+                    //        ReaderName = card.Reader.Name,
+                    //        CardName = await provisioning.GetNameAsync()
+                    //    };
+                    //    cardItems.Add(item);
+                    //}                   
 
                     if (ATR_str.Equals(NanosATR))
                     {
@@ -278,7 +325,7 @@ namespace WindowsHelloWithLedger
 
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration Started!");
                         await registrationResult.Registration.FinishRegisteringDeviceAsync(deviceConfigData);
-                        DeviceListBox.Items.Add(deviceFriendlyName);
+                        //DeviceListBox.Items.Add(deviceFriendlyName);
                         System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration is Complete!");
 
                         IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
@@ -315,8 +362,15 @@ namespace WindowsHelloWithLedger
                         //await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(list[0].DeviceId, deviceConfigData);
                         //CryptographicBuffer.CopyToByteArray(list[0].DeviceConfigurationData, out deviceConfigDataArray);
                         connection.Dispose();
-                        RefreshDeviceList(deviceList);
+                        listContent listItem = new listContent();
+                        listItem.deviceFriendlyName = deviceFriendlyName;
+                        //listItem.deviceGUID = deviceId;
+                        ContentList.Add(listItem);
+                        //DeviceListBox.DataContext = null;
+                        DeviceListBox.DataContext = ContentList;
+                        //RefreshDeviceList(deviceList);
                         StartWatcher();
+                        this.Frame.Navigate(typeof(MainPage), "false");
                         //RegisterTask();
                         //connection.Dispose();
                     }
@@ -328,6 +382,7 @@ namespace WindowsHelloWithLedger
                 await myDlg.ShowAsync();
                 return;
             }
+            return;
         }
         private void StartWatcher()
         {
@@ -345,9 +400,17 @@ namespace WindowsHelloWithLedger
 
         private async void DeviceListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            List<object>  test = DeviceListBox.Items.ToList();
+            int selectedIndex;
+            //test.
             if (DeviceListBox.Items.Count > 0)
             {
+                selectedIndex = DeviceListBox.SelectedIndex;
                 m_selectedDeviceId = DeviceListBox.SelectedItem.ToString();
+                m_selectedDeviceId = ((WindowsHelloWithLedger.listContent)DeviceListBox.SelectedItem).deviceFriendlyName;
+                //string frit = test[selectedIndex].ToString();
+                //m_selectedDeviceId = test[selectedIndex].ToString();
+                //m_selectedDeviceId = DeviceListBox.Items.;
             }
             else
             {
@@ -372,7 +435,7 @@ namespace WindowsHelloWithLedger
                 //Store the selected device in settings to be used in the BG task
                 var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 localSettings.Values["SelectedDevice"] = m_selectedDeviceId;
-                UnregisterDevice_Click(null, null);
+                //UnregisterDevice_Click(null, null);
             }
         }
 
@@ -392,11 +455,22 @@ namespace WindowsHelloWithLedger
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                 SecondaryAuthenticationFactorDeviceFindScope.User);
 
-            RefreshDeviceList(deviceList);
+            listContent listItem = new listContent();
+            listItem.deviceFriendlyName = deviceFriendlyName;
+            ContentList.Remove(listItem);
+            //DeviceListBox.DataContext = null;
+            DeviceListBox.DataContext = ContentList;
 
-            if(deviceList.Count == 0)
+
+            //RefreshDeviceList(deviceList);
+
+            if (deviceList.Count == 0)
             {
                 this.Frame.Navigate(typeof(waitingForDevice));
+            }
+            else
+            {
+                this.Frame.Navigate(typeof(MainPage), "false");
             }
         }
         private async void OnBgTaskProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)

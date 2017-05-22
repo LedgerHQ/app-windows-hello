@@ -1,8 +1,12 @@
-UI pre-integration :
-- New page "waitingForDevice" : when no devices are registered yet, app opens on a new page asking the user tu plug a device to register
-- When the user inserts a device with win hello app running, switch to Mainpage with nameyourdevice pop-up
-- If the user unregisters all the devices, the app swithes to "waitingForDevice" page
+UI pre-integration 2 :
+- Use of listview instead of listbox to monitor the registered devices in our app
+- Use of listview bindings to get dynamically the info to display (deviceFriendlyName)
+- Add in XAML mainpage model a "delete" button (for device unregistration) in every entry in the listview
+- RefreshDeviceList() update to align with use of listview (instead of listbox)
+- Navigation modification : 
+	- in RegisterDevice_Click() once the device is registered we navigate to mainPage, 'using this.Frame.Navigate(typeof(MainPage), "false");' "false" is to indicate that we don't want to register a new device after navigating to mainPage	
+	- in UnregisterDevice_Click() once the device is unregistered, we navigate either to mainPage (if number of registered devices != 0), or to waitingForDevice (if number of registered devices = 0)
 
 TODO:
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
-- add a clickable icon on listbox for device unregistration
+- Use bindings to make the delete button visible/hidden
