@@ -1,23 +1,29 @@
 ﻿<Page
     x:Class="WindowsHelloWithLedger.MainPage"
+    xmlns:converters="using:WindowsHelloWithLedger"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WindowsHelloWithLedger"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="bool2vis"/>
+        <!--<converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>-->
+        <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
             <Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="RegisterDevice_Click"/>
 
             <Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>
-            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}" Height="100" VerticalAlignment="Top" Margin="0,0,160,0">
+            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="100" VerticalAlignment="Top" Margin="0,0,160,0" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding deviceFriendlyName}"></TextBlock>
-                            <Button Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="Visible"/>
+                            <TextBlock Text="{Binding deviceFriendlyName, Mode=OneWay}"></TextBlock>
+                            <Button Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

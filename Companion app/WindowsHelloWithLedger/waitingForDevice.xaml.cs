@@ -42,7 +42,7 @@ namespace WindowsHelloWithLedger
                 if (devices.Count > 0)
                 {
                     nanosDetected = true;
-                    this.Frame.Navigate(typeof(MainPage),"true");
+                    this.Frame.Navigate(typeof(MainPage), "true");
                 }
             }
         }

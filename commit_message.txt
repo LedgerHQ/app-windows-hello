@@ -1,12 +1,11 @@
-UI pre-integration 2 :
-- Use of listview instead of listbox to monitor the registered devices in our app
-- Use of listview bindings to get dynamically the info to display (deviceFriendlyName)
-- Add in XAML mainpage model a "delete" button (for device unregistration) in every entry in the listview
-- RefreshDeviceList() update to align with use of listview (instead of listbox)
-- Navigation modification : 
-	- in RegisterDevice_Click() once the device is registered we navigate to mainPage, 'using this.Frame.Navigate(typeof(MainPage), "false");' "false" is to indicate that we don't want to register a new device after navigating to mainPage	
-	- in UnregisterDevice_Click() once the device is unregistered, we navigate either to mainPage (if number of registered devices != 0), or to waitingForDevice (if number of registered devices = 0)
+UI pre-integration # :
+- MainPage XAML descriptor update :
+	- Add bool to visibility convertor in page ressources
+	- Add binding to delete button to make it Visible or Collapsed depending on current device seletion
+- Add isVisible (bool) attribute to listContent, this attribute indicates wether we want to show the delete button for that entry
+- Add class BooleanToVisibilityConverter, it converts the isVisible (bool) attribute to its Visibility equivalent (true -> Visible / false -> collapsed)
+- Swithed type to ObservableCollection for content list (instead of simple list)
+- Add 'selectedIndex' parameter to RefreshDeviceList(), to indicate which device is selected, that allows us to make the delete button visible for that device
 
 TODO:
 - split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
-- Use bindings to make the delete button visible/hidden
