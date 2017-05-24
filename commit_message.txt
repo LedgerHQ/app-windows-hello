@@ -1,4 +1,4 @@
-UI integration 1 :
-Waiting for device screen updated with wording and design according to UI spec
+UI integration 2 :
+Remove old buttons form assets folder
 
 TODO : Dashboard devices screen + actions (click on assistance, and click on register on dashboard device screen)
