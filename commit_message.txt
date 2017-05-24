@@ -1,4 +1,4 @@
-UI integration 2 :
-Remove old buttons form assets folder
+UI integration 3:
+Add new buttons to assets folder
 
 TODO : Dashboard devices screen + actions (click on assistance, and click on register on dashboard device screen)
