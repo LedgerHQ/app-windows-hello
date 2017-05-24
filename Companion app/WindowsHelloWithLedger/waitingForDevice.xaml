@@ -5,9 +5,33 @@
     xmlns:local="using:WindowsHelloWithLedger"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="485"
+    Width="480"
+    MinHeight="485"
+    MinWidth="480"
+    MaxHeight="485"
+    MaxWidth="480"
     mc:Ignorable="d">
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Header" TextWrapping="Wrap" Text="Please plug a ledger nano-s or a ledger blue and run windows hello app" Margin="0,15,0,0" />
+
+    <Grid Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
+        <Image Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
+        <RelativePanel Margin="365,45,40,428">
+            <TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>
+            <Image Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="13" Margin="62,0,0,-1" VerticalAlignment="Top"/>
+        </RelativePanel>
+        <Grid Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
+            <Image Source="ms-appx:///Assets/picto-device.png" Width="50" Height="21" VerticalAlignment="Top" Margin="40"/>
+            <TextBlock x:Name="Header" TextWrapping="Wrap" Text="Register your device" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="16" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top"/>
+            <Image Source="ms-appx:///Assets/divider.png" Height="1" Width="320" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,137,40,0"/>
+            <RelativePanel Margin="40,167,84,112">
+                <TextBlock x:Name="OneNumber" TextWrapping="Wrap" Text="1." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="OneText" TextWrapping="Wrap" Text="Connect your device to your computer using one of its USB port." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,0,-11,0"/>
+            </RelativePanel>
+            <RelativePanel Margin="40,223,84,58">
+                <TextBlock x:Name="TwoText" TextWrapping="Wrap" Text="Make sure your device is powered on, and unlock it by entering your PIN." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,0,0,0" Width="256"/>
+                <TextBlock x:Name="TwoNumber" TextWrapping="Wrap" Text="2." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="20"/>
+            </RelativePanel>
+            <TextBlock x:Name="AwaitingDevice" TextWrapping="Wrap" Text="AWAITING DEVICE..." FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" IsColorFontEnabled="True" Foreground="#cccccc" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,40,40" Width="97"/>
+        </Grid>
     </Grid>
 </Page>

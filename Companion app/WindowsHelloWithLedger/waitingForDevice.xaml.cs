@@ -7,6 +7,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;

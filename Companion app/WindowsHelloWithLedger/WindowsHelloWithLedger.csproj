@@ -98,6 +98,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\OpenSans-Regular.ttf" />
+    <Content Include="Assets\OpenSans-Semibold.ttf" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -120,11 +122,35 @@
     <None Include="CDFSampleApp_Ashish_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Button-assistance-select.scale-100.png" />
+    <Content Include="Assets\Button-assistance-select.scale-140.png" />
+    <Content Include="Assets\Button-assistance-select.scale-180.png" />
+    <Content Include="Assets\Button-assistance.scale-100.png" />
+    <Content Include="Assets\Button-assistance.scale-140.png" />
+    <Content Include="Assets\Button-assistance.scale-180.png" />
+    <Content Include="Assets\Button-register-select.scale-100.png" />
+    <Content Include="Assets\Button-register-select.scale-140.png" />
+    <Content Include="Assets\Button-register-select.scale-180.png" />
+    <Content Include="Assets\Button-register.scale-100.png" />
+    <Content Include="Assets\Button-register.scale-140.png" />
+    <Content Include="Assets\Button-register.scale-180.png" />
+    <Content Include="Assets\divider.scale-100.png" />
+    <Content Include="Assets\divider.scale-140.png" />
+    <Content Include="Assets\divider.scale-180.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\Logo-ledger-Hello.scale-100.png" />
+    <Content Include="Assets\Logo-ledger-Hello.scale-140.png" />
+    <Content Include="Assets\Logo-ledger-Hello.scale-180.png" />
+    <Content Include="Assets\picto-device.scale-100.png" />
+    <Content Include="Assets\picto-device.scale-140.png" />
+    <Content Include="Assets\picto-device.scale-180.png" />
+    <Content Include="Assets\selecto.scale-100.png" />
+    <Content Include="Assets\selecto.scale-140.png" />
+    <Content Include="Assets\selecto.scale-180.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-125.png" />
     <Content Include="Assets\SmallLogo.scale-150.png" />
@@ -165,6 +191,9 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\trash.scale-100.png" />
+    <Content Include="Assets\trash.scale-140.png" />
+    <Content Include="Assets\trash.scale-180.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />

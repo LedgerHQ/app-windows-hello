@@ -1,11 +1,4 @@
-UI pre-integration # :
-- MainPage XAML descriptor update :
-	- Add bool to visibility convertor in page ressources
-	- Add binding to delete button to make it Visible or Collapsed depending on current device seletion
-- Add isVisible (bool) attribute to listContent, this attribute indicates wether we want to show the delete button for that entry
-- Add class BooleanToVisibilityConverter, it converts the isVisible (bool) attribute to its Visibility equivalent (true -> Visible / false -> collapsed)
-- Swithed type to ObservableCollection for content list (instead of simple list)
-- Add 'selectedIndex' parameter to RefreshDeviceList(), to indicate which device is selected, that allows us to make the delete button visible for that device
+UI integration 1 :
+Waiting for device screen updated with wording and design according to UI spec
 
-TODO:
-- split the BGtask with two different tasks one triggered by auth trigger, and onother one triggered by device add/remove/update event
+TODO : Dashboard devices screen + actions (click on assistance, and click on register on dashboard device screen)

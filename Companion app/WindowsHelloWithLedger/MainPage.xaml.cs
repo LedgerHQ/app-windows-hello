@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Security.Credentials;
 using Windows.UI.Xaml.Data;
 using System.Collections.ObjectModel;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
 
 
 
