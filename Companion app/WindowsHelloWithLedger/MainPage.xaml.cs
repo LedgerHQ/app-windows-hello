@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Data;
 using System.Collections.ObjectModel;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 
 
@@ -546,6 +548,66 @@ namespace WindowsHelloWithLedger
                     taskRegistered = true;
                 }
             }
+        }
+        private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
+            e.Handled = true;
+        }
+        private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
+            e.Handled = true;
+        }
+
+        private void RegsiterDevice_pointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register-select.png"));
+            e.Handled = true;
+        }
+
+        private void RegisterDevice_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register.png"));
+            e.Handled = true;
+        }
+
+        private void ListViewItem_pointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(1)).Visibility = Visibility.Visible;
+        }
+
+        private void ListViewItem_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.OriginalSource is Image)
+            {
+                ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is TextBlock)
+            {
+                ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Grid)
+            {
+
+            }
+            else
+            {
+                string deviceName = ((listContent)((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource).Content).deviceFriendlyName;
+                for (int i=0; i< DeviceListBox.Items.Count; i++)
+                {
+                    if (((listContent)DeviceListBox.Items.ElementAt(i)).deviceFriendlyName == deviceName)
+                    {
+                        //object img = ((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource).FindName("trash");                       
+                        //DeviceListBox.Parent
+                        //this.Visibility = Visibility.Collapsed;
+                        //((Image)(DeviceListBox.ItemsPanelRoot.Children.ElementAt(i))).Visibility = Visibility.Collapsed;
+                        ((listContent)DeviceListBox.Items.ElementAt(i)).isVisible = false;
+                        this.Frame.Navigate(typeof(MainPage), "false");
+                    }
+                }
+            }
+            //((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource)
         }
     }
 }

@@ -47,5 +47,17 @@ namespace WindowsHelloWithLedger
                 }
             }
         }
+
+        private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
+            e.Handled = true;
+        }
+
+        private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
+            e.Handled = true;
+        }
     }
 }

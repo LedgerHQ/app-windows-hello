@@ -1,4 +1,13 @@
-UI integration 3:
-Add new buttons to assets folder
+UI integration 4:
+- WaitingForDevice screen : new button assistance with two callbacks for pointerentered (changes image color) and for pointerexited (restore the original color)
+- MainPage :
+	- new button assistance (same features as in WaitingForDevice screen)
+	- register device replacement with new button layout, and two new callbacks : 
+		- pointerentered : changes the color
+		- pointerexited : restores the original color
+		- click : same as before (launches the new device registration)
+	- New callbacks on listView StackPanel :
+		- pointerentered : makes the "trash" image visible
+		- pointerexited : makes the "thash" image collapsed
 
-TODO : Dashboard devices screen + actions (click on assistance, and click on register on dashboard device screen)
+TODO : On ListViewItem_pointerExited() when e.OriginalSource is ListViewItemPresenter, i reload the page to make the trash icon collapsed, this causes annoying flickering

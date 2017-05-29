@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-05-24T08:30:37.812</Modified>
+      <Modified>2017-05-29T14:29:34.717</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
       <PackagePath>entrypoint\WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-05-24T08:30:35.605</Modified>
+      <Modified>2017-05-29T14:29:32.711</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -465,67 +465,59 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\Tasks\bin\x86\Debug\Tasks.winmd">
       <PackagePath>Tasks.winmd</PackagePath>
-      <Modified>2017-05-23T14:12:10.118</Modified>
+      <Modified>2017-05-24T08:57:09.825</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
       <Modified>2017-05-14T12:10:15.372</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\OpenSans-Regular.ttf">
-      <PackagePath>Assets\OpenSans-Regular.ttf</PackagePath>
-      <Modified>2017-05-23T15:05:07.963</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\OpenSans-Semibold.ttf">
-      <PackagePath>Assets\OpenSans-Semibold.ttf</PackagePath>
-      <Modified>2017-05-23T15:05:07.966</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance-select.scale-100.png">
       <PackagePath>Assets\Button-assistance-select.scale-100.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.466</Modified>
+      <Modified>2017-05-24T14:21:20.648</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance-select.scale-140.png">
       <PackagePath>Assets\Button-assistance-select.scale-140.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.521</Modified>
+      <Modified>2017-05-24T14:21:20.651</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance-select.scale-180.png">
       <PackagePath>Assets\Button-assistance-select.scale-180.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.524</Modified>
+      <Modified>2017-05-24T14:21:20.654</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance.scale-100.png">
       <PackagePath>Assets\Button-assistance.scale-100.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.457</Modified>
+      <Modified>2017-05-24T14:21:20.674</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance.scale-140.png">
       <PackagePath>Assets\Button-assistance.scale-140.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.460</Modified>
+      <Modified>2017-05-24T14:21:20.677</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance.scale-180.png">
       <PackagePath>Assets\Button-assistance.scale-180.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.463</Modified>
+      <Modified>2017-05-24T14:21:20.679</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register-select.scale-100.png">
       <PackagePath>Assets\Button-register-select.scale-100.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.536</Modified>
+      <Modified>2017-05-24T14:21:20.665</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register-select.scale-140.png">
       <PackagePath>Assets\Button-register-select.scale-140.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.539</Modified>
+      <Modified>2017-05-24T14:21:20.668</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register-select.scale-180.png">
       <PackagePath>Assets\Button-register-select.scale-180.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.541</Modified>
+      <Modified>2017-05-24T14:21:20.670</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register.scale-100.png">
       <PackagePath>Assets\Button-register.scale-100.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.527</Modified>
+      <Modified>2017-05-24T14:21:20.656</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register.scale-140.png">
       <PackagePath>Assets\Button-register.scale-140.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.530</Modified>
+      <Modified>2017-05-24T14:21:20.659</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-register.scale-180.png">
       <PackagePath>Assets\Button-register.scale-180.png</PackagePath>
-      <Modified>2017-05-23T14:51:02.533</Modified>
+      <Modified>2017-05-24T14:21:20.662</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\divider.scale-100.png">
       <PackagePath>Assets\divider.scale-100.png</PackagePath>
@@ -837,13 +829,21 @@
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2017-05-14T12:10:15.450</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\OpenSans-Regular.ttf">
+      <PackagePath>Assets\OpenSans-Regular.ttf</PackagePath>
+      <Modified>2017-05-23T15:05:07.963</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\OpenSans-Semibold.ttf">
+      <PackagePath>Assets\OpenSans-Semibold.ttf</PackagePath>
+      <Modified>2017-05-23T15:05:07.966</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
       <Modified>2017-05-14T12:10:15.497</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.xr.xml">
       <PackagePath>WindowsHelloWithLedger.xr.xml</PackagePath>
-      <Modified>2017-05-24T08:30:35.299</Modified>
+      <Modified>2017-05-29T14:29:32.476</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.15063.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -852,11 +852,11 @@
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-05-24T08:30:36.491</Modified>
+      <Modified>2017-05-29T14:29:33.405</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
       <PackagePath>WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-05-24T08:30:37.804</Modified>
+      <Modified>2017-05-29T14:29:34.712</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

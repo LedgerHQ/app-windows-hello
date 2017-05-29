@@ -15,25 +15,31 @@
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="bool2vis"/>
-        <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>
+        <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>        
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480" >
-        <StackPanel>
-            <Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="RegisterDevice_Click"/>
-            <Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>
-            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="100" VerticalAlignment="Top" Margin="0,0,160,0" >
+    <Grid Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
+        <Image Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
+        <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
+        <Image Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered" PointerExited="Assistance_pointerExited"/>
+        <Grid Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
+            <TextBlock Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
+            <Image Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered" PointerExited="RegisterDevice_pointerExited"/>
+            <!--<Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Click="RegisterDevice_Click"/>-->
+            <!--<Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>-->
+            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" Margin="30">                
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding deviceFriendlyName, Mode=OneWay}"></TextBlock>
-                            <Button Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>
+                        <StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">
+                            <TextBlock Text="{Binding deviceFriendlyName, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="200" ></TextBlock>
+                            <Image Name="trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}" />
+                            <!--<Button Height="13" Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>-->
                         </StackPanel>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+        </ListView.ItemTemplate>
             </ListView>
 
             <!--<ListBox x:Name="InfoList" HorizontalAlignment="Left" Height="329" Margin="32,295,0,0" VerticalAlignment="Top" Width="764"/>-->
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>
