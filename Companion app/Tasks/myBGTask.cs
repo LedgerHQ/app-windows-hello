@@ -247,27 +247,29 @@ namespace Tasks
 
                                     string deviceConfigString = CryptographicBuffer.ConvertBinaryToString(0, device.DeviceConfigurationData);
                                     char[] deviceConfigCharArray = new char[deviceConfigString.Count()];
+                                    deviceConfigCharArray = deviceConfigString.ToCharArray();
                                     string deviceConfigStringNew = "";
+                                    int count = device.DeviceFriendlyName.Count();
                                     if (deviceDlockState[0] == 0)
                                     {
                                         if (deviceConfigCharArray[35] == '0') // Indicates if device was used for last login
                                         {
-                                            deviceConfigStringNew = device.DeviceId + "-0-0-" + device.DeviceFriendlyName;
+                                            deviceConfigStringNew = device.DeviceId + "-0-0-" + device.DeviceFriendlyName + "-" + deviceConfigString.Substring(35 + 1 + count + 1 + 1);
                                         }
                                         else
                                         {
-                                            deviceConfigStringNew = device.DeviceId + "-0-1-" + device.DeviceFriendlyName;
+                                            deviceConfigStringNew = device.DeviceId + "-0-1-" + device.DeviceFriendlyName + "-" + deviceConfigString.Substring(35 + 1 + count + 1 + 1);
                                         }
                                     }
                                     else
                                     {
                                         if (deviceConfigCharArray[35] == '0')
                                         {
-                                            deviceConfigStringNew = device.DeviceId + "-1-0-" + device.DeviceFriendlyName;
+                                            deviceConfigStringNew = device.DeviceId + "-1-0-" + device.DeviceFriendlyName + "-" + deviceConfigString.Substring(35 + 1 + count + 1 + 1 );
                                         }
                                         else
                                         {
-                                            deviceConfigStringNew = device.DeviceId + "-1-1-" + device.DeviceFriendlyName;
+                                            deviceConfigStringNew = device.DeviceId + "-1-1-" + device.DeviceFriendlyName + "-" + deviceConfigString.Substring(35 + 1 + count + 1 + 1);
                                         }    
                                     }
                                     // Get a Ibuffer from combinedDataArray
@@ -334,7 +336,7 @@ namespace Tasks
         }        
         private async Task<List<SecondaryAuthenticationFactorInfo>> getConnectedRegisteredDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> devicesToCheck)
         {
-            byte[] deviceConfigurationDataArray;
+            //byte[] deviceConfigurationDataArray;
             string selector = SmartCardReader.GetDeviceSelector();
             selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
             byte[] response = { 0 };
@@ -349,7 +351,7 @@ namespace Tasks
 
             foreach (SecondaryAuthenticationFactorInfo device in devicesToCheck)
             {
-                CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
+                //CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
 
                 foreach (DeviceInformation smartcardreader in readers)
                 {
@@ -387,11 +389,15 @@ namespace Tasks
             }
             return outList;
         }
-        private async Task AuthenticateWithSmartCardAsync(SmartCard card)
+        private async Task AuthenticateWithSmartCardAsync(SmartCard card, DeviceInformation deviceinfo)
         {
             var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
             String m_selectedDeviceId = localSettings.Values["SelectedDevice"] as String;
+            string m_selectedDeviceFriendlyName = string.Empty;
+            string m_selectedDeviceAddDate = string.Empty;
+            string deviceConfigString = string.Empty;
+            char[] deviceConfigCharArray;
             byte[] deviceIdArray = new byte[16];
             byte[] deviceDlockState = new byte[1];
 
@@ -433,17 +439,31 @@ namespace Tasks
 
             byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate
             IBuffer deviceConfigData;
+            byte[] deviceConfigurationDataArray;
+            //List<byte[]> deviceConfigList = new List<byte[]>();
+
+            
 
             foreach (SecondaryAuthenticationFactorInfo device in deviceList)
             {
+                CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
+                //deviceConfigList.Add(deviceConfigurationDataArray);
+
                 deviceFriendlyName = device.DeviceFriendlyName;                
                 if (device.DeviceId == deviceId)
                 {
                     m_selectedDeviceId = deviceId;
+                    m_selectedDeviceFriendlyName = device.DeviceFriendlyName;
+                    deviceConfigString = CryptographicBuffer.ConvertBinaryToString(0, device.DeviceConfigurationData);
+                    //deviceConfigCharArray = new char[deviceConfigString.Count()];
+                    //deviceConfigCharArray = deviceConfigString.ToCharArray();                    
+                    int count = device.DeviceFriendlyName.Count();
+                    m_selectedDeviceAddDate = deviceConfigString.Substring(35 + 1 + count + 1 + 1);
                     foundCompanionDevice = true;
-                    break;
+                    //continue;
                 }
-            }            
+            }
+            //Debugger.Break();
             if (!foundCompanionDevice)
             {
                 throw new CompanionDeviceNotFoundException();
@@ -520,19 +540,21 @@ namespace Tasks
                 System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Unable to complete authentication");
                 throw new Exception("Unable to complete authentication!");
             }
-            string deviceConfigString = "";
+
+            deviceConfigString = "";
             if (deviceDlockState[0] == 0)
             {
-                deviceConfigString = deviceId + "-0-1-" + deviceFriendlyName;
+                deviceConfigString = deviceId + "-0-1-" + deviceFriendlyName + "-" + m_selectedDeviceAddDate;
             }
             else
             {
-                deviceConfigString = deviceId + "-1-1-" + deviceFriendlyName;
+                deviceConfigString = deviceId + "-1-1-" + deviceFriendlyName + "-" + m_selectedDeviceAddDate;
             }
-            char[] deviceConfigCharArray = new char[deviceConfigString.Count()];
-            deviceConfigString.CopyTo(0, deviceConfigCharArray, 0, deviceConfigString.Count()); // decause deviceConfigString is readonly
+            deviceConfigCharArray = new char[deviceConfigString.Count()];
+            deviceConfigString.CopyTo(0, deviceConfigCharArray, 0, deviceConfigString.Count()); // because deviceConfigString is readonly
             deviceConfigCharArray[35] = '1'; // to indicate that device was not used for last login
             string deviceConfigStringNew = new string(deviceConfigCharArray);
+            //Debugger.Break();
             deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigStringNew, 0);
             await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(deviceId, deviceConfigData); //update deviceConfigData
 
@@ -546,6 +568,7 @@ namespace Tasks
                     deviceConfigCharArray[35] = '0'; // to indicate that device was not used for last login
                     deviceConfigStringNew = new string(deviceConfigCharArray);
                     deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigStringNew, 0);
+                    //Debugger.Break();
                     await SecondaryAuthenticationFactorRegistration.UpdateDeviceConfigurationDataAsync(device.DeviceId, deviceConfigData); //update deviceConfigData
                 }
             }
@@ -578,7 +601,7 @@ namespace Tasks
 
                         if (ATR_str.Equals(NanosATR))
                         {
-                            Task t = AuthenticateWithSmartCardAsync(card);
+                            Task t = AuthenticateWithSmartCardAsync(card, device);
                             await t;
                         }
                     }

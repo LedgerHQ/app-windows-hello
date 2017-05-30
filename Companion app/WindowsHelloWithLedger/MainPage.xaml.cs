@@ -52,8 +52,26 @@ namespace WindowsHelloWithLedger
     {
         public string deviceFriendlyName { get; set; }
         public bool isVisible { get; set; }
+        public DateTime date { get; set; }
+        public string deviceGUID { get; set; }
         //public string deviceGUID { get; set; }
     }
+
+    //public class StringFormatConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, string language)
+    //    {
+    //        DateTime addDate = (DateTime)value;
+    //        return 0;
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    //    {
+            
+
+    //        return 0;
+    //    }
+    //}
 
     public class BooleanToVisibilityConverter : IValueConverter
     {
@@ -90,6 +108,7 @@ namespace WindowsHelloWithLedger
     public sealed partial class MainPage : Page
     {
         String m_selectedDeviceId = String.Empty;
+        String m_selectedDeviceFriendlyName = String.Empty;
         bool taskRegistered = false;
         static string authBGTaskName = "authBGTask";
         static string authBGTaskEntryPoint = "Tasks.authBGTask";
@@ -108,7 +127,7 @@ namespace WindowsHelloWithLedger
         {
             this.InitializeComponent();
 
-            DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
+            //DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
             ObservableCollection<listContent> ContentList = new ObservableCollection<listContent>();
         }
 
@@ -133,14 +152,26 @@ namespace WindowsHelloWithLedger
         void RefreshDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList, int slectedIndex)
         {
             listContent listItem;
+            List<DateTime> dateList = new List<DateTime>();
             int cpt = 0;
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
                 listItem = new listContent();
+                //DateTime addDate = new DateTime(((listContent)(DeviceListBox.Items.ElementAt(0))).date.Year,
+                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Month,
+                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Day,
+                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Hour,
+                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Minute, ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Second);
+                DateTime now = DateTime.Now;
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
+                listItem.deviceGUID = deviceInfo.DeviceId;
+                //addDate = ((listContent)(DeviceListBox.Items.ElementAt(0))).date;
+                //string frit = ((listContent)DeviceListBox.Items.ElementAt(0)).date.ToString();
+                //dateList.Add(((listContent)DeviceListBox.Items.ElementAt(0)).date);
+                //dateList.Add(((listContent)DeviceListBox.Items.ElementAt(index - cpt)).date);
                 if (DeviceListBox.Items.Count > index - cpt)
-                {
+                {                    
                     DeviceListBox.Items.Remove(DeviceListBox.Items.ElementAt(index - cpt));
                     cpt++;
                 }
@@ -150,6 +181,8 @@ namespace WindowsHelloWithLedger
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
                 listItem = new listContent();
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
+                listItem.deviceGUID = deviceInfo.DeviceId;
+                //listItem.date = dateList.ElementAt(index);
                 if (slectedIndex == index)
                 {
                     listItem.isVisible = true;
@@ -294,13 +327,14 @@ namespace WindowsHelloWithLedger
                         deviceConfigDataArray[17] = 0; // 1 if used for last logon, 0 instead
 
                         string deviceConfigString = "";
+                        DateTime addDate = DateTime.Now;
                         if (deviceDlockState[0] == 0)
                         {
-                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName;
+                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();
                         }
                         else
                         {
-                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName;
+                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName + "-" + addDate.ToString();
                         }                        
 
                         // Get a Ibuffer from combinedDataArray
@@ -373,7 +407,9 @@ namespace WindowsHelloWithLedger
                         
                         listContent listItem = new listContent();
                         listItem.deviceFriendlyName = deviceFriendlyName;
+                        listItem.deviceGUID = deviceId;
                         listItem.isVisible = false;
+                        listItem.date = addDate;
                         DeviceListBox.Items.Add(listItem);
                         StartWatcher();
                         //this.Frame.Navigate(typeof(MainPage), "false");
@@ -418,7 +454,8 @@ namespace WindowsHelloWithLedger
                     // m_selectedDeviceId = 
                     //m_selectedDeviceId = DeviceListBox.SelectedItem.ToString();
                     //m_selectedDeviceId = ((listContent)DeviceListBox.SelectedItem).deviceFriendlyName;
-                    m_selectedDeviceId = ((WindowsHelloWithLedger.listContent)DeviceListBox.SelectedItem).deviceFriendlyName;
+                    m_selectedDeviceId = ((WindowsHelloWithLedger.listContent)DeviceListBox.SelectedItem).deviceGUID;
+                    m_selectedDeviceFriendlyName = ((WindowsHelloWithLedger.listContent)DeviceListBox.SelectedItem).deviceFriendlyName;
 
                     //RefreshDeviceList(deviceList, selectedIndex);
                     //string frit = test[selectedIndex].ToString();
@@ -432,20 +469,20 @@ namespace WindowsHelloWithLedger
                     m_selectedDeviceId = String.Empty;
                     return;
                 }
-                System.Diagnostics.Debug.WriteLine("[DeviceListBox_SelectionChanged] The device " + m_selectedDeviceId + " is selected.");
+                System.Diagnostics.Debug.WriteLine("[DeviceListBox_SelectionChanged] The device " + m_selectedDeviceFriendlyName + " is selected.");
                 //SecondaryAuthenticationFactorInfo info = DeviceListBox.FindName("HelloDevice");
 
 
 
                 if (deviceList.Count() != 0)
                 {
-                    for (int i = 0; i < deviceList.Count(); i++)
-                    {
-                        if (m_selectedDeviceId == deviceList.ElementAt(i).DeviceFriendlyName)
-                        {
-                            m_selectedDeviceId = deviceList.ElementAt(i).DeviceId;
-                        }
-                    }
+                    //for (int i = 0; i < deviceList.Count(); i++)
+                    //{
+                    //    if (m_selectedDeviceId == deviceList.ElementAt(i).DeviceFriendlyName)
+                    //    {
+                    //        m_selectedDeviceId = deviceList.ElementAt(i).DeviceId;
+                    //    }
+                    //}
                     //m_selectedDeviceId = deviceList.ElementAt(deviceList.Count() - 1).DeviceId;
                     //Store the selected device in settings to be used in the BG task
                     var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -458,6 +495,7 @@ namespace WindowsHelloWithLedger
 
         private async void UnregisterDevice_Click(object sender, RoutedEventArgs e)
         {
+            //m_selectedDeviceId = "B898843290DCEC2952FF639D81584DB2";
             if (m_selectedDeviceId == String.Empty)
             {
                 return;
@@ -473,7 +511,8 @@ namespace WindowsHelloWithLedger
                 SecondaryAuthenticationFactorDeviceFindScope.User);
 
             listContent listItem = new listContent();
-            listItem.deviceFriendlyName = deviceFriendlyName;
+            listItem.deviceFriendlyName = m_selectedDeviceFriendlyName;
+            listItem.deviceGUID = m_selectedDeviceId;
             listItem.isVisible = true;
             DeviceListBox.Items.Remove(listItem);
             listItem.isVisible = false;
@@ -574,7 +613,22 @@ namespace WindowsHelloWithLedger
 
         private void ListViewItem_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(1)).Visibility = Visibility.Visible;
+            if (e.OriginalSource is TextBlock)
+            {
+                m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(0)).Text;
+                ((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            }
+            else
+            {
+                throw new Exception("Unknown pointer");
+            }
+            for (int i = 0; i < DeviceListBox.Items.Count; i++)
+            {
+                if ( ((listContent)(DeviceListBox.Items.ElementAt(i))).deviceFriendlyName == m_selectedDeviceFriendlyName)
+                {
+                    m_selectedDeviceId = ((listContent)(DeviceListBox.Items.ElementAt(i))).deviceGUID;
+                }
+            }
         }
 
         private void ListViewItem_pointerExited(object sender, PointerRoutedEventArgs e)
@@ -585,7 +639,7 @@ namespace WindowsHelloWithLedger
             }
             else if (e.OriginalSource is TextBlock)
             {
-                ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Visibility = Visibility.Collapsed;
+                //((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Visibility = Visibility.Collapsed;
             }
             else if (e.OriginalSource is Grid)
             {

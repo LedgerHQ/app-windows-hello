@@ -5,6 +5,7 @@
   </Roots.Interfaces>
   <Roots.PropertyPathNames>
     <RootPropertyPathName Name="isVisible" />
+    <RootPropertyPathName Name="date" />
     <RootPropertyPathName Name="deviceFriendlyName" />
   </Roots.PropertyPathNames>
   <Roots.RootTypes>
@@ -59,6 +60,7 @@
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="Width" />
+      <RootProperty Name="Name" />
       <RootProperty Name="Height" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.RelativePanel">

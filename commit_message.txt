@@ -1,13 +1,10 @@
-UI integration 4:
-- WaitingForDevice screen : new button assistance with two callbacks for pointerentered (changes image color) and for pointerexited (restore the original color)
-- MainPage :
-	- new button assistance (same features as in WaitingForDevice screen)
-	- register device replacement with new button layout, and two new callbacks : 
-		- pointerentered : changes the color
-		- pointerexited : restores the original color
-		- click : same as before (launches the new device registration)
-	- New callbacks on listView StackPanel :
-		- pointerentered : makes the "trash" image visible
-		- pointerexited : makes the "thash" image collapsed
+UI integration 5:
+- Add in deviceConfigData device add date (UI needs that info)
+- Write add date in connectedRegisteredDevice txt file (to allow deviceConfigData update)
+- Add addDate DateTime in listContent class
+- Add deviceGUID string in listContent class
+- ListViewItem_pointerEntered() now updates m_selectedDeviceFriendlyName and m_selectedDeviceId according to the item pointed
 
-TODO : On ListViewItem_pointerExited() when e.OriginalSource is ListViewItemPresenter, i reload the page to make the trash icon collapsed, this causes annoying flickering
+TODO : 
+- On ListViewItem_pointerExited() when e.OriginalSource is ListViewItemPresenter, i reload the page to make the trash icon collapsed, this causes annoying flickering
+- Update addDate in listContent according to deviceConfigData
