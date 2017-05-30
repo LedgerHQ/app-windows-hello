@@ -5,7 +5,7 @@
   </Roots.Interfaces>
   <Roots.PropertyPathNames>
     <RootPropertyPathName Name="isVisible" />
-    <RootPropertyPathName Name="date" />
+    <RootPropertyPathName Name="dateString" />
     <RootPropertyPathName Name="deviceFriendlyName" />
   </Roots.PropertyPathNames>
   <Roots.RootTypes>

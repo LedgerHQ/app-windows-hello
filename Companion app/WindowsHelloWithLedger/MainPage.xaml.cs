@@ -47,12 +47,13 @@ namespace WindowsHelloWithLedger
     //    }
 
     //}
-    
+
     public class listContent
     {
         public string deviceFriendlyName { get; set; }
         public bool isVisible { get; set; }
         public DateTime date { get; set; }
+        public string dateString { get; set; }
         public string deviceGUID { get; set; }
         //public string deviceGUID { get; set; }
     }
@@ -151,21 +152,24 @@ namespace WindowsHelloWithLedger
 
         void RefreshDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList, int slectedIndex)
         {
+            //byte[] deviceConfigurationDataArray;
+            string deviceConfigurationString;
+            string dateString = string.Empty;
             listContent listItem;
             List<DateTime> dateList = new List<DateTime>();
             int cpt = 0;
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
+                deviceConfigurationString = CryptographicBuffer.ConvertBinaryToString(0, deviceInfo.DeviceConfigurationData);
                 listItem = new listContent();
-                //DateTime addDate = new DateTime(((listContent)(DeviceListBox.Items.ElementAt(0))).date.Year,
-                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Month,
-                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Day,
-                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Hour,
-                //    ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Minute, ((listContent)(DeviceListBox.Items.ElementAt(0))).date.Second);
-                DateTime now = DateTime.Now;
+                //DateTime now = DateTime.Now;
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
                 listItem.deviceGUID = deviceInfo.DeviceId;
+                int count = deviceInfo.DeviceFriendlyName.Count();
+                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1));
+                dateString = FormatDate(listItem.date);
+                listItem.dateString = dateString;
                 //addDate = ((listContent)(DeviceListBox.Items.ElementAt(0))).date;
                 //string frit = ((listContent)DeviceListBox.Items.ElementAt(0)).date.ToString();
                 //dateList.Add(((listContent)DeviceListBox.Items.ElementAt(0)).date);
@@ -179,10 +183,15 @@ namespace WindowsHelloWithLedger
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
+                deviceConfigurationString = CryptographicBuffer.ConvertBinaryToString(0, deviceInfo.DeviceConfigurationData);
                 listItem = new listContent();
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
                 listItem.deviceGUID = deviceInfo.DeviceId;
-                //listItem.date = dateList.ElementAt(index);
+                int count = deviceInfo.DeviceFriendlyName.Count();
+                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1));
+                dateString = FormatDate(listItem.date);
+                listItem.dateString = dateString;
+
                 if (slectedIndex == index)
                 {
                     listItem.isVisible = true;
@@ -195,6 +204,90 @@ namespace WindowsHelloWithLedger
             }
         }
 
+        private string FormatDate(DateTime dateToFormat)
+        {
+            string dateString = string.Empty;            
+            DateTime now = DateTime.Now;
+            if (dateToFormat.Year - now.Year == 0)
+            {
+                if (dateToFormat.DayOfYear - now.DayOfYear == 0) //Today
+                {
+                    if ((dateToFormat.TimeOfDay.Hours) > 12)
+                    {
+                        dateString = "TODAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                    }
+                    else
+                    {
+                        dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                    }
+                }
+                else if (dateToFormat.DayOfYear - now.DayOfYear == 1) //Yesterday
+                {
+                    if ((dateToFormat.TimeOfDay.Hours) > 12)
+                    {
+                        dateString = "YESTERDAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                    }
+                    else
+                    {
+                        dateString = "YESTERDAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                    }
+                }
+            }
+            else
+            {
+                int month = dateToFormat.Month;
+                string monthString = string.Empty;
+                switch (month)
+                {
+                    case 1:
+                        monthString = "JAN, ";
+                        break;
+                    case 2:
+                        monthString = "FEB, ";
+                        break;
+                    case 3:
+                        monthString = "MAR, ";
+                        break;
+                    case 4:
+                        monthString = "APR, ";
+                        break;
+                    case 5:
+                        monthString = "MAY, ";
+                        break;
+                    case 6:
+                        monthString = "JUN, ";
+                        break;
+                    case 7:
+                        monthString = "JUL, ";
+                        break;
+                    case 8:
+                        monthString = "AUG, ";
+                        break;
+                    case 9:
+                        monthString = "SEP, ";
+                        break;
+                    case 10:
+                        monthString = "OCT, ";
+                        break;
+                    case 11:
+                        monthString = "NOV, ";
+                        break;
+                    case 12:
+                        monthString = "DEC, ";
+                        break;
+                }
+                string dayOfWeek = dateToFormat.DayOfWeek.ToString().ToUpper().Substring(0, 3);
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
+                {
+                    dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                }
+                else
+                {
+                    dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                }
+            }
+            return dateString;
+        }
         private async void RegisterDevice_Click(object sender, RoutedEventArgs e)
         {
             String deviceId = "";

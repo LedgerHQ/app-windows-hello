@@ -1,10 +1,7 @@
-UI integration 5:
-- Add in deviceConfigData device add date (UI needs that info)
-- Write add date in connectedRegisteredDevice txt file (to allow deviceConfigData update)
-- Add addDate DateTime in listContent class
-- Add deviceGUID string in listContent class
-- ListViewItem_pointerEntered() now updates m_selectedDeviceFriendlyName and m_selectedDeviceId according to the item pointed
+UI integration 6:
+Add string dateString to listContent class
+New method 'private string FormatDate(DateTime dateToFormat)' returns a string that formats the date according to UI spec 
+Add Date binding in XAML linked to dateString instead of date (DateTime)
 
 TODO : 
 - On ListViewItem_pointerExited() when e.OriginalSource is ListViewItemPresenter, i reload the page to make the trash icon collapsed, this causes annoying flickering
-- Update addDate in listContent according to deviceConfigData

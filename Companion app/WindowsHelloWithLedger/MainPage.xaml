@@ -33,7 +33,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">
                             <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="50" ></TextBlock>
-                            <TextBlock Name="addDate" Text="{Binding date, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="100" ></TextBlock>
+                            <TextBlock Name="addDate" Text="{Binding dateString, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="100" ></TextBlock>
                             <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>
                             <!--<Button Height="13" Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>-->
                         </StackPanel>
