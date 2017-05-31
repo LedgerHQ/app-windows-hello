@@ -1,7 +1,8 @@
-UI integration 7:
-Bug correction in FormatDate
-Navigation modification, better mouse pointer handling
-Flickering corrected
+UI integration 8:
+Bug correction in RegisterDevice_pointerExited()
+Add in ElementStackPanel_PointerEntered() m_selectedDeviceFriendlyName and m_selectedDeviceId update
+Bug correction in ElementStackPanel_PointerExited()
+XAML : add custom style ListViewItemStyleCustom definition for ListViewItem. To prevent the background from becoming grey on mouseover
 
 TODO : 
 

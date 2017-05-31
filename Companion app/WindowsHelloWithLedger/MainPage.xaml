@@ -16,6 +16,33 @@
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="bool2vis"/>
         <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>
+        <Style x:Key="ListViewItemStyleCustom" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="AllowDrop" Value="False"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="FocusVisualMargin" Value="0"/>
+            <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}"/>
+            <Setter Property="FocusVisualPrimaryThickness" Value="2"/>
+            <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}"/>
+            <Setter Property="FocusVisualSecondaryThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <!--<converters:StringFormatConverter  x:Key="StringFormatConverter " />-->
     </Page.Resources>
 
@@ -28,18 +55,18 @@
             <Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered" PointerExited="RegisterDevice_pointerExited"/>
             <!--<Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Click="RegisterDevice_Click"/>-->
             <!--<Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>-->
-            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" >                
+            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" ItemContainerStyle="{StaticResource ListViewItemStyleCustom}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!--<StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited" Width="240">-->
                         <!--<StackPanel PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">-->
-                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited">
+                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited" >
                             <ListViewItem>
-                                <StackPanel Orientation="Horizontal" Width="310" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">
+                                <StackPanel Orientation="Horizontal" Width="400">
                                     <Image Name="Selecto" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></Image>
-                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="100" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"></TextBlock>
-                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Foreground="#999999" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
-                                    <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="217" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"></TextBlock>
+                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="100" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+                                    <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="Collapsed" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
                                 </StackPanel>
                             </ListViewItem>
                             <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310" ></Image>
@@ -61,7 +88,7 @@
                             <!--<Button Height="13" Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>-->
                         </StackPanel>
                     </DataTemplate>
-        </ListView.ItemTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
             <!--<ListBox x:Name="InfoList" HorizontalAlignment="Left" Height="329" Margin="32,295,0,0" VerticalAlignment="Top" Width="764"/>-->
