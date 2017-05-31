@@ -21,6 +21,7 @@ using Windows.UI.ViewManagement;
 using Windows.Foundation;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Controls.Primitives;
 
 
 
@@ -55,24 +56,7 @@ namespace WindowsHelloWithLedger
         public DateTime date { get; set; }
         public string dateString { get; set; }
         public string deviceGUID { get; set; }
-        //public string deviceGUID { get; set; }
     }
-
-    //public class StringFormatConverter : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, string language)
-    //    {
-    //        DateTime addDate = (DateTime)value;
-    //        return 0;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    //    {
-            
-
-    //        return 0;
-    //    }
-    //}
 
     public class BooleanToVisibilityConverter : IValueConverter
     {
@@ -210,7 +194,7 @@ namespace WindowsHelloWithLedger
             DateTime now = DateTime.Now;
             if (dateToFormat.Year - now.Year == 0)
             {
-                if (dateToFormat.DayOfYear - now.DayOfYear == 0) //Today
+                if ( now.DayOfYear - dateToFormat.DayOfYear == 0) //Today
                 {
                     if ((dateToFormat.TimeOfDay.Hours) > 12)
                     {
@@ -221,7 +205,7 @@ namespace WindowsHelloWithLedger
                         dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                     }
                 }
-                else if (dateToFormat.DayOfYear - now.DayOfYear == 1) //Yesterday
+                else if (now.DayOfYear - dateToFormat.DayOfYear  == 1) //Yesterday
                 {
                     if ((dateToFormat.TimeOfDay.Hours) > 12)
                     {
@@ -706,10 +690,29 @@ namespace WindowsHelloWithLedger
 
         private void ListViewItem_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            //var _ListView = DeviceListBox as ListView;
+            //foreach (var _ListViewItem in _ListView.Items)
+            //{
+            //    var _Container = _ListView.ContainerFromItem(_ListViewItem);
+            //    var _Children = AllChildren(_Container);
+            //}
+
+
             if (e.OriginalSource is TextBlock)
             {
-                m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(0)).Text;
-                ((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+                //m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(0)).Text;
+                //((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+                m_selectedDeviceFriendlyName = ((TextBlock)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Text;
+                ((TextBlock)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Margin = new Thickness(25,0,0,0);
+                ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(0))).Visibility = Visibility.Visible;
+                ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(3))).Visibility = Visibility.Visible;
+            }
+            else if (e.OriginalSource is Image)
+            {
+                m_selectedDeviceFriendlyName = ((TextBlock)(((StackPanel)(((Image)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Text;
+                //((TextBlock)(((StackPanel)(((Image)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Margin = new Thickness(0);
+                ((Image)(((StackPanel)(((Image)(e.OriginalSource)).Parent)).Children.ElementAt(0))).Visibility = Visibility.Visible;
+                ((Image)(((StackPanel)(((Image)(e.OriginalSource)).Parent)).Children.ElementAt(3))).Visibility = Visibility.Visible;
             }
             else
             {
@@ -722,6 +725,7 @@ namespace WindowsHelloWithLedger
                     m_selectedDeviceId = ((listContent)(DeviceListBox.Items.ElementAt(i))).deviceGUID;
                 }
             }
+            e.Handled = true;
         }
 
         private void ListViewItem_pointerExited(object sender, PointerRoutedEventArgs e)
@@ -732,29 +736,102 @@ namespace WindowsHelloWithLedger
             }
             else if (e.OriginalSource is TextBlock)
             {
-                //((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Visibility = Visibility.Collapsed;
+                ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is ListViewItemPresenter)
+            {
+                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30,0,0,0);
+                ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Collapsed;
+                ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Collapsed;
+                //string deviceName = ((listContent)((ListViewItemPresenter)e.OriginalSource).Content).deviceFriendlyName;
+                //for (int i=0; i< DeviceListBox.Items.Count; i++)
+                //{
+                //    if (((listContent)DeviceListBox.Items.ElementAt(i)).deviceFriendlyName == deviceName)
+                //    {
+                //        //object img = ((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource).FindName("trash");                       
+                //        //DeviceListBox.Parent
+                //        //this.Visibility = Visibility.Collapsed;
+                //        //((Image)(DeviceListBox.ItemsPanelRoot.Children.ElementAt(i))).Visibility = Visibility.Collapsed;
+                //        ((listContent)DeviceListBox.Items.ElementAt(i)).isVisible = false;
+                //        this.Frame.Navigate(typeof(MainPage), "false");
+                //    }
+                //}
             }
             else if (e.OriginalSource is Grid)
             {
 
+                //throw new Exception("Grid");
             }
             else
             {
-                string deviceName = ((listContent)((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource).Content).deviceFriendlyName;
-                for (int i=0; i< DeviceListBox.Items.Count; i++)
-                {
-                    if (((listContent)DeviceListBox.Items.ElementAt(i)).deviceFriendlyName == deviceName)
-                    {
-                        //object img = ((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource).FindName("trash");                       
-                        //DeviceListBox.Parent
-                        //this.Visibility = Visibility.Collapsed;
-                        //((Image)(DeviceListBox.ItemsPanelRoot.Children.ElementAt(i))).Visibility = Visibility.Collapsed;
-                        ((listContent)DeviceListBox.Items.ElementAt(i)).isVisible = false;
-                        this.Frame.Navigate(typeof(MainPage), "false");
-                    }
-                }
+                throw new Exception("Unknown pointer");
             }
+            e.Handled = true;
             //((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource)
+        }
+        public List<Control> AllChildren(DependencyObject parent)
+        {
+            var _List = new List<Control> { };
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var _Child = VisualTreeHelper.GetChild(parent, i);
+                if (_Child is Control)
+                {
+                    _List.Add(_Child as Control);
+                }
+                //_List.Add(_Child as Control);
+                _List.AddRange(AllChildren(_Child));
+            }
+            return _List;
+        }
+
+        private void ElementStackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.OriginalSource is ListViewItemPresenter)
+            {
+                ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Collapsed;
+                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30, 0, 0, 0);
+                ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Image)
+            {
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+
+            }
+        }
+
+        private void ElementStackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.OriginalSource is ListViewItemPresenter)
+            {
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
+                //((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Collapsed;
+                //((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30, 0, 0, 0);
+                //((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Image)
+            {
+                ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(0)).Visibility = Visibility.Collapsed;
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(3)).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Grid)
+            {
+                ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(0)).Visibility = Visibility.Collapsed;
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(3)).Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+
+            }
         }
     }
 }

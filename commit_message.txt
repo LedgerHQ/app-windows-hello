@@ -1,7 +1,9 @@
-UI integration 6:
-Add string dateString to listContent class
-New method 'private string FormatDate(DateTime dateToFormat)' returns a string that formats the date according to UI spec 
-Add Date binding in XAML linked to dateString instead of date (DateTime)
+UI integration 7:
+Bug correction in FormatDate
+Navigation modification, better mouse pointer handling
+Flickering corrected
 
 TODO : 
-- On ListViewItem_pointerExited() when e.OriginalSource is ListViewItemPresenter, i reload the page to make the trash icon collapsed, this causes annoying flickering
+
+COMMENTS :
+Commit before removing isVisible from listContent Class

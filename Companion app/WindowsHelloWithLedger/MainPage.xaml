@@ -19,22 +19,45 @@
         <!--<converters:StringFormatConverter  x:Key="StringFormatConverter " />-->
     </Page.Resources>
 
-    <Grid Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
+    <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
         <Image Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
         <Image Name="Assistance" Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered" PointerExited="Assistance_pointerExited"/>
-        <Grid Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
+        <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <TextBlock Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
             <Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered" PointerExited="RegisterDevice_pointerExited"/>
             <!--<Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Click="RegisterDevice_Click"/>-->
             <!--<Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>-->
-            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" Margin="30">                
+            <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" >                
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">
-                            <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="50" ></TextBlock>
-                            <TextBlock Name="addDate" Text="{Binding dateString, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" Width="100" ></TextBlock>
-                            <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>
+                        <!--<StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited" Width="240">-->
+                        <!--<StackPanel PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">-->
+                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited">
+                            <ListViewItem>
+                                <StackPanel Orientation="Horizontal" Width="310" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">
+                                    <Image Name="Selecto" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></Image>
+                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="100" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"></TextBlock>
+                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Foreground="#999999" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                                    <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                </StackPanel>
+                            </ListViewItem>
+                            <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310" ></Image>
+                            <!--<ListViewItem>
+                                <StackPanel Orientation="Horizontal"  Width="310">
+                                    <Image Name="Selecto2" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                                    <TextBlock Name="DeviceNam2e" Text="Frit" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="100" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30"></TextBlock>
+                                    <TextBlock Name="addDate2"  Text="TODAY, 3:58 PM" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Foreground="#999999" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                                    <Image Name="Trash2" Source="ms-appx:///Assets/trash.png" Width="10" Height="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"></Image>
+                                </StackPanel>
+                            </ListViewItem>-->
+
+                            <!--<TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Foreground="#000000" Height="13" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                            <TextBlock Name="addDate" Text="{Binding dateString, Mode=OneWay}"  FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Foreground="#999999" Height="10" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                            <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Width="10" Height="11" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}" />
+                            <Image Name="Divider" Source="ms-appx:///Assets/divider.png"  Height="1" Width="240" Margin="20"/>-->
+
+
                             <!--<Button Height="13" Width="100" Content="delete" Click="UnregisterDevice_Click" Visibility="{Binding Path=isVisible,  Converter={StaticResource bool2vis}, Mode=OneWay}"/>-->
                         </StackPanel>
                     </DataTemplate>
