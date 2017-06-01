@@ -410,7 +410,7 @@ namespace WindowsHelloWithLedger
 
                         string deviceConfigString = "";
                         DateTime addDate = DateTime.Now;
-                        //DateTime addDate = new DateTime(2017, 5, 31, 13, 23, 55);
+                        //DateTime addDate = new DateTime(2015, 5, 18, 13, 23, 55);
                         if (deviceDlockState[0] == 0)
                         {
                             deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();

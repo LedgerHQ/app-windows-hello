@@ -192,7 +192,6 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\trash-black.scale-100.png" />
     <Content Include="Assets\trash.scale-100.png" />
     <Content Include="Assets\trash.scale-140.png" />
     <Content Include="Assets\trash.scale-180.png" />

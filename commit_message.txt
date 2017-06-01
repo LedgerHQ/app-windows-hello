@@ -1,7 +1,4 @@
-UI integration 10:
-- Added ledger logo and generated all app badges and tiles
-- Grey background one mouseover removed
-- "+ REGISTER" and "ASSISTANCE" image handling modification to remove annoying flickering on mouseover
+Remove "trash-black.scale-100.png"
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI
