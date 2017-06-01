@@ -38,7 +38,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter/>
+                        <ListViewItemPresenter PointerOverBackground="Transparent"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -47,12 +47,14 @@
     </Page.Resources>
 
     <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
-        <Image Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
+        <Image Name="logo" Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
-        <Image Name="Assistance" Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered" PointerExited="Assistance_pointerExited"/>
+        <Image Name="Assistance" Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered"/>
+        <Image Name="Assistance_Select" Source="ms-appx:///Assets/Button-assistance-select.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" Visibility="Collapsed" PointerExited="Assistance_pointerExited"/>
         <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <TextBlock Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
-            <Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered" PointerExited="RegisterDevice_pointerExited"/>
+            <Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered"/>
+            <Image Name="Register_Select" Source="ms-appx:///Assets/Button-register-select.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Visibility="Collapsed" Tapped="RegisterDevice_Click" PointerExited="RegisterDevice_pointerExited"/>
             <!--<Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Click="RegisterDevice_Click"/>-->
             <!--<Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>-->
             <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" ItemContainerStyle="{StaticResource ListViewItemStyleCustom}" >

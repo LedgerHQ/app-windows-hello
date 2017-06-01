@@ -22,6 +22,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI;
 
 
 
@@ -113,7 +114,8 @@ namespace WindowsHelloWithLedger
             this.InitializeComponent();
 
             //DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
-
+            Application.Current.Resources["SystemControlHighlightListLowBrush"] = new SolidColorBrush(Colors.Transparent);
+            Application.Current.Resources["SystemControlHighlightListAccentLowBrush"] = new SolidColorBrush(Colors.Transparent);
             StartWatcher();
 
             ObservableCollection<listContent> ContentList = new ObservableCollection<listContent>();
@@ -126,8 +128,8 @@ namespace WindowsHelloWithLedger
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
             //DeviceListBox.DataContext = ContentList;
-            
-            RefreshDeviceList(deviceList,1000); //1000 ie: no item selected, max nb of items is 5
+
+            RefreshDeviceList(deviceList, 1000); //1000 ie: no item selected, max nb of items is 5
 
             var registerDevice = e.Parameter as string;
             if (registerDevice == "true")
@@ -162,7 +164,7 @@ namespace WindowsHelloWithLedger
                 //dateList.Add(((listContent)DeviceListBox.Items.ElementAt(0)).date);
                 //dateList.Add(((listContent)DeviceListBox.Items.ElementAt(index - cpt)).date);
                 if (DeviceListBox.Items.Count > index - cpt)
-                {                    
+                {
                     DeviceListBox.Items.Remove(DeviceListBox.Items.ElementAt(index - cpt));
                     cpt++;
                 }
@@ -193,9 +195,9 @@ namespace WindowsHelloWithLedger
 
         private string FormatDate(DateTime dateToFormat)
         {
-            string dateString = string.Empty;            
+            string dateString = string.Empty;
             DateTime now = DateTime.Now;
-            if (( now.DayOfYear - dateToFormat.DayOfYear == 0) && (dateToFormat.Year - now.Year == 0))
+            if ((now.DayOfYear - dateToFormat.DayOfYear == 0) && (dateToFormat.Year - now.Year == 0))
             {
                 if ((dateToFormat.TimeOfDay.Hours) > 12)
                 {
@@ -206,7 +208,7 @@ namespace WindowsHelloWithLedger
                     dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
             }
-            else if ((now.DayOfYear - dateToFormat.DayOfYear  == 1) && (dateToFormat.Year - now.Year == 0))
+            else if ((now.DayOfYear - dateToFormat.DayOfYear == 1) && (dateToFormat.Year - now.Year == 0))
             {
                 if ((dateToFormat.TimeOfDay.Hours) > 12)
                 {
@@ -269,7 +271,7 @@ namespace WindowsHelloWithLedger
                 {
                     dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
-            }         
+            }
             return dateString;
         }
         private async void RegisterDevice_Click(object sender, RoutedEventArgs e)
@@ -312,7 +314,7 @@ namespace WindowsHelloWithLedger
                 IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
                 foreach (SmartCard card in cards)
                 {
-                    SmartCardProvisioning provisioning = await SmartCardProvisioning.FromSmartCardAsync(card);                    
+                    SmartCardProvisioning provisioning = await SmartCardProvisioning.FromSmartCardAsync(card);
                     IBuffer ATR = await card.GetAnswerToResetAsync();
                     string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
 
@@ -349,9 +351,9 @@ namespace WindowsHelloWithLedger
                             //myDlg = null;
                             //myDlg = new MessageDialog("The device \"" + deviceFriendlyName + "\" has already been registered");
                             //await myDlg.ShowAsync();
-                             continue;
+                            continue;
                         }
-                        
+
                         // Device naming loop
                         while (deviceFriendlyName == "")
                         {
@@ -393,7 +395,7 @@ namespace WindowsHelloWithLedger
                         // Get auth key from response
                         for (int index = 0; index < 32; index++)
                         {
-                            authKeyArray[index] = response[index+32];
+                            authKeyArray[index] = response[index + 32];
                         }
                         authKey = CryptographicBuffer.CreateFromByteArray(authKeyArray);
 
@@ -416,13 +418,13 @@ namespace WindowsHelloWithLedger
                         else
                         {
                             deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName + "-" + addDate.ToString();
-                        }                        
+                        }
 
                         // Get a Ibuffer from combinedDataArray
                         IBuffer deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigString, 0);
                         //IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
 
-                        SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;                            
+                        SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;
                         SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(
                                 deviceId,
                                 capabilities,
@@ -485,7 +487,7 @@ namespace WindowsHelloWithLedger
                                 await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
                                 break;
                         }
-                        
+
                         listContent listItem = new listContent();
                         listItem.deviceFriendlyName = deviceFriendlyName;
                         listItem.deviceGUID = deviceId;
@@ -493,7 +495,7 @@ namespace WindowsHelloWithLedger
                         listItem.date = addDate;
                         listItem.dateString = FormatDate(addDate);
                         DeviceListBox.Items.Add(listItem);
-                        StartWatcher();                        
+                        StartWatcher();
                         //this.Frame.Navigate(typeof(MainPage), "false");
                     }
                 }
@@ -525,7 +527,7 @@ namespace WindowsHelloWithLedger
         {
             //List<object>  test = DeviceListBox.Items.ToList();
             int selectedIndex;
-            
+
             if (DeviceListBox.SelectedIndex >= 0)
             {
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
@@ -653,7 +655,7 @@ namespace WindowsHelloWithLedger
                 if (access == BackgroundAccessStatus.AllowedSubjectToSystemPolicy)
                 {
                     BackgroundTaskBuilder authTaskBuilder = new BackgroundTaskBuilder();
-                    authTaskBuilder.Name = authBGTaskName;                    
+                    authTaskBuilder.Name = authBGTaskName;
                     SecondaryAuthenticationFactorAuthenticationTrigger myTrigger = new SecondaryAuthenticationFactorAuthenticationTrigger();
                     authTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
                     authTaskBuilder.SetTrigger(myTrigger);
@@ -673,35 +675,51 @@ namespace WindowsHelloWithLedger
         }
         private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
+            ((Image)((Grid)((Image)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            //((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
             e.Handled = true;
         }
         private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
+            ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
+            //((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
             e.Handled = true;
         }
 
         private void RegsiterDevice_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register-select.png"));
+            ((Image)((Grid)((Image)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            //((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register-select.png"));
             e.Handled = true;
         }
 
         private void RegisterDevice_pointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if ((e.OriginalSource is Grid) && (sender is Image))
+            if (e.OriginalSource is Grid)
             {
-                ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register.png"));
+                ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
             }
-            else if ((e.OriginalSource is Image) && (sender is Image))
+            else if (e.OriginalSource is Image)
             {
-                ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register.png"));
+                ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
             }
             else
             {
 
             }
+
+            //if ((e.OriginalSource is Grid) && (sender is Image))
+            //{
+            //    ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register.png"));
+            //}
+            //else if ((e.OriginalSource is Image) && (sender is Image))
+            //{
+            //    ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register.png"));
+            //}
+            //else
+            //{
+
+            //}
             e.Handled = true;
         }
 
@@ -720,7 +738,7 @@ namespace WindowsHelloWithLedger
                 //m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(0)).Text;
                 //((Image)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
                 m_selectedDeviceFriendlyName = ((TextBlock)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Text;
-                ((TextBlock)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Margin = new Thickness(25,0,0,0);
+                ((TextBlock)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(1))).Margin = new Thickness(25, 0, 0, 0);
                 ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(0))).Visibility = Visibility.Visible;
                 ((Image)(((StackPanel)(((TextBlock)(e.OriginalSource)).Parent)).Children.ElementAt(3))).Visibility = Visibility.Visible;
             }
@@ -737,7 +755,7 @@ namespace WindowsHelloWithLedger
             }
             for (int i = 0; i < DeviceListBox.Items.Count; i++)
             {
-                if ( ((listContent)(DeviceListBox.Items.ElementAt(i))).deviceFriendlyName == m_selectedDeviceFriendlyName)
+                if (((listContent)(DeviceListBox.Items.ElementAt(i))).deviceFriendlyName == m_selectedDeviceFriendlyName)
                 {
                     m_selectedDeviceId = ((listContent)(DeviceListBox.Items.ElementAt(i))).deviceGUID;
                 }
@@ -757,7 +775,7 @@ namespace WindowsHelloWithLedger
             }
             else if (e.OriginalSource is ListViewItemPresenter)
             {
-                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30,0,0,0);
+                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30, 0, 0, 0);
                 ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Collapsed;
                 ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Collapsed;
                 //string deviceName = ((listContent)((ListViewItemPresenter)e.OriginalSource).Content).deviceFriendlyName;

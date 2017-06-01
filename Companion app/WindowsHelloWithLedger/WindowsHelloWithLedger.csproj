@@ -148,6 +148,7 @@
     <Content Include="Assets\picto-device.scale-100.png" />
     <Content Include="Assets\picto-device.scale-140.png" />
     <Content Include="Assets\picto-device.scale-180.png" />
+    <Content Include="Assets\picto-ledger-hello.png" />
     <Content Include="Assets\selecto.scale-100.png" />
     <Content Include="Assets\selecto.scale-140.png" />
     <Content Include="Assets\selecto.scale-180.png" />

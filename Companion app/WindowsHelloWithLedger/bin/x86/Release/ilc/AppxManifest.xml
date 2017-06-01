@@ -38,6 +38,7 @@
       <Extensions>
         <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.authBGTask">
           <BackgroundTasks>
+            <Task Type="timer" />
             <Task Type="pushNotification" />
           </BackgroundTasks>
         </Extension>
@@ -53,6 +54,7 @@
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
         <Path>WindowsHelloWithLedger.dll</Path>
+        <ActivatableClass ActivatableClassId="Tasks.dLock" ThreadingModel="both" />
         <ActivatableClass ActivatableClassId="Tasks.authBGTask" ThreadingModel="both" />
       </InProcessServer>
     </Extension>
@@ -62,13 +64,13 @@
     <build:Item Name="VisualStudio" Version="15.0" />
     <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2017" />
     <build:Item Name="OperatingSystem" Version="10.0.15063.0 (WinBuild.160101.0800)" />
-    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="15.0.26403.7" />
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="15.0.26419.1" />
     <build:Item Name="ProjectGUID" Value="{9FDD0FF8-7487-428F-8325-D247F2CD3923}" />
     <build:Item Name="ilc.exe" Version="1.4.24211.00 built by: PROJECTNGDR2" />
     <build:Item Name="OptimizingToolset" Value="ilc.exe" />
     <build:Item Name="UseDotNetNativeSharedAssemblyFrameworkPackage" Value="True" />
     <build:Item Name="UniversalGenericsOptOut" Value="false" />
-    <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="15.0.26403.7" />
+    <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="15.0.26419.1" />
     <build:Item Name="MakePri.exe" Version="10.0.15063.137 (WinBuild.160101.0800)" />
   </build:Metadata>
 </Package>

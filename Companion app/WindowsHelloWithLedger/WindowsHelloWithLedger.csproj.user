@@ -9,15 +9,15 @@
     <CreateCleanLayout>true</CreateCleanLayout>
   </PropertyGroup>
   <PropertyGroup>
-    <Source>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</Source>
-    <SmallTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</SmallTileSource>
-    <MediumTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</MediumTileSource>
-    <WideTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</WideTileSource>
-    <LargeTileSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</LargeTileSource>
-    <AppIconSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</AppIconSource>
-    <SplashScreenSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</SplashScreenSource>
-    <BadgeLogoSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</BadgeLogoSource>
-    <PackageLogoSource>C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\Assets\LedgerLogo.png</PackageLogoSource>
+    <Source>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</Source>
+    <SmallTileSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</MediumTileSource>
+    <WideTileSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</WideTileSource>
+    <LargeTileSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</LargeTileSource>
+    <AppIconSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</SplashScreenSource>
+    <BadgeLogoSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</BadgeLogoSource>
+    <PackageLogoSource>C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png</PackageLogoSource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>

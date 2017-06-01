@@ -1,2 +1,0 @@
-C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\Tasks\Tasks.csproj;x86
-C:\Users\Philippe\Repositories\bolos-app-win-hello\Companion app\WindowsHelloWithLedger\WindowsHelloWithLedger.csproj;x86

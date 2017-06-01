@@ -457,3 +457,5 @@ C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\obj\x8
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\obj\x86\Release\ilc\intermediate\WindowsHelloWithLedger.McgInterop\PInvoke.g.cs
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\obj\x86\Release\ilc\intermediate\WindowsHelloWithLedger.McgInterop\SafeTypes.g.cs
 C:\Users\Philippe\Downloads\WindowsHelloWithLedger\WindowsHelloWithLedger\obj\x86\Release\ilc\intermediate\WindowsHelloWithLedger.McgInterop\SharedStubs.g.cs
+C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x86\Release\ilc\in\System.AppContext.dll
+C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x86\Release\ilc\in\System.Numerics.Vectors.dll
