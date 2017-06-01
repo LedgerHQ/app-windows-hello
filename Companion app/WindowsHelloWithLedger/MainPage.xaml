@@ -14,8 +14,8 @@
     MaxWidth="480"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="bool2vis"/>
-        <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>
+        <!--<converters:BooleanToVisibilityConverter x:Key="bool2vis"/>
+        <converters:BooleanToVisibilityConverter x:Key="bool2visInverse" OnTrue="Collapsed" OnFalse="Visible"/>-->
         <Style x:Key="ListViewItemStyleCustom" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -23,7 +23,7 @@
             <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}"/>
             <Setter Property="TabNavigation" Value="Local"/>
             <Setter Property="IsHoldingEnabled" Value="True"/>
-            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
@@ -60,16 +60,17 @@
                     <DataTemplate>
                         <!--<StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited" Width="240">-->
                         <!--<StackPanel PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">-->
-                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited" >
+                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited" Width="400">
                             <ListViewItem>
-                                <StackPanel Orientation="Horizontal" Width="400">
+                                <StackPanel Orientation="Horizontal">
                                     <Image Name="Selecto" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></Image>
-                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="217" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"></TextBlock>
-                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="100" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="207" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="28,0,0,0"></TextBlock>
+                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="113" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
                                     <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="Collapsed" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
-                                </StackPanel>
+                                </StackPanel>                                    
                             </ListViewItem>
-                            <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310" ></Image>
+                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="3" Width="310"></Image>-->
+                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="3" Width="310" PointerEntered="Divider_PointerEntered"></Image>-->
                             <!--<ListViewItem>
                                 <StackPanel Orientation="Horizontal"  Width="310">
                                     <Image Name="Selecto2" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>

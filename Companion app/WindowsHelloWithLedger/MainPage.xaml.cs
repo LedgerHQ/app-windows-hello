@@ -52,41 +52,41 @@ namespace WindowsHelloWithLedger
     public class listContent
     {
         public string deviceFriendlyName { get; set; }
-        public bool isVisible { get; set; }
+        //public bool isVisible { get; set; }
         public DateTime date { get; set; }
         public string dateString { get; set; }
         public string deviceGUID { get; set; }
     }
 
-    public class BooleanToVisibilityConverter : IValueConverter
-    {
-        public Visibility OnTrue { get; set; }
-        public Visibility OnFalse { get; set; }
+    //public class BooleanToVisibilityConverter : IValueConverter
+    //{
+    //    public Visibility OnTrue { get; set; }
+    //    public Visibility OnFalse { get; set; }
 
-        public BooleanToVisibilityConverter()
-        {
-            OnFalse = Visibility.Collapsed;
-            OnTrue = Visibility.Visible;
-        }
+    //    public BooleanToVisibilityConverter()
+    //    {
+    //        OnFalse = Visibility.Collapsed;
+    //        OnTrue = Visibility.Visible;
+    //    }
 
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            var v = (bool)value;
+    //    public object Convert(object value, Type targetType, object parameter, string language)
+    //    {
+    //        var v = (bool)value;
 
-            return v ? OnTrue : OnFalse;
-        }
+    //        return v ? OnTrue : OnFalse;
+    //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            if (value is Visibility == false)
-                return DependencyProperty.UnsetValue;
+    //    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    //    {
+    //        if (value is Visibility == false)
+    //            return DependencyProperty.UnsetValue;
 
-            if ((Visibility)value == OnTrue)
-                return true;
-            else
-                return false;
-        }
-    }
+    //        if ((Visibility)value == OnTrue)
+    //            return true;
+    //        else
+    //            return false;
+    //    }
+    //}
 
 
 
@@ -113,6 +113,9 @@ namespace WindowsHelloWithLedger
             this.InitializeComponent();
 
             //DeviceListBox.SelectionChanged += DeviceListBox_SelectionChanged;
+
+            StartWatcher();
+
             ObservableCollection<listContent> ContentList = new ObservableCollection<listContent>();
         }
 
@@ -176,14 +179,14 @@ namespace WindowsHelloWithLedger
                 dateString = FormatDate(listItem.date);
                 listItem.dateString = dateString;
 
-                if (slectedIndex == index)
-                {
-                    listItem.isVisible = true;
-                }
-                else
-                {
-                    listItem.isVisible = false;
-                }
+                //if (slectedIndex == index)
+                //{
+                //    listItem.isVisible = true;
+                //}
+                //else
+                //{
+                //    listItem.isVisible = false;
+                //}
                 DeviceListBox.Items.Add(listItem);
             }
         }
@@ -192,29 +195,26 @@ namespace WindowsHelloWithLedger
         {
             string dateString = string.Empty;            
             DateTime now = DateTime.Now;
-            if (dateToFormat.Year - now.Year == 0)
+            if (( now.DayOfYear - dateToFormat.DayOfYear == 0) && (dateToFormat.Year - now.Year == 0))
             {
-                if ( now.DayOfYear - dateToFormat.DayOfYear == 0) //Today
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
                 {
-                    if ((dateToFormat.TimeOfDay.Hours) > 12)
-                    {
-                        dateString = "TODAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
-                    }
-                    else
-                    {
-                        dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
-                    }
+                    dateString = "TODAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
                 }
-                else if (now.DayOfYear - dateToFormat.DayOfYear  == 1) //Yesterday
+                else
                 {
-                    if ((dateToFormat.TimeOfDay.Hours) > 12)
-                    {
-                        dateString = "YESTERDAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
-                    }
-                    else
-                    {
-                        dateString = "YESTERDAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
-                    }
+                    dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                }
+            }
+            else if ((now.DayOfYear - dateToFormat.DayOfYear  == 1) && (dateToFormat.Year - now.Year == 0))
+            {
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
+                {
+                    dateString = "YESTERDAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                }
+                else
+                {
+                    dateString = "YESTERDAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
             }
             else
@@ -269,7 +269,7 @@ namespace WindowsHelloWithLedger
                 {
                     dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
-            }
+            }         
             return dateString;
         }
         private async void RegisterDevice_Click(object sender, RoutedEventArgs e)
@@ -282,6 +282,8 @@ namespace WindowsHelloWithLedger
             byte[] deviceIdArray = new byte[16];
             byte[] deviceDlockState = new byte[1];
             byte[] response = { 0 };
+            int numberOfDevices = 0;
+            int numberOfRegisteredDevices = 0;
             string sw1sw2 = null;
             //byte[] combinedDataArray = new byte[64];
             string NanosATR = "3b00";
@@ -317,7 +319,7 @@ namespace WindowsHelloWithLedger
                     if (ATR_str.Equals(NanosATR))
                     {
                         IsNanosPresent = true;
-                        
+                        numberOfDevices++;
                         deviceFriendlyName = "";
                         bool foundCompanionDevice = false;
                         // List the registered devices to prevent registering twice the same device
@@ -336,6 +338,7 @@ namespace WindowsHelloWithLedger
                             if (registeredDeviceList.ElementAt(i).DeviceId == deviceId)
                             {
                                 deviceFriendlyName = registeredDeviceList.ElementAt(i).DeviceFriendlyName;
+                                numberOfRegisteredDevices++;
                                 foundCompanionDevice = true;
                                 break;
                             }
@@ -405,6 +408,7 @@ namespace WindowsHelloWithLedger
 
                         string deviceConfigString = "";
                         DateTime addDate = DateTime.Now;
+                        //DateTime addDate = new DateTime(2017, 5, 31, 13, 23, 55);
                         if (deviceDlockState[0] == 0)
                         {
                             deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();
@@ -485,15 +489,17 @@ namespace WindowsHelloWithLedger
                         listContent listItem = new listContent();
                         listItem.deviceFriendlyName = deviceFriendlyName;
                         listItem.deviceGUID = deviceId;
-                        listItem.isVisible = false;
+                        //listItem.isVisible = false;
                         listItem.date = addDate;
+                        listItem.dateString = FormatDate(addDate);
                         DeviceListBox.Items.Add(listItem);
-                        StartWatcher();
+                        StartWatcher();                        
                         //this.Frame.Navigate(typeof(MainPage), "false");
                     }
                 }
             }
-            if (IsNanosPresent == false)
+            //if (IsNanosPresent == false)
+            if (numberOfDevices == numberOfRegisteredDevices)
             {
                 myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
                 await myDlg.ShowAsync();
@@ -590,9 +596,9 @@ namespace WindowsHelloWithLedger
             listContent listItem = new listContent();
             listItem.deviceFriendlyName = m_selectedDeviceFriendlyName;
             listItem.deviceGUID = m_selectedDeviceId;
-            listItem.isVisible = true;
-            DeviceListBox.Items.Remove(listItem);
-            listItem.isVisible = false;
+            //listItem.isVisible = true;
+            //DeviceListBox.Items.Remove(listItem);
+            //listItem.isVisible = false;
             DeviceListBox.Items.Remove(listItem);
             //DeviceListBox.DataContext = null;
             //DeviceListBox.DataContext = ContentList;
@@ -802,14 +808,16 @@ namespace WindowsHelloWithLedger
             {
                 m_selectedDeviceFriendlyName = ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Text;
                 ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Visible;
-                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(25, 0, 0, 0);
+                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(23, 0, 0, 0);
+                ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(2))).Width = 93;
                 ((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Visible;
             }
             else if (e.OriginalSource is Image)
             {
                 m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Text;
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Visible;
-                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(25, 0, 0, 0);
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(23, 0, 0, 0);
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(2)).Width = 93;
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Visible;
             }
             else
@@ -831,7 +839,8 @@ namespace WindowsHelloWithLedger
             if (e.OriginalSource is ListViewItemPresenter)
             {
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
-                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(2)).Width = 113;
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
                 //((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(0))).Visibility = Visibility.Collapsed;
                 //((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30, 0, 0, 0);
@@ -840,19 +849,39 @@ namespace WindowsHelloWithLedger
             else if ((e.OriginalSource is Image) && (((Image)e.OriginalSource).Parent is StackPanel))
             {
                 ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(0)).Visibility = Visibility.Collapsed;
-                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(2)).Width = 113;
                 ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)((Image)e.OriginalSource).Parent).Children).ElementAt(0)).Content).Children).ElementAt(3)).Visibility = Visibility.Collapsed;
             }
             else if (e.OriginalSource is Grid)
             {
                 ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(0)).Visibility = Visibility.Collapsed;
-                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
+                ((TextBlock)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(2)).Width = 113;
                 ((Image)((UIElementCollection)((StackPanel)((ListViewItem)((UIElementCollection)((StackPanel)sender).Children).ElementAt(0)).Content).Children).ElementAt(3)).Visibility = Visibility.Collapsed;
             }
             else
             {
 
             }
+            e.Handled = true;
+        }
+
+        private void Divider_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is Image)
+            {
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)sender).Parent).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
+                ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)((Image)sender).Parent).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
+                ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)sender).Parent).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
+            }
+
+            //if (e.OriginalSource is Image)
+            //{
+            //    ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
+            //    ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(30, 0, 0, 0);
+            //    ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
+            //}
             e.Handled = true;
         }
     }

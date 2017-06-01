@@ -1,10 +1,14 @@
-UI integration 8:
-Bug correction in RegisterDevice_pointerExited()
-Add in ElementStackPanel_PointerEntered() m_selectedDeviceFriendlyName and m_selectedDeviceId update
-Bug correction in ElementStackPanel_PointerExited()
-XAML : add custom style ListViewItemStyleCustom definition for ListViewItem. To prevent the background from becoming grey on mouseover
+UI integration 9:
+- Removed isVisible member of listContent (not used anymore)
+- Align thrash icon with "+ REGISTER" button
+- Update "addDate" textBlock margin on ElementStackPanel_PointerEntered() and ElementStackPanel_PointerExited
+
+Bug correction :
+- in AuthenticateWithSmartCardAsync() deviceConfigData update with wrong device information was leading to unexpected behaviour for auto lock feature
+- starWatcher() called in MainPage() to start the watcher and register the BGtask at app init
+- in formatDate()
+- in RegisterDevice_Click() count the number of connected devices, and the number of registered connected devices, if they differ => start device registration, if not => inform user that no unregistered device is plugged
 
 TODO : 
-
-COMMENTS :
-Commit before removing isVisible from listContent Class
+- Remove grey background one mouseover
+- Find a way to add "divider" Image without bugging the UI

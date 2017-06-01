@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Roots >
-  <Roots.Interfaces>
-    <RootInterface FullName="Windows.UI.Xaml.Data.IValueConverter" />
-  </Roots.Interfaces>
   <Roots.PropertyPathNames>
     <RootPropertyPathName Name="dateString" />
     <RootPropertyPathName Name="deviceFriendlyName" />
@@ -67,10 +64,6 @@
       <RootProperty Name="Children" />
     </RootType>
     <RootType FullName="WindowsHelloWithLedger.waitingForDevice" />
-    <RootType FullName="WindowsHelloWithLedger.BooleanToVisibilityConverter">
-      <RootProperty Name="OnTrue" />
-      <RootProperty Name="OnFalse" />
-    </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ListViewItem">
       <RootProperty Name="Content" />
     </RootType>
@@ -124,13 +117,9 @@
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.StackPanel">
       <RootProperty Name="Name" />
+      <RootProperty Name="Width" />
       <RootProperty Name="Children" />
       <RootProperty Name="Orientation" />
-      <RootProperty Name="Width" />
-      <RootProperty Name="IsTapEnabled" />
-      <RootProperty Name="IsDoubleTapEnabled" />
-      <RootProperty Name="IsHoldingEnabled" />
-      <RootProperty Name="IsRightTapEnabled" />
       <RootEvent Name="PointerEntered" />
       <RootEvent Name="PointerExited" />
     </RootType>

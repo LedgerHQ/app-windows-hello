@@ -389,7 +389,7 @@ namespace Tasks
             }
             return outList;
         }
-        private async Task AuthenticateWithSmartCardAsync(SmartCard card, DeviceInformation deviceinfo)
+        private async Task AuthenticateWithSmartCardAsync(SmartCard card)
         {
             var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
@@ -435,7 +435,7 @@ namespace Tasks
             sw1sw2 = Apdu.ApduResponseParser(response, out response);
             deviceDlockState = response;
 
-            string deviceFriendlyName = null;            
+            //string deviceFriendlyName = null;            
 
             byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate
             IBuffer deviceConfigData;
@@ -449,7 +449,7 @@ namespace Tasks
                 CryptographicBuffer.CopyToByteArray(device.DeviceConfigurationData, out deviceConfigurationDataArray);
                 //deviceConfigList.Add(deviceConfigurationDataArray);
 
-                deviceFriendlyName = device.DeviceFriendlyName;                
+                //deviceFriendlyName = device.DeviceFriendlyName;                
                 if (device.DeviceId == deviceId)
                 {
                     m_selectedDeviceId = deviceId;
@@ -506,7 +506,7 @@ namespace Tasks
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Send Challenge");
                    
             await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
-                deviceFriendlyName,
+                m_selectedDeviceFriendlyName,
                 SecondaryAuthenticationFactorAuthenticationMessage.DeviceNeedsAttention);
 
             response = await Apdu.TransmitApduAsync(connection, cmd);
@@ -544,11 +544,11 @@ namespace Tasks
             deviceConfigString = "";
             if (deviceDlockState[0] == 0)
             {
-                deviceConfigString = deviceId + "-0-1-" + deviceFriendlyName + "-" + m_selectedDeviceAddDate;
+                deviceConfigString = deviceId + "-0-1-" + m_selectedDeviceFriendlyName + "-" + m_selectedDeviceAddDate;
             }
             else
             {
-                deviceConfigString = deviceId + "-1-1-" + deviceFriendlyName + "-" + m_selectedDeviceAddDate;
+                deviceConfigString = deviceId + "-1-1-" + m_selectedDeviceFriendlyName + "-" + m_selectedDeviceAddDate;
             }
             deviceConfigCharArray = new char[deviceConfigString.Count()];
             deviceConfigString.CopyTo(0, deviceConfigCharArray, 0, deviceConfigString.Count()); // because deviceConfigString is readonly
@@ -601,7 +601,7 @@ namespace Tasks
 
                         if (ATR_str.Equals(NanosATR))
                         {
-                            Task t = AuthenticateWithSmartCardAsync(card, device);
+                            Task t = AuthenticateWithSmartCardAsync(card);
                             await t;
                         }
                     }
