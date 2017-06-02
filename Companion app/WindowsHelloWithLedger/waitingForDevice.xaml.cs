@@ -50,14 +50,30 @@ namespace WindowsHelloWithLedger
 
         private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
+            ((Image)((Grid)((Image)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            //((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
+            e.Handled = true;
+        }
+        private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.OriginalSource is Grid)
+            {
+                ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Image)
+            {
+                ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
+            }
+
+            //((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
             e.Handled = true;
         }
 
-        private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
+        private async void Assistance_Click(object sender, TappedRoutedEventArgs e)
         {
-            ((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
-            e.Handled = true;
+            string uriToLaunch = @"http://www.ledgerwallet.com";
+            var uri = new Uri(uriToLaunch);
+            var success = await Windows.System.Launcher.LaunchUriAsync(uri);
         }
     }
 }

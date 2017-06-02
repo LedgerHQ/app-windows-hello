@@ -410,7 +410,7 @@ namespace WindowsHelloWithLedger
 
                         string deviceConfigString = "";
                         DateTime addDate = DateTime.Now;
-                        //DateTime addDate = new DateTime(2015, 5, 18, 13, 23, 55);
+                        //DateTime addDate = new DateTime(2017, 5, 31, 13, 23, 45);
                         if (deviceDlockState[0] == 0)
                         {
                             deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();
@@ -681,7 +681,15 @@ namespace WindowsHelloWithLedger
         }
         private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
+            if (e.OriginalSource is Grid)
+            {
+                ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
+            }
+            else if (e.OriginalSource is Image)
+            {
+                ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
+            }
+            
             //((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
             e.Handled = true;
         }
@@ -901,6 +909,13 @@ namespace WindowsHelloWithLedger
             //    ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
             //}
             e.Handled = true;
+        }
+
+        private async void Assistance_Click(object sender, TappedRoutedEventArgs e)
+        {
+            string uriToLaunch = @"http://www.ledgerwallet.com";
+            var uri = new Uri(uriToLaunch);
+            var success = await Windows.System.Launcher.LaunchUriAsync(uri);
         }
     }
 }

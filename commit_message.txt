@@ -1,4 +1,5 @@
-Remove "trash-black.scale-100.png"
+UI integration 10:
+- Add Assistance_click() callback that opens a new tab on web browser to http://www.ledgerwallet.com (on both pages)
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI
