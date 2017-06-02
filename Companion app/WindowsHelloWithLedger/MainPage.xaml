@@ -49,12 +49,26 @@
     <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
         <Image Name="logo" Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
-        <Image Name="Assistance" Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered"/>
-        <Image Name="Assistance_Select" Source="ms-appx:///Assets/Button-assistance-select.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click"/>
+        <StackPanel Name="Assistance" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" PointerEntered="Assistance_pointerEntered">
+            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
+            <Image Source="ms-appx:///Assets/Assistance.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
+        </StackPanel>
+        <StackPanel Name="Assistance_select" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click">
+            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
+            <Image Source="ms-appx:///Assets/Assistance-select.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
+        </StackPanel>
         <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <TextBlock Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
-            <Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered"/>
-            <Image Name="Register_Select" Source="ms-appx:///Assets/Button-register-select.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Visibility="Collapsed" Tapped="RegisterDevice_Click" PointerExited="RegisterDevice_pointerExited"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" PointerEntered="RegsiterDevice_pointerEntered">
+                <Image Source="ms-appx:///Assets/Register.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
+                <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#33ccff" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" Visibility="Collapsed" Tapped="RegisterDevice_Click" PointerExited="RegisterDevice_pointerExited">
+                <Image Source="ms-appx:///Assets/Register-select.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
+                <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#1bc1d9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+            <!--<Image Name="Register" Source="ms-appx:///Assets/Button-register.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Tapped="RegisterDevice_Click" PointerEntered="RegsiterDevice_pointerEntered"/>
+            <Image Name="Register_Select" Source="ms-appx:///Assets/Button-register-select.png" Height="10" Width="77" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40" Visibility="Collapsed" Tapped="RegisterDevice_Click" PointerExited="RegisterDevice_pointerExited"/>-->
             <!--<Button x:Name="RegisterDevice" Content="Register Device" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Click="RegisterDevice_Click"/>-->
             <!--<Button x:Name="UnregisterDevice" Content="Unregister Device" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Click="UnregisterDevice_Click"/>-->
             <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" ItemContainerStyle="{StaticResource ListViewItemStyleCustom}" >
@@ -62,17 +76,17 @@
                     <DataTemplate>
                         <!--<StackPanel Orientation="Horizontal" PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited" Width="240">-->
                         <!--<StackPanel PointerEntered="ListViewItem_pointerEntered" PointerExited="ListViewItem_pointerExited">-->
-                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited" Width="400">
+                        <StackPanel Name="ElementStackPanel" PointerEntered="ElementStackPanel_PointerEntered" PointerExited="ElementStackPanel_PointerExited"  Width="400">
                             <ListViewItem>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Name="Selecto" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></Image>
-                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="207" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="28,0,0,0"></TextBlock>
-                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="113" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+                                    <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="195" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="28,0,0,0"></TextBlock>
+                                    <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="125" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
                                     <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="Collapsed" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
                                 </StackPanel>                                    
                             </ListViewItem>
-                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="3" Width="310"></Image>-->
-                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="3" Width="310" PointerEntered="Divider_PointerEntered"></Image>-->
+                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310"></Image>-->
+                            <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310" PointerEntered="Divider_PointerEntered"></Image>-->
                             <!--<ListViewItem>
                                 <StackPanel Orientation="Horizontal"  Width="310">
                                     <Image Name="Selecto2" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>

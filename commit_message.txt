@@ -1,5 +1,6 @@
-UI integration 10:
-- Add Assistance_click() callback that opens a new tab on web browser to http://www.ledgerwallet.com (on both pages)
+UI integration 11:
+- Replaced "ASSISTANCE ?" image by "ASSISTANCE" texblock + "?" image in both pages
+- Replaced "+ REGISTER" image by "+" image + "REGISTER" texblock on mainpage
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI

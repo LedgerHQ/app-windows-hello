@@ -98,6 +98,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Assistance-select.scale-100.png" />
+    <Content Include="Assets\Assistance.scale-100.png" />
     <Content Include="Assets\Button-assistance-select.scale-100.png" />
     <Content Include="Assets\Button-assistance-select.scale-140.png" />
     <Content Include="Assets\Button-assistance-select.scale-180.png" />
@@ -149,6 +151,9 @@
     <Content Include="Assets\picto-device.scale-140.png" />
     <Content Include="Assets\picto-device.scale-180.png" />
     <Content Include="Assets\picto-ledger-hello.png" />
+    <Content Include="Assets\Register-select.scale-100.png" />
+    <Content Include="Assets\Register.scale-100.png" />
+    <Content Include="Assets\Registrer.scale-100.png" />
     <Content Include="Assets\selecto.scale-100.png" />
     <Content Include="Assets\selecto.scale-140.png" />
     <Content Include="Assets\selecto.scale-180.png" />

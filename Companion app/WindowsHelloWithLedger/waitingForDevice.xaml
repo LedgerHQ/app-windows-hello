@@ -16,8 +16,16 @@
     <Grid Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
         <Image Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
             <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
-        <Image Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered"/>
-        <Image Source="ms-appx:///Assets/Button-assistance-select.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" Visibility="Collapsed"  PointerExited="Assistance_pointerExited" Tapped="Assistance_Click"/>
+        <StackPanel Name="Assistance" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" PointerEntered="Assistance_pointerEntered">
+            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
+            <Image Source="ms-appx:///Assets/Assistance.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
+        </StackPanel>
+        <StackPanel Name="Assistance_select" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click">
+            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
+            <Image Source="ms-appx:///Assets/Assistance-select.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
+        </StackPanel>
+        <!--<Image Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered"/>
+        <Image Source="ms-appx:///Assets/Button-assistance-select.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" Visibility="Collapsed"  PointerExited="Assistance_pointerExited" Tapped="Assistance_Click"/>-->
         <Grid Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <Image Source="ms-appx:///Assets/picto-device.png" Width="50" Height="21" VerticalAlignment="Top" Margin="40"/>
             <TextBlock x:Name="Header" TextWrapping="Wrap" Text="Register your device" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="16" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top"/>

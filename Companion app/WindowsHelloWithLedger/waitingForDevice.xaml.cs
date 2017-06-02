@@ -50,21 +50,28 @@ namespace WindowsHelloWithLedger
 
         private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            ((Image)((Grid)((Image)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            if (sender is StackPanel)
+            {
+                ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
+            }
+            else
+            {
+
+            }
+            //((Image)((Grid)((Image)e.OriginalSource).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
             //((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance-select.png"));
             e.Handled = true;
         }
         private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (e.OriginalSource is Grid)
+            if (sender is StackPanel)
             {
-                ((Image)((Grid)e.OriginalSource).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
+                ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
             }
-            else if (e.OriginalSource is Image)
+            else
             {
-                ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
-            }
 
+            }
             //((Image)((Grid)e.OriginalSource).Children.ElementAt(1)).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-assistance.png"));
             e.Handled = true;
         }

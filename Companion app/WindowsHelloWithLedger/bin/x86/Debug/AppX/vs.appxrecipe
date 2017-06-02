@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-06-01T16:36:29.311</Modified>
+      <Modified>2017-06-02T14:45:40.153</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
       <PackagePath>entrypoint\WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-06-01T16:36:27.456</Modified>
+      <Modified>2017-06-02T14:45:38.173</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -465,11 +465,19 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\Tasks\bin\x86\Debug\Tasks.winmd">
       <PackagePath>Tasks.winmd</PackagePath>
-      <Modified>2017-06-01T13:51:03.151</Modified>
+      <Modified>2017-06-02T09:03:58.781</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
       <Modified>2017-05-14T12:10:15.372</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Assistance-select.scale-100.png">
+      <PackagePath>Assets\Assistance-select.scale-100.png</PackagePath>
+      <Modified>2017-06-02T13:21:28.839</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Assistance.scale-100.png">
+      <PackagePath>Assets\Assistance.scale-100.png</PackagePath>
+      <Modified>2017-06-02T13:13:29.647</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Button-assistance-select.scale-100.png">
       <PackagePath>Assets\Button-assistance-select.scale-100.png</PackagePath>
@@ -583,6 +591,18 @@
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\picto-ledger-hello.png">
       <PackagePath>Assets\picto-ledger-hello.png</PackagePath>
       <Modified>2017-06-01T12:53:30.521</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Register-select.scale-100.png">
+      <PackagePath>Assets\Register-select.scale-100.png</PackagePath>
+      <Modified>2017-06-02T14:28:43.785</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Register.scale-100.png">
+      <PackagePath>Assets\Register.scale-100.png</PackagePath>
+      <Modified>2017-06-02T13:50:02.524</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\Registrer.scale-100.png">
+      <PackagePath>Assets\Registrer.scale-100.png</PackagePath>
+      <Modified>2017-06-02T13:13:29.650</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\Assets\selecto.scale-100.png">
       <PackagePath>Assets\selecto.scale-100.png</PackagePath>
@@ -847,7 +867,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.xr.xml">
       <PackagePath>WindowsHelloWithLedger.xr.xml</PackagePath>
-      <Modified>2017-06-01T16:32:57.152</Modified>
+      <Modified>2017-06-02T14:41:19.094</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.15063.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -856,11 +876,11 @@
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-06-01T16:36:28.064</Modified>
+      <Modified>2017-06-02T14:45:38.843</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
       <PackagePath>WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-06-01T16:36:29.307</Modified>
+      <Modified>2017-06-02T14:45:40.150</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
