@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-06-06T12:25:08.399</Modified>
+      <Modified>2017-06-06T14:43:16.258</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\WindowsHelloWithLedger.exe">
       <PackagePath>entrypoint\WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-06-06T12:25:06.444</Modified>
+      <Modified>2017-06-06T14:43:14.209</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -465,7 +465,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\Tasks\bin\x86\Debug\Tasks.winmd">
       <PackagePath>Tasks.winmd</PackagePath>
-      <Modified>2017-06-06T11:44:57.286</Modified>
+      <Modified>2017-06-06T14:43:11.883</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
@@ -880,11 +880,11 @@
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-06-06T12:25:07.073</Modified>
+      <Modified>2017-06-06T14:43:14.761</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\bin\x86\Debug\Core\WindowsHelloWithLedger.exe">
       <PackagePath>WindowsHelloWithLedger.exe</PackagePath>
-      <Modified>2017-06-06T12:25:08.395</Modified>
+      <Modified>2017-06-06T14:43:16.246</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

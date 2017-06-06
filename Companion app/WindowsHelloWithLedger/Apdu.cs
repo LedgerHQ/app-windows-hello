@@ -130,7 +130,7 @@ namespace WindowsHelloWithLedger
                         {
                             if (registeredDeviceList.ElementAt(i).DeviceId == deviceId)
                             {
-                                deviceFriendlyName = registeredDeviceList.ElementAt(i).DeviceFriendlyName;
+                                //deviceFriendlyName = registeredDeviceList.ElementAt(i).DeviceFriendlyName;
                                 numberOfRegisteredDevices++;
                                 foundCompanionDevice = true;
                                 break;

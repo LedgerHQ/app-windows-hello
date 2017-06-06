@@ -57,6 +57,10 @@ namespace WindowsHelloWithLedger
         {
             base.OnNavigatedTo(e);
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+            if (deviceList.Count == 0)
+            {
+                this.Frame.Navigate(typeof(waitingForDevice));
+            }
             RefreshDeviceList(deviceList, 1000); //1000 ie: no item selected, max nb of items is 5
             return;
         }
@@ -352,13 +356,13 @@ namespace WindowsHelloWithLedger
                 //((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Margin = new Thickness(30, 0, 0, 0);
                 //((Image)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(3))).Visibility = Visibility.Collapsed;
             }
-            else if ((e.OriginalSource is Image) && (((Image)e.OriginalSource).Parent is StackPanel))
+            /*else if ((e.OriginalSource is Image) && (((Image)e.OriginalSource).Parent is StackPanel))
             {
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
                 ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
                 ((TextBlock)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(2)).Width = 125;
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)((Image)e.OriginalSource).Parent).Children.ElementAt(0)).Content).Children.ElementAt(3)).Visibility = Visibility.Collapsed;
-            }
+            }*/
             else if (e.OriginalSource is Grid)
             {
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
@@ -368,7 +372,7 @@ namespace WindowsHelloWithLedger
             }
             else
             {
-                throw new Exception("Unknown pointer");
+                //throw new Exception("Unknown pointer");
             }
             e.Handled = true;
         }
@@ -398,6 +402,48 @@ namespace WindowsHelloWithLedger
         private void Regsiter_tapped(object sender, TappedRoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(RegisterDevice));
+        }
+
+        private async void Trash_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ((StackPanel)((Image)sender).Parent).Children.ElementAt(0).Visibility = Visibility.Collapsed;
+            ((TextBlock)((StackPanel)((Image)sender).Parent).Children.ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
+            ((TextBlock)((StackPanel)((Image)sender).Parent).Children.ElementAt(2)).Width = 125;
+            ((StackPanel)((Image)sender).Parent).Children.ElementAt(3).Visibility = Visibility.Collapsed;
+
+            var title = "Deleting device";
+            var content = "Are you sure you want to delete the selected device?";
+
+            var yesCommand = new UICommand("Yes", cmd => { UnregisterDevice_Click(sender, e); });
+            var noCommand = new UICommand("No", cmd => { this.Frame.Navigate(typeof(MainPage)); });
+            
+            var dialog = new MessageDialog(content, title);
+            dialog.Options = MessageDialogOptions.None;
+            dialog.Commands.Add(yesCommand);
+
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 0;
+
+            if (noCommand != null)
+            {
+                dialog.Commands.Add(noCommand);
+                dialog.CancelCommandIndex = (uint)dialog.Commands.Count - 1;
+            }
+            
+            var command = await dialog.ShowAsync();
+
+            if (command == yesCommand)
+            {
+                // handle yes command
+            }
+            else if (command == noCommand)
+            {
+                // handle no command
+            }
+            else
+            {
+                // handle cancel command
+            }
         }
     }
 }

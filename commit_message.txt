@@ -1,10 +1,7 @@
-UI integration 12:
-- Created new page "RegisterDevice" that handles device naming and registration, we navigate to this page from :
-	- "WaitinForDevice" page on device insertion
-	- "MainPage" page on tapping "+ REGISTER" StackPanel
-- "RegsiterDevice" page layout from UI spec (logos + disposition + actions...)
-- Moved class "listContent" in apdu.cs
-- Moved "RegisterDevice_Click" and "FormatDate" in CommomMethods class in apdu.cs
+UI integration 13:
+- New confirmation MessageDialog. When tapping the trash icon, call to "Trash_Tapped" callback, a "YES"/"NO" MessageDialog appears asking for user confirm:
+	- Yes > unregister device
+	- No > navigate to MainPage
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI

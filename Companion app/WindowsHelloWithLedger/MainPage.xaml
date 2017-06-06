@@ -82,7 +82,7 @@
                                     <Image Name="Selecto" Source="ms-appx:///Assets/selecto.png" Width="5" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></Image>
                                     <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="195" Foreground="#000000" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="28,0,0,0"></TextBlock>
                                     <TextBlock Name="addDate"  Text="{Binding dateString, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="10" Width="125" Foreground="#999999" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
-                                    <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="UnregisterDevice_Click" Visibility="Collapsed" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Image Name="Trash" Source="ms-appx:///Assets/trash.png" Tapped="Trash_Tapped" Visibility="Collapsed" Width="10" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
                                 </StackPanel>                                    
                             </ListViewItem>
                             <!--<Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="310"></Image>-->
