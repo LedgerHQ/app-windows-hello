@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
+using Windows.Security.Authentication.Identity.Provider;
+using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace WindowsHelloWithLedger
@@ -49,6 +55,316 @@ namespace WindowsHelloWithLedger
             }
 
             return BitConverter.ToString(Sw1Sw2).Replace("-", "");
+        }
+    }
+    class listContent
+    {
+        public string deviceFriendlyName { get; set; }
+        //public bool isVisible { get; set; }
+        public DateTime date { get; set; }
+        public string dateString { get; set; }
+        public string deviceGUID { get; set; }
+    }
+    class CommomMethods
+    {
+        public static async Task RegisterDevice_Click(string deviceFriendlyName)
+        {
+            String deviceId = "";
+            IBuffer deviceKey = CryptographicBuffer.GenerateRandom(32);
+            IBuffer authKey = CryptographicBuffer.GenerateRandom(32);
+            byte[] deviceKeyArray = new byte[32];
+            byte[] authKeyArray = new byte[32];
+            byte[] deviceIdArray = new byte[16];
+            byte[] deviceDlockState = new byte[1];
+            byte[] response = { 0 };
+            int numberOfDevices = 0;
+            int numberOfRegisteredDevices = 0;
+            string sw1sw2 = null;
+            //byte[] combinedDataArray = new byte[64];
+            string NanosATR = "3b00";
+            String deviceModelNumber = "0001";
+            //List<SmartCardListItem> cardItems = new List<SmartCardListItem>();
+            MessageDialog myDlg;
+
+            bool isSupported;
+            isSupported = await KeyCredentialManager.IsSupportedAsync();
+
+            if (!isSupported)
+            {
+                myDlg = new MessageDialog("Please setup PIN for your device and try again.");
+                await myDlg.ShowAsync();
+                return;
+            }
+
+            string selector = SmartCardReader.GetDeviceSelector();
+            selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
+            //string test = selector.Replace(" ", ((char)34).ToString());
+            DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
+
+            foreach (DeviceInformation device in devices)
+            {
+                SmartCardReader reader = await SmartCardReader.FromIdAsync(device.Id);
+                IReadOnlyList<SmartCard> cards = await reader.FindAllCardsAsync();
+                foreach (SmartCard card in cards)
+                {
+                    SmartCardProvisioning provisioning = await SmartCardProvisioning.FromSmartCardAsync(card);
+                    IBuffer ATR = await card.GetAnswerToResetAsync();
+                    string ATR_str = CryptographicBuffer.EncodeToHexString(ATR);
+
+                    if (ATR_str.Equals(NanosATR))
+                    {
+                        numberOfDevices++;
+                        bool foundCompanionDevice = false;
+                        // List the registered devices to prevent registering twice the same device
+                        IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+
+                        SmartCardConnection connection = await card.ConnectAsync();
+                        response = await Apdu.TransmitApduAsync(connection, Apdu.getDeviceGuidCmdApdu);
+                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                        connection.Dispose();
+                        deviceIdArray = response;
+                        deviceId = BitConverter.ToString(response).Replace("-", "");
+                        // Loop on registered devices to check if device to register has already been registered
+                        for (int i = 0; i < registeredDeviceList.Count(); i++)
+                        {
+                            if (registeredDeviceList.ElementAt(i).DeviceId == deviceId)
+                            {
+                                deviceFriendlyName = registeredDeviceList.ElementAt(i).DeviceFriendlyName;
+                                numberOfRegisteredDevices++;
+                                foundCompanionDevice = true;
+                                break;
+                            }
+                        }
+                        if (foundCompanionDevice)// This device has already been registered
+                        {
+                            // New message dialog to inform user, and break from card loop
+                            //myDlg = null;
+                            //myDlg = new MessageDialog("The device \"" + deviceFriendlyName + "\" has already been registered");
+                            //await myDlg.ShowAsync();
+                            continue;
+                        }
+
+                        connection = await card.ConnectAsync();
+
+                        response = await Apdu.TransmitApduAsync(connection, Apdu.getDlockStateCmdApdu);
+                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
+                        deviceDlockState = response;
+
+                        response = await Apdu.TransmitApduAsync(connection, Apdu.startRegistrationCmdApdu);
+                        sw1sw2 = Apdu.ApduResponseParser(response, out response);
+
+                        connection.Dispose();
+
+                        if (sw1sw2 != "9000")
+                        {
+                            myDlg = null;
+                            myDlg = new MessageDialog("Registration denied by user");
+                            await myDlg.ShowAsync();                            
+                            return;
+                        }
+                        // Get device key from response
+                        for (int index = 0; index < 32; index++)
+                        {
+                            deviceKeyArray[index] = response[index];
+                        }
+                        deviceKey = CryptographicBuffer.CreateFromByteArray(deviceKeyArray);
+                        // Get auth key from response
+                        for (int index = 0; index < 32; index++)
+                        {
+                            authKeyArray[index] = response[index + 32];
+                        }
+                        authKey = CryptographicBuffer.CreateFromByteArray(authKeyArray);
+
+                        byte[] deviceConfigDataArray = new byte[18]; //16 bytes for GUID and 1 byte for dLockstate
+
+                        for (int i = 0; i < 16; i++)
+                        {
+                            deviceConfigDataArray[i] = deviceIdArray[i];
+                        }
+                        deviceConfigDataArray[16] = deviceDlockState[0];
+                        deviceConfigDataArray[17] = 0; // 1 if used for last logon, 0 instead
+
+                        string deviceConfigString = "";
+                        DateTime addDate = DateTime.Now;
+                        //DateTime addDate = new DateTime(2017, 5, 31, 13, 23, 45);
+                        if (deviceDlockState[0] == 0)
+                        {
+                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();
+                        }
+                        else
+                        {
+                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName + "-" + addDate.ToString();
+                        }
+
+                        // Get a Ibuffer from combinedDataArray
+                        IBuffer deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigString, 0);
+                        //IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
+
+                        SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;
+                        SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(
+                                deviceId,
+                                capabilities,
+                                deviceFriendlyName,
+                                deviceModelNumber,
+                                deviceKey,
+                                authKey);
+
+                        if (registrationResult.Status != SecondaryAuthenticationFactorRegistrationStatus.Started)
+                        {
+                            myDlg = null;
+
+                            if (registrationResult.Status == SecondaryAuthenticationFactorRegistrationStatus.DisabledByPolicy)
+                            {
+                                //For DisaledByPolicy Exception:Ensure secondary auth is enabled.
+                                //Use GPEdit.msc to update group policy to allow secondary auth
+                                //Local Computer Policy\Computer Configuration\Administrative Templates\Windows Components\Microsoft Secondary Authentication Factor\Allow Companion device for secondary authentication
+                                myDlg = new MessageDialog("Disabled by Policy.  Please update the policy and try again.");
+                            }
+
+                            if (registrationResult.Status == SecondaryAuthenticationFactorRegistrationStatus.PinSetupRequired)
+                            {
+                                //For PinSetupRequired Exception:Ensure PIN is setup on the device
+                                //Either use gpedit.msc or set reg key
+                                //This setting can be enabled by creating the AllowDomainPINLogon REG_DWORD value under the HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System Registry key and setting it to 1.
+                                myDlg = new MessageDialog("Please setup PIN for your device and try again.");
+                            }
+
+                            if (myDlg != null)
+                            {
+                                await myDlg.ShowAsync();
+                                return;
+                            }
+                        }
+
+                        System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration Started!");
+                        await registrationResult.Registration.FinishRegisteringDeviceAsync(deviceConfigData);
+                        //DeviceListBox.Items.Add(deviceFriendlyName);
+                        System.Diagnostics.Debug.WriteLine("[RegisterDevice_Click] Device Registration is Complete!");
+
+                        IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
+                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+
+                        SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus status =
+                            await SecondaryAuthenticationFactorRegistration.RegisterDevicePresenceMonitoringAsync(
+                            deviceId,
+                            device.Id,
+                            SecondaryAuthenticationFactorDevicePresenceMonitoringMode.AppManaged/*,
+                            deviceFriendlyName,
+                            deviceModelNumber,
+                            deviceConfigData*/);
+
+                        switch (status)
+                        {
+                            //case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.Succeeded:
+                            //    await new MessageDialog("Registered for presence monitoring!").ShowAsync();
+                            //    break;
+
+                            case SecondaryAuthenticationFactorDevicePresenceMonitoringRegistrationStatus.DisabledByPolicy:
+                                await new MessageDialog("Registered for presence disabled by policy!").ShowAsync();
+                                break;
+                        }
+
+                        listContent listItem = new listContent();
+                        listItem.deviceFriendlyName = deviceFriendlyName;
+                        listItem.deviceGUID = deviceId;
+                        //listItem.isVisible = false;
+                        listItem.date = addDate;
+                        listItem.dateString = FormatDate(addDate);                        
+                        //DeviceListBox.Items.Add(listItem);
+                        //StartWatcher();
+                        //this.Frame.Navigate(typeof(MainPage), "false");
+                    }
+                }
+            }
+            if (numberOfDevices == numberOfRegisteredDevices)
+            {
+                myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
+                await myDlg.ShowAsync();
+                return;
+            }
+            return;
+        }
+        public static string FormatDate(DateTime dateToFormat)
+        {
+            string dateString = string.Empty;
+            DateTime now = DateTime.Now;
+            if ((now.DayOfYear - dateToFormat.DayOfYear == 0) && (dateToFormat.Year - now.Year == 0))
+            {
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
+                {
+                    dateString = "TODAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                }
+                else
+                {
+                    dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                }
+            }
+            else if ((now.DayOfYear - dateToFormat.DayOfYear == 1) && (dateToFormat.Year - now.Year == 0))
+            {
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
+                {
+                    dateString = "YESTERDAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                }
+                else
+                {
+                    dateString = "YESTERDAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                }
+            }
+            else
+            {
+                int month = dateToFormat.Month;
+                string monthString = string.Empty;
+                switch (month)
+                {
+                    case 1:
+                        monthString = "JAN, ";
+                        break;
+                    case 2:
+                        monthString = "FEB, ";
+                        break;
+                    case 3:
+                        monthString = "MAR, ";
+                        break;
+                    case 4:
+                        monthString = "APR, ";
+                        break;
+                    case 5:
+                        monthString = "MAY, ";
+                        break;
+                    case 6:
+                        monthString = "JUN, ";
+                        break;
+                    case 7:
+                        monthString = "JUL, ";
+                        break;
+                    case 8:
+                        monthString = "AUG, ";
+                        break;
+                    case 9:
+                        monthString = "SEP, ";
+                        break;
+                    case 10:
+                        monthString = "OCT, ";
+                        break;
+                    case 11:
+                        monthString = "NOV, ";
+                        break;
+                    case 12:
+                        monthString = "DEC, ";
+                        break;
+                }
+                string dayOfWeek = dateToFormat.DayOfWeek.ToString().ToUpper().Substring(0, 3);
+                if ((dateToFormat.TimeOfDay.Hours) > 12)
+                {
+                    dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                }
+                else
+                {
+                    dateString = dayOfWeek + " " + dateToFormat.Day + " " + monthString + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                }
+            }
+            return dateString;
         }
     }
     class Textbox

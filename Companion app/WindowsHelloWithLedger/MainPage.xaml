@@ -59,11 +59,11 @@
         </StackPanel>
         <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <TextBlock Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" PointerEntered="RegsiterDevice_pointerEntered">
+            <StackPanel Name="StackRegsiter" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" PointerEntered="RegsiterDevice_pointerEntered">
                 <Image Source="ms-appx:///Assets/Register.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
                 <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#33ccff" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" Visibility="Collapsed" Tapped="RegisterDevice_Click" PointerExited="RegisterDevice_pointerExited">
+            <StackPanel Name="StackRegisterSelect" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" Visibility="Collapsed" Tapped="Regsiter_tapped" PointerExited="RegisterDevice_pointerExited">
                 <Image Source="ms-appx:///Assets/Register-select.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
                 <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#1bc1d9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
             </StackPanel>

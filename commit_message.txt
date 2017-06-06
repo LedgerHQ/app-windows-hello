@@ -1,6 +1,11 @@
-UI integration 11:
-- Replaced "ASSISTANCE ?" image by "ASSISTANCE" texblock + "?" image in both pages
-- Replaced "+ REGISTER" image by "+" image + "REGISTER" texblock on mainpage
+UI integration 12:
+- Created new page "RegisterDevice" that handles device naming and registration, we navigate to this page from :
+	- "WaitinForDevice" page on device insertion
+	- "MainPage" page on tapping "+ REGISTER" StackPanel
+- "RegsiterDevice" page layout from UI spec (logos + disposition + actions...)
+- Moved class "listContent" in apdu.cs
+- Moved "RegisterDevice_Click" and "FormatDate" in CommomMethods class in apdu.cs
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI
+- Rename apdu.cs and its containing classes

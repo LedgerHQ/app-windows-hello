@@ -121,6 +121,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Apdu.cs" />
+    <Compile Include="RegisterDevice.xaml.cs">
+      <DependentUpon>RegisterDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="waitingForDevice.xaml.cs">
       <DependentUpon>waitingForDevice.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,7 @@
     <Content Include="Assets\picto-device.scale-140.png" />
     <Content Include="Assets\picto-device.scale-180.png" />
     <Content Include="Assets\picto-ledger-hello.png" />
+    <Content Include="Assets\Picto-name.scale-100.png" />
     <Content Include="Assets\Register-select.scale-100.png" />
     <Content Include="Assets\Register.scale-100.png" />
     <Content Include="Assets\Registrer.scale-100.png" />
@@ -212,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="RegisterDevice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="waitingForDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
