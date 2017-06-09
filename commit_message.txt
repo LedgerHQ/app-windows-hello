@@ -1,10 +1,9 @@
-UI integration 14:
-- Change mouse cursor to "Hand cursor" when hovering clickable elements on all pages
-- RegisterDevice page:
-	- Add device watcher to watch for device removal events, on removal > Navigate to WaitingForDevice page if numOfRegsiteredDevices = 0, if not navigate to MainPage
-	- Expand clickable zone for Regsiter and Cancel to bottom of grid
-- WaitingForDevice page : add 1s delay on device detection before navigating to RegsiterDevice page
+UI integration 15:
+- On MainPage changed transition when clicking "Register" > navigate to WaitingForDevicePage
+- On RegsiterDevice page:
+	- If user chooses an already used device name, a warning popup opens, when closing the popup > navigate to RegsiterDevice page
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI
 - Rename apdu.cs and its containing classes
+- Add shade around subgrid

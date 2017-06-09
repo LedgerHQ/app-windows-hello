@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Identity.Provider;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -199,32 +200,65 @@ namespace WindowsHelloWithLedger
         private async void StackRegsiter_tapped(object sender, TappedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+            MessageDialog myDlg;
+            bool executeFinally = true;
             if ((sender is StackPanel) && (e.OriginalSource is TextBlock))
             {
                 ((Grid)((StackPanel)sender).Parent).Children.ElementAt(3).Visibility = Visibility.Visible;
                 ((StackPanel)sender).Children.ElementAt(1).Visibility = Visibility.Collapsed;
             }
-            string deviceFriendlyName = NameYourDevice.Text;
+            string deviceFriendlyName = NameYourDevice.Text.Trim();
+            
+
             try
             {
+                IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                foreach (SecondaryAuthenticationFactorInfo device in deviceList)
+                {
+                    if (device.DeviceFriendlyName == deviceFriendlyName)
+                    {
+                        throw new Exception("Device name already used");
+                    }
+                }
                 await CommomMethods.RegisterDevice_Click(deviceFriendlyName);
             }
-            catch
+            catch (Exception ex)
             {
-                IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
-                if (deviceList.Count > 0)
+                if (ex.Message == "Device name already used")
+                {                    
+                    myDlg = new MessageDialog(ex.Message);
+                    await myDlg.ShowAsync();
+                    this.Frame.Navigate(typeof(RegisterDevice));
+                    executeFinally = false;
+                }
+                else if (ex.Message == "No unregistered device present")
                 {
-                    this.Frame.Navigate(typeof(MainPage), "false");
+                    myDlg = new MessageDialog("No unregistered device detected" + Environment.NewLine + Environment.NewLine + "Please plug an unregistered device in an USB port and try again");
+                    await myDlg.ShowAsync();
+                    this.Frame.Navigate(typeof(waitingForDevice));
+                    executeFinally = false;
                 }
                 else
                 {
-                    this.Frame.Navigate(typeof(waitingForDevice));
-                }
+                    IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                    if (deviceList.Count > 0)
+                    {
+                        this.Frame.Navigate(typeof(MainPage), "false");
+                    }
+                    else
+                    {
+                        this.Frame.Navigate(typeof(waitingForDevice));
+                    }
+                }                
             }
             finally
             {
-                this.Frame.Navigate(typeof(MainPage), "false");
+                if (executeFinally)
+                {
+                    this.Frame.Navigate(typeof(MainPage), "false");
+                }                
             }
         }
     }    
 }
+ 

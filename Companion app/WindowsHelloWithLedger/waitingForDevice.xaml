@@ -11,6 +11,7 @@
     MinWidth="480"
     MaxHeight="485"
     MaxWidth="480"
+    
     mc:Ignorable="d">
 
     <Grid Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">

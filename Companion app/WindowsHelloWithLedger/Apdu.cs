@@ -279,9 +279,10 @@ namespace WindowsHelloWithLedger
             }
             if (numberOfDevices == numberOfRegisteredDevices)
             {
-                myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
-                await myDlg.ShowAsync();
-                return;
+                throw new Exception("No unregistered device present");
+                //myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
+                //await myDlg.ShowAsync();
+                //return;
             }
             return;
         }

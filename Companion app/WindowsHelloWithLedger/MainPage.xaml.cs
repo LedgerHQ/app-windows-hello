@@ -46,6 +46,7 @@ namespace WindowsHelloWithLedger
         {
             this.InitializeComponent();
 
+
             Application.Current.Resources["SystemControlHighlightListLowBrush"] = new SolidColorBrush(Colors.Transparent);
             Application.Current.Resources["SystemControlHighlightListAccentLowBrush"] = new SolidColorBrush(Colors.Transparent);
             StartWatcher();
@@ -116,7 +117,7 @@ namespace WindowsHelloWithLedger
             deviceWatcher = DeviceInformation.CreateWatcher(selector, null);
             DeviceWatcherTrigger deviceWatcherTrigger = deviceWatcher.GetBackgroundTrigger(triggerEventKinds);
             RegisterTask(deviceWatcherTrigger);
-        }        
+        }
         private async void UnregisterDevice_Click(object sender, RoutedEventArgs e)
         {
             if (m_selectedDeviceId == String.Empty)
@@ -237,7 +238,7 @@ namespace WindowsHelloWithLedger
             {
 
             }
-            
+
             //((Image)e.OriginalSource).Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/Button-register-select.png"));
             e.Handled = true;
         }
@@ -245,18 +246,18 @@ namespace WindowsHelloWithLedger
         private void RegisterDevice_pointerExited(object sender, PointerRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
-            if ((sender is StackPanel)&&(e.OriginalSource is Grid))
+            if ((sender is StackPanel) && (e.OriginalSource is Grid))
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
             }
-            else if ((sender is StackPanel) && ((e.OriginalSource is TextBlock)|| (e.OriginalSource is Image)))
+            else if ((sender is StackPanel) && ((e.OriginalSource is TextBlock) || (e.OriginalSource is Image)))
             {
                 ((StackPanel)sender).Visibility = Visibility.Collapsed;
             }
             else
             {
 
-            }            
+            }
             e.Handled = true;
         }
 
@@ -396,7 +397,7 @@ namespace WindowsHelloWithLedger
             else
             {
                 //throw new Exception("Unknown pointer");
-            }            
+            }
             e.Handled = true;
         }
 
@@ -411,7 +412,7 @@ namespace WindowsHelloWithLedger
         private void Regsiter_tapped(object sender, TappedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
-            this.Frame.Navigate(typeof(RegisterDevice));
+            this.Frame.Navigate(typeof(waitingForDevice));
         }
 
         private async void Trash_Tapped(object sender, TappedRoutedEventArgs e)
@@ -427,7 +428,7 @@ namespace WindowsHelloWithLedger
 
             var yesCommand = new UICommand("Yes", cmd => { UnregisterDevice_Click(sender, e); });
             var noCommand = new UICommand("No", cmd => { this.Frame.Navigate(typeof(MainPage)); });
-            
+
             var dialog = new MessageDialog(content, title);
             dialog.Options = MessageDialogOptions.None;
             dialog.Commands.Add(yesCommand);
@@ -440,7 +441,7 @@ namespace WindowsHelloWithLedger
                 dialog.Commands.Add(noCommand);
                 dialog.CancelCommandIndex = (uint)dialog.Commands.Count - 1;
             }
-            
+
             var command = await dialog.ShowAsync();
 
             if (command == yesCommand)
