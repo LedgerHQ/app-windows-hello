@@ -1,7 +1,9 @@
-UI integration 13:
-- New confirmation MessageDialog. When tapping the trash icon, call to "Trash_Tapped" callback, a "YES"/"NO" MessageDialog appears asking for user confirm:
-	- Yes > unregister device
-	- No > navigate to MainPage
+UI integration 14:
+- Change mouse cursor to "Hand cursor" when hovering clickable elements on all pages
+- RegisterDevice page:
+	- Add device watcher to watch for device removal events, on removal > Navigate to WaitingForDevice page if numOfRegsiteredDevices = 0, if not navigate to MainPage
+	- Expand clickable zone for Regsiter and Cancel to bottom of grid
+- WaitingForDevice page : add 1s delay on device detection before navigating to RegsiterDevice page
 
 TODO : 
 - Find a way to add "divider" Image without bugging the UI

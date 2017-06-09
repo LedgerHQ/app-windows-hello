@@ -26,17 +26,17 @@
         </StackPanel>
         <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <StackPanel>
-                <Image Name="PictoName" Source="ms-appx:///Assets/Picto-name.png" Width="28" Height="32" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0"></Image>
+                <Image Name="PictoName" Source="ms-appx:///Assets/Picto-name.png" Width="28" Height="32" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0"></Image>
                 <TextBox Name="NameYourDevice" Height="16" BorderThickness="0" FontSize="16" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Text="My Ledger Nano-s" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"></TextBox>
-                <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="240" Margin="0,15,0,0"></Image>
+                <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="320" Margin="0,15,0,0"></Image>
                 <TextBlock Text="Enter your device name to register" HorizontalAlignment="Center" FontSize="13" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Margin="0,20,0,0"></TextBlock>
             </StackPanel>
             <StackPanel Name="StackCancel" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="left" PointerEntered="StackCancel_pointerEntered" PointerExited="StackCancel_pointerExited" Tapped="StackCancel_tapped" >
-                <TextBlock Name="Cancel" Text="CANCEL"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#cccccc" Margin="40,0,0,40"></TextBlock>
+                <TextBlock Name="Cancel" Text="CANCEL"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Height="53" Foreground="#cccccc" Margin="40,0,0,0"></TextBlock>
                 <Rectangle Width="39" Height="5" Fill="#cccccc" HorizontalAlignment="Left" Margin="40,-5,0,0" Visibility="Collapsed"/>
             </StackPanel>
             <StackPanel Name="StackRegister" VerticalAlignment="Bottom" HorizontalAlignment="Right" PointerEntered="StackRegister_pointerEntered" PointerExited="StackRegsiter_pointerExited" Tapped="StackRegsiter_tapped" >
-                <TextBlock Name="Register" Text="REGISTER"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#20e3ff" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,40,40"></TextBlock>
+                <TextBlock Name="Register" Text="REGISTER"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#20e3ff" Height="53" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,40,0"></TextBlock>
                 <Rectangle Width="45" Height="5" Fill="#20e3ff" HorizontalAlignment="Right" Margin="0,-5,40,0" Visibility="Collapsed"/>
             </StackPanel>
             <StackPanel Name="StackAwaitingConfirm" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40" Background="White" Visibility="Collapsed">

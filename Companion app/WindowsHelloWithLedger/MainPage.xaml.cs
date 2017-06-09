@@ -198,6 +198,7 @@ namespace WindowsHelloWithLedger
         }
         private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
             if (sender is StackPanel)
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
@@ -212,6 +213,7 @@ namespace WindowsHelloWithLedger
         }
         private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             if (sender is StackPanel)
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
@@ -226,6 +228,7 @@ namespace WindowsHelloWithLedger
 
         private void RegsiterDevice_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
             if (sender is StackPanel)
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
@@ -241,6 +244,7 @@ namespace WindowsHelloWithLedger
 
         private void RegisterDevice_pointerExited(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             if ((sender is StackPanel)&&(e.OriginalSource is Grid))
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
@@ -258,6 +262,7 @@ namespace WindowsHelloWithLedger
 
         private void ListViewItem_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
             if (e.OriginalSource is TextBlock)
             {
                 //m_selectedDeviceFriendlyName = ((TextBlock)((StackPanel)((TextBlock)e.OriginalSource).Parent).Children.ElementAt(0)).Text;
@@ -276,7 +281,7 @@ namespace WindowsHelloWithLedger
             }
             else
             {
-                throw new Exception("Unknown pointer");
+                //throw new Exception("Unknown pointer");
             }
             for (int i = 0; i < DeviceListBox.Items.Count; i++)
             {
@@ -290,6 +295,7 @@ namespace WindowsHelloWithLedger
 
         private void ListViewItem_pointerExited(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             if (e.OriginalSource is Image)
             {
                 ((Image)e.OriginalSource).Visibility = Visibility.Collapsed;
@@ -306,7 +312,7 @@ namespace WindowsHelloWithLedger
             }
             else
             {
-                throw new Exception("Unknown pointer");
+                //throw new Exception("Unknown pointer");
             }
             e.Handled = true;
             //((Windows.UI.Xaml.Controls.Primitives.ListViewItemPresenter)e.OriginalSource)
@@ -314,6 +320,7 @@ namespace WindowsHelloWithLedger
 
         private void ElementStackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
             if (e.OriginalSource is ListViewItemPresenter)
             {
                 m_selectedDeviceFriendlyName = ((TextBlock)(((StackPanel)(((ListViewItemPresenter)(e.OriginalSource)).Content)).Children.ElementAt(1))).Text;
@@ -332,7 +339,7 @@ namespace WindowsHelloWithLedger
             }
             else
             {
-                throw new Exception("Unknown pointer");
+                //throw new Exception("Unknown pointer");
             }
             for (int i = 0; i < DeviceListBox.Items.Count; i++)
             {
@@ -346,6 +353,7 @@ namespace WindowsHelloWithLedger
 
         private void ElementStackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             if (e.OriginalSource is ListViewItemPresenter)
             {
                 ((Image)((StackPanel)((ListViewItem)((StackPanel)sender).Children.ElementAt(0)).Content).Children.ElementAt(0)).Visibility = Visibility.Collapsed;
@@ -387,13 +395,14 @@ namespace WindowsHelloWithLedger
             }
             else
             {
-                throw new Exception("Unknown pointer");
+                //throw new Exception("Unknown pointer");
             }            
             e.Handled = true;
         }
 
         private async void Assistance_Click(object sender, TappedRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             string uriToLaunch = @"http://www.ledgerwallet.com";
             var uri = new Uri(uriToLaunch);
             var success = await Windows.System.Launcher.LaunchUriAsync(uri);
@@ -401,11 +410,13 @@ namespace WindowsHelloWithLedger
         }
         private void Regsiter_tapped(object sender, TappedRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             this.Frame.Navigate(typeof(RegisterDevice));
         }
 
         private async void Trash_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             ((StackPanel)((Image)sender).Parent).Children.ElementAt(0).Visibility = Visibility.Collapsed;
             ((TextBlock)((StackPanel)((Image)sender).Parent).Children.ElementAt(1)).Margin = new Thickness(28, 0, 0, 0);
             ((TextBlock)((StackPanel)((Image)sender).Parent).Children.ElementAt(2)).Width = 125;

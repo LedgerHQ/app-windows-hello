@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
 using Windows.Foundation;
@@ -43,6 +44,7 @@ namespace WindowsHelloWithLedger
                 if (devices.Count > 0)
                 {
                     nanosDetected = true;
+                    await Task.Delay(1000);
                     this.Frame.Navigate(typeof(RegisterDevice));
                 }
             }
@@ -50,6 +52,8 @@ namespace WindowsHelloWithLedger
 
         private void Assistance_pointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
+
             if (sender is StackPanel)
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Visible;
@@ -64,6 +68,8 @@ namespace WindowsHelloWithLedger
         }
         private void Assistance_pointerExited(object sender, PointerRoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+
             if (sender is StackPanel)
             {
                 ((StackPanel)((Grid)((StackPanel)sender).Parent).Children.ElementAt(2)).Visibility = Visibility.Collapsed;
