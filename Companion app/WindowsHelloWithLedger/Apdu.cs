@@ -60,10 +60,10 @@ namespace WindowsHelloWithLedger
     class listContent
     {
         public string deviceFriendlyName { get; set; }
-        //public bool isVisible { get; set; }
         public DateTime date { get; set; }
         public string dateString { get; set; }
         public string deviceGUID { get; set; }
+        public bool isVisible { get; set; }
     }
     class CommomMethods
     {

@@ -1,9 +1,13 @@
-UI integration 15:
-- On MainPage changed transition when clicking "Register" > navigate to WaitingForDevicePage
-- On RegsiterDevice page:
-	- If user chooses an already used device name, a warning popup opens, when closing the popup > navigate to RegsiterDevice page
+UI integration 16:
+- Changed StackPanel to RelativePanel in ListViewItem XAML definition
+- Added divider (rectangle 1*320) in RelativePanel with binding to hide divider for last element
+- Added bool to visibility converter for divider binding
+- Updated Trash_Tapped() callback (StackPanel > RelativePanel)
+- Added callbacks ListItem_PointerEntered() and ListItem_PointerExited() to update display on mouseover
+- Added in listContent Class isVisible boolean attribute, to indicate wether the divider is shown or not for that element
+- Update listContent.isVisible in RefreshDeviceList()
 
 TODO : 
-- Find a way to add "divider" Image without bugging the UI
 - Rename apdu.cs and its containing classes
 - Add shade around subgrid
+- Border outside mainpage is white, find a way to make it grey
