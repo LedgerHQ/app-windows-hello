@@ -1,1 +1,0 @@
-C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\AppPackages\WindowsHelloWithLedger_1.0.0.0_Debug_Test\WindowsHelloWithLedger_1.0.0.0_x86_x64_Debug.appxbundle

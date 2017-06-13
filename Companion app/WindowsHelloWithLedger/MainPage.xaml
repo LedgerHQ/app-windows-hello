@@ -53,23 +53,23 @@
         </Grid.BorderBrush>
         <Image Name="logo" Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <StackPanel Name="Assistance" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" PointerEntered="Assistance_pointerEntered">
-            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Uid="Assistance" Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
             <Image Source="ms-appx:///Assets/Assistance.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
         </StackPanel>
         <StackPanel Name="Assistance_select" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click">
-            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Uid="Assistance" Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
             <Image Source="ms-appx:///Assets/Assistance-select.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
         </StackPanel>
         <Grid Name="SubGrid" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,35" BorderThickness="2,1,2,5" BorderBrush="#05000000" Background="White">
 
-            <TextBlock Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
+            <TextBlock x:Uid="Devices" Name="Devices" Text="DEVICES" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40"/>
             <StackPanel Name="StackRegsiter" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" PointerEntered="RegsiterDevice_pointerEntered">
                 <Image Source="ms-appx:///Assets/Register.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
-                <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#33ccff" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                <TextBlock x:Uid="Register" Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#33ccff" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
             <StackPanel Name="StackRegisterSelect" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="11" Margin="40,40" Visibility="Collapsed" Tapped="Regsiter_tapped" PointerExited="RegisterDevice_pointerExited">
                 <Image Source="ms-appx:///Assets/Register-select.png" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Center" ></Image>
-                <TextBlock Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#1bc1d9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                <TextBlock x:Uid="Register" Text="REGISTER" FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#1bc1d9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
             <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" ItemContainerStyle="{StaticResource ListViewItemStyleCustom}" >
                 <ListView.ItemTemplate>

@@ -67,6 +67,10 @@ namespace WindowsHelloWithLedger
         public MainPage()
         {
             this.InitializeComponent();
+
+            //var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            //var str = loader.GetString("Assistance");
+
             Application.Current.Resources["SystemControlHighlightListLowBrush"] = new SolidColorBrush(Colors.Transparent);
             Application.Current.Resources["SystemControlHighlightListAccentLowBrush"] = new SolidColorBrush(Colors.Transparent);
             StartWatcher();

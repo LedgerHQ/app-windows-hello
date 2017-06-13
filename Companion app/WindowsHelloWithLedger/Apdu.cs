@@ -91,7 +91,10 @@ namespace WindowsHelloWithLedger
 
             if (!isSupported)
             {
-                myDlg = new MessageDialog("Please setup PIN for your device and try again.");
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                var str = loader.GetString("PleaseSetupPin_error");
+
+                myDlg = new MessageDialog(str);
                 await myDlg.ShowAsync();
                 return;
             }
@@ -158,8 +161,11 @@ namespace WindowsHelloWithLedger
 
                         if (sw1sw2 != "9000")
                         {
+                            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                            var str = loader.GetString("RegsitrationDenied_error");
+
                             myDlg = null;
-                            myDlg = new MessageDialog("Registration denied by user");
+                            myDlg = new MessageDialog(str);
                             await myDlg.ShowAsync();                            
                             return;
                         }
@@ -292,67 +298,73 @@ namespace WindowsHelloWithLedger
             DateTime now = DateTime.Now;
             if ((now.DayOfYear - dateToFormat.DayOfYear == 0) && (dateToFormat.Year - now.Year == 0))
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                var str = loader.GetString("Today");
+
                 if ((dateToFormat.TimeOfDay.Hours) > 12)
                 {
-                    dateString = "TODAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                    dateString = str + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
                 }
                 else
                 {
-                    dateString = "TODAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                    dateString = str + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
             }
             else if ((now.DayOfYear - dateToFormat.DayOfYear == 1) && (dateToFormat.Year - now.Year == 0))
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                var str = loader.GetString("Yesterday");
                 if ((dateToFormat.TimeOfDay.Hours) > 12)
                 {
-                    dateString = "YESTERDAY, " + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
+                    dateString = str + (dateToFormat.TimeOfDay.Hours - 12) + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " PM";
                 }
                 else
                 {
-                    dateString = "YESTERDAY, " + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
+                    dateString = str + dateToFormat.TimeOfDay.Hours + ":" + dateToFormat.TimeOfDay.Minutes.ToString("00") + " AM";
                 }
             }
             else
             {
                 int month = dateToFormat.Month;
                 string monthString = string.Empty;
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
                 switch (month)
                 {
-                    case 1:
-                        monthString = "JAN, ";
+                    case 1:                        
+                        monthString = loader.GetString("January");                        
                         break;
                     case 2:
-                        monthString = "FEB, ";
+                        monthString = loader.GetString("February");
                         break;
                     case 3:
-                        monthString = "MAR, ";
+                        monthString = loader.GetString("March");
                         break;
                     case 4:
-                        monthString = "APR, ";
+                        monthString = loader.GetString("April");
                         break;
                     case 5:
-                        monthString = "MAY, ";
+                        monthString = loader.GetString("May");
                         break;
                     case 6:
-                        monthString = "JUN, ";
+                        monthString = loader.GetString("June");
                         break;
                     case 7:
-                        monthString = "JUL, ";
+                        monthString = loader.GetString("July");
                         break;
                     case 8:
-                        monthString = "AUG, ";
+                        monthString = loader.GetString("August");
                         break;
                     case 9:
-                        monthString = "SEP, ";
+                        monthString = loader.GetString("September");
                         break;
                     case 10:
-                        monthString = "OCT, ";
+                        monthString = loader.GetString("October");
                         break;
                     case 11:
-                        monthString = "NOV, ";
+                        monthString = loader.GetString("November");
                         break;
                     case 12:
-                        monthString = "DEC, ";
+                        monthString = loader.GetString("December");
                         break;
                 }
                 string dayOfWeek = dateToFormat.DayOfWeek.ToString().ToUpper().Substring(0, 3);
@@ -379,8 +391,9 @@ namespace WindowsHelloWithLedger
             dialog.Content = inputTextBox;
             dialog.Title = title;
             dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = "Ok";
-            dialog.SecondaryButtonText = "Cancel";
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            dialog.PrimaryButtonText = loader.GetString("OK");
+            dialog.SecondaryButtonText = loader.GetString("Cancel");
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                 return inputTextBox.Text;
             else

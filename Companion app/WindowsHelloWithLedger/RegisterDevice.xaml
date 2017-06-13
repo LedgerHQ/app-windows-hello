@@ -18,30 +18,30 @@
         <Image Name="logo" Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
         <StackPanel Name="Assistance" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" PointerEntered="Assistance_pointerEntered">
-            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Uid="Assistance" Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#999999" VerticalAlignment="Center"></TextBlock>
             <Image Source="ms-appx:///Assets/Assistance.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
         </StackPanel>
-        <StackPanel Name="Assistance_select" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click">
-            <TextBlock Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
+        <StackPanel  Name="Assistance_select" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" Visibility="Collapsed" PointerExited="Assistance_pointerExited" Tapped="Assistance_Click">
+            <TextBlock x:Uid="Assistance" Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
             <Image Source="ms-appx:///Assets/Assistance-select.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
         </StackPanel>
         <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
             <StackPanel>
                 <Image Name="PictoName" Source="ms-appx:///Assets/Picto-name.png" Width="28" Height="32" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0"></Image>
-                <TextBox Name="NameYourDevice" Height="16" BorderThickness="0" FontSize="16" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Text="My Ledger Nano-s" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"></TextBox>
+                <TextBox x:Uid="DeviceNameDefault" Name="NameYourDevice" Height="16" BorderThickness="0" FontSize="16" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Text="My Ledger Nano-s" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"></TextBox>
                 <Image Name="Divider" Source="ms-appx:///Assets/divider.png" Height="1" Width="320" Margin="0,15,0,0"></Image>
-                <TextBlock Text="Enter your device name to register" HorizontalAlignment="Center" FontSize="13" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Margin="0,20,0,0"></TextBlock>
+                <TextBlock x:Uid="TypeDeviceName_info" Text="Enter your device name to register" HorizontalAlignment="Center" FontSize="13" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Margin="0,20,0,0"></TextBlock>
             </StackPanel>
             <StackPanel Name="StackCancel" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="left" PointerEntered="StackCancel_pointerEntered" PointerExited="StackCancel_pointerExited" Tapped="StackCancel_tapped" >
-                <TextBlock Name="Cancel" Text="CANCEL"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Height="53" Foreground="#cccccc" Margin="40,0,0,0"></TextBlock>
+                <TextBlock x:Uid="Cancel" Name="Cancel" Text="CANCEL"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Height="53" Foreground="#cccccc" Margin="40,0,0,0"></TextBlock>
                 <Rectangle Width="39" Height="5" Fill="#cccccc" HorizontalAlignment="Left" Margin="40,-5,0,0" Visibility="Collapsed"/>
             </StackPanel>
             <StackPanel Name="StackRegister" VerticalAlignment="Bottom" HorizontalAlignment="Right" PointerEntered="StackRegister_pointerEntered" PointerExited="StackRegsiter_pointerExited" Tapped="StackRegsiter_tapped" >
-                <TextBlock Name="Register" Text="REGISTER"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#20e3ff" Height="53" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,40,0"></TextBlock>
+                <TextBlock x:Uid="Register" Name="Register" Text="REGISTER"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#20e3ff" Height="53" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,40,0"></TextBlock>
                 <Rectangle Width="45" Height="5" Fill="#20e3ff" HorizontalAlignment="Right" Margin="0,-5,40,0" Visibility="Collapsed"/>
             </StackPanel>
             <StackPanel Name="StackAwaitingConfirm" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40" Background="White" Visibility="Collapsed">
-                <TextBlock Name="AwaitingConfirm" Text="AWAITING CONFIRM..." FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#cccccc"></TextBlock>
+                <TextBlock x:Uid="AwaitingConfirm"  Name="AwaitingConfirm" Text="AWAITING CONFIRM..." FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#cccccc"></TextBlock>
             </StackPanel>
         </Grid>
     </Grid>

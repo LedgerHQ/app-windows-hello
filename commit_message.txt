@@ -1,8 +1,8 @@
-UI integration 17:
-- Added Cancel button on Waiting for device page (only visible if number of registered devices > 0 ), added PointerEntered PointerExited Tapped callbacks for that button (tapped > navigate to device list)
+UI integration 18:
+- Added "Strings" folder for multilingual support
+- Added "en-US" subfolder containing Resources.resw file defining all the displayed strings in TextBoxes, popups, errors, XAML model...
 
 TODO : 
 - Rename apdu.cs and its containing classes
 - Add shade around subgrid
 - Border outside mainpage is white, find a way to make it grey
-- Add multilingual support
