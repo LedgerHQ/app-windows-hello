@@ -8,6 +8,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Authentication.Identity.Provider;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,7 +30,21 @@ namespace WindowsHelloWithLedger
         public waitingForDevice()
         {
             this.InitializeComponent();
+            CancelButtonVisibilityUpdate();
             waitingForDeviceInsertion();
+        }
+
+        private async void CancelButtonVisibilityUpdate()
+        {
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+            if (deviceList.Count != 0)
+            {
+                ((Grid)((Grid)this.Content).Children.ElementAt(3)).Children.ElementAt(5).Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ((Grid)((Grid)this.Content).Children.ElementAt(3)).Children.ElementAt(5).Visibility = Visibility.Collapsed;
+            }
         }
         private async void waitingForDeviceInsertion()
         {
@@ -87,6 +102,38 @@ namespace WindowsHelloWithLedger
             string uriToLaunch = @"http://www.ledgerwallet.com";
             var uri = new Uri(uriToLaunch);
             var success = await Windows.System.Launcher.LaunchUriAsync(uri);
+        }
+
+        private void StackCancel_tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+            this.Frame.Navigate(typeof(MainPage));
+        }
+
+        private void StackCancel_pointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Hand, 0);
+            if (sender is StackPanel)
+            {
+                ((StackPanel)sender).Children.ElementAt(1).Visibility = Visibility.Visible;
+            }
+            else
+            {
+
+            }
+        }
+
+        private void StackCancel_pointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+            if (sender is StackPanel)
+            {
+                ((StackPanel)sender).Children.ElementAt(1).Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+
+            }
         }
     }
 }

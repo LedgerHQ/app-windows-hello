@@ -12,15 +12,16 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>CDFSampleApp_Ashish_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <PackageCertificateKeyFile>WindowsHelloWithLedger_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>16C7CA49FADF7CE64442A72254C20C0D561609EB</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -115,6 +116,7 @@
     <Content Include="Assets\OpenSans-Regular.ttf" />
     <Content Include="Assets\OpenSans-Semibold.ttf" />
     <None Include="project.json" />
+    <None Include="WindowsHelloWithLedger_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -123,9 +125,6 @@
     <Compile Include="Apdu.cs" />
     <Compile Include="RegisterDevice.xaml.cs">
       <DependentUpon>RegisterDevice.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestRelativePanel.xaml.cs">
-      <DependentUpon>TestRelativePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="waitingForDevice.xaml.cs">
       <DependentUpon>waitingForDevice.xaml</DependentUpon>
@@ -220,10 +219,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="RegisterDevice.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestRelativePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

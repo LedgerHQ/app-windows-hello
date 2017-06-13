@@ -1,0 +1,15 @@
+﻿[ResourceMetadata]
+"ResourceId"			"filemap.scale-140"
+"ResourceDimensions"		"scale-140"
+
+[Files]
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\filemap.scale-140.pri"			"resources.pri"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\trash.scale-140.png"			"Assets\trash.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\selecto.scale-140.png"			"Assets\selecto.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\picto-device.scale-140.png"			"Assets\picto-device.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\Logo-ledger-Hello.scale-140.png"			"Assets\Logo-ledger-Hello.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\divider.scale-140.png"			"Assets\divider.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\Button-register.scale-140.png"			"Assets\Button-register.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\Button-register-select.scale-140.png"			"Assets\Button-register-select.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\Button-assistance.scale-140.png"			"Assets\Button-assistance.scale-140.png"
+"C:\Users\Philippe\Repositories\bolos-app-win_hello\Companion app\WindowsHelloWithLedger\obj\x64\Debug\PackageLayout\Assets\Button-assistance-select.scale-140.png"			"Assets\Button-assistance-select.scale-140.png"

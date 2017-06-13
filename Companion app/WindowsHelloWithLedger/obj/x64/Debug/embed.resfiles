@@ -1,2 +1,5 @@
 App.xbf
 MainPage.xbf
+RegisterDevice.xbf
+TestRelativePanel.xbf
+waitingForDevice.xbf

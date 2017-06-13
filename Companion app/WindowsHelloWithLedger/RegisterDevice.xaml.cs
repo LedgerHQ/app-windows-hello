@@ -36,9 +36,12 @@ namespace WindowsHelloWithLedger
         public RegisterDevice()
         {
             this.InitializeComponent();
+
             StartWatcher();
             //string text = NameYourDevice.Text;
         }
+
+
 
         private void StartWatcher()
         {

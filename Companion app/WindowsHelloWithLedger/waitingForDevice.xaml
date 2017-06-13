@@ -39,6 +39,10 @@
                 <TextBlock x:Name="TwoText" TextWrapping="Wrap" Text="Make sure your device is powered on, and unlock it by entering your PIN." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,0,0,0" Width="256"/>
                 <TextBlock x:Name="TwoNumber" TextWrapping="Wrap" Text="2." FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="20"/>
             </RelativePanel>
+            <StackPanel Name="StackCancel" Orientation="Vertical" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="left" PointerEntered="StackCancel_pointerEntered" PointerExited="StackCancel_pointerExited" Tapped="StackCancel_tapped">
+                <TextBlock Name="Cancel" Text="CANCEL"  FontSize="11" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Height="53" Foreground="#cccccc" Margin="40,0,0,0"></TextBlock>
+                <Rectangle Width="39" Height="5" Fill="#cccccc" HorizontalAlignment="Left" Margin="40,-5,0,0" Visibility="Collapsed"/>
+            </StackPanel>
             <TextBlock x:Name="AwaitingDevice" TextWrapping="Wrap" Text="AWAITING DEVICE..." FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="11" IsColorFontEnabled="True" Foreground="#cccccc" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,40,40" Width="97"/>
         </Grid>
     </Grid>
