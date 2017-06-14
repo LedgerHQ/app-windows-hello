@@ -504,9 +504,11 @@ namespace Tasks
             System.Buffer.BlockCopy(devNonce, 0, cmd, Apdu.challengeCmdApdu.Length + svcHmac.Length + sessNonce.Length, devNonce.Length);
 
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Send Challenge");
-                   
+
+            string str = "\"" + m_selectedDeviceFriendlyName + "\"";
+
             await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
-                m_selectedDeviceFriendlyName,
+                str,
                 SecondaryAuthenticationFactorAuthenticationMessage.DeviceNeedsAttention);
 
             response = await Apdu.TransmitApduAsync(connection, cmd);
@@ -649,8 +651,11 @@ namespace Tasks
             }
             if (showNotificationFlag)
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                var str = loader.GetString("LookingForDevice");
+
                 await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
-                                "a registered companion device",
+                                str,
                                 SecondaryAuthenticationFactorAuthenticationMessage.LookingForDevicePluggedin);
             }
             showNotificationFlag = true;
@@ -755,10 +760,12 @@ namespace Tasks
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                             SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
 
-                String deviceName = deviceList.ElementAt(deviceList.Count()-1).DeviceFriendlyName;               
+                String deviceName = deviceList.ElementAt(deviceList.Count()-1).DeviceFriendlyName;
+
+                string str = "\"" + deviceName + "\"";
 
                 await SecondaryAuthenticationFactorAuthentication.ShowNotificationMessageAsync(
-                    deviceName,
+                    str,
                     SecondaryAuthenticationFactorAuthenticationMessage.SwipeUpWelcome);
             }
             else if (args.StageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential)

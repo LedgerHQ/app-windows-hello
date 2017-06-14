@@ -142,7 +142,7 @@
     <value>DEC, </value>
   </data>
   <data name="DeviceNameDefault.Text" xml:space="preserve">
-    <value>My Ledger Nano-s</value>
+    <value>My Ledger Nano S</value>
   </data>
   <data name="Devices.Text" xml:space="preserve">
     <value>DEVICES</value>
@@ -175,10 +175,10 @@
     <value>OK</value>
   </data>
   <data name="One.Text" xml:space="preserve">
-    <value>Connect your device to your computer using one of its USB port.</value>
+    <value>Connect your Ledger device to your computer. Make sure it is powered on and unlocked.</value>
   </data>
   <data name="PleaseSetupPin_error" xml:space="preserve">
-    <value>Please setup PIN for your device and try again.</value>
+    <value>Your Windows account needs to be protected with a PIN to register a new Ledger device. Please enable it and try again.</value>
   </data>
   <data name="Register.Text" xml:space="preserve">
     <value>REGISTER</value>
@@ -187,7 +187,7 @@
     <value>Regsiter your device</value>
   </data>
   <data name="RegsitrationDenied_error" xml:space="preserve">
-    <value>Device registration denied by user</value>
+    <value>Device registration has been rejected. Please try again.</value>
   </data>
   <data name="September" xml:space="preserve">
     <value>SEP, </value>
@@ -196,12 +196,15 @@
     <value>TODAY, </value>
   </data>
   <data name="Two.Text" xml:space="preserve">
-    <value>Make sure your device is powered on, and unlock it by entering your PIN.</value>
+    <value>Open the Hello app on the device. When prompted, confirm the registration request.</value>
   </data>
   <data name="TypeDeviceName_info.Text" xml:space="preserve">
-    <value>Enter your device name to register</value>
+    <value>Enter a device name</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>YESTERDAY, </value>
+  </data>
+  <data name="LookingForDevice" xml:space="preserve">
+    <value>a registered ledger device</value>
   </data>
 </root>

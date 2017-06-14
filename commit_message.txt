@@ -1,6 +1,6 @@
-UI integration 18:
-- Added "Strings" folder for multilingual support
-- Added "en-US" subfolder containing Resources.resw file defining all the displayed strings in TextBoxes, popups, errors, XAML model...
+UI integration 19:
+- Updated Ressources.resw for en-US
+- In every string calling deviceFriendlyName, deviceFriendlyName is sourrounded with double quotes
 
 TODO : 
 - Rename apdu.cs and its containing classes
