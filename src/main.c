@@ -5,6 +5,21 @@
 #include "os_io_seproxyhal.h"
 #include "string.h"
 #include "glyphs.h"
+
+#include "ux_common.h"
+//#include "ux_nanos.h"
+
+#if defined (TARGET_BLUE)
+  #include "ux_blue.h"
+#elif defined (TARGET_NANOS)
+  #include "ux_nanos.h"
+#elif defined (TARGET_ARAMIS)
+#else
+#error unknown TARGET_ID
+#endif
+
+
+
 unsigned char G_io_seproxyhal_spi_buffer[IO_SEPROXYHAL_BUFFER_SIZE_B];
 
 unsigned char string_buffer[64];
@@ -14,15 +29,7 @@ unsigned int ux_step_count;
 unsigned int demo_counter;
 ux_state_t ux;
 
-typedef struct internalStorage_t {
-// #define STORAGE_MAGIC 0xDEAD1337
-//     uint32_t magic;
-    uint32_t dont_confirm_login;
-    uint32_t dynamic_lock;
-} internalStorage_t;
 
-WIDE internalStorage_t N_storage_real;
-#define N_storage (*(WIDE internalStorage_t *)PIC(&N_storage_real))
 
 // enum app_state_e{
 //   unregistered,
@@ -53,7 +60,7 @@ uint8_t refreshUi;
 uint8_t replySize;
 
 
-const ux_menu_entry_t ui_idle_mainmenu[];
+
 const bagl_element_t* ui_idle_menu_preprocessor(const ux_menu_entry_t* entry, bagl_element_t* element);
 void ui_idle_init(void);
 
@@ -81,113 +88,7 @@ void ui_idle_init(void);
 //   demo_counter ++;
 // }
 
-const bagl_element_t ui_confirm_registration_nanos[] = {
-    // type                               userid    x    y   w    h  str rad
-    // fill      fg        bg      fid iid  txt   touchparams...       ]
-    {{BAGL_RECTANGLE, 0x00, 0, 0, 128, 32, 0, 0, BAGL_FILL, 0x000000, 0xFFFFFF,
-      0, 0},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
 
-    {{BAGL_LABELINE, 0x01, 33, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Confirm",
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-    {{BAGL_LABELINE, 0x01, 34, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Registration",
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-    {{BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0,
-      BAGL_GLYPH_ICON_CROSS},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-    {{BAGL_ICON, 0x00, 117, 13, 8, 6, 0, 0, 0, 0xFFFFFF, 0x000000, 0,
-      BAGL_GLYPH_ICON_CHECK},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-};
-
-const bagl_element_t ui_confirm_login_nanos[] = {
-    // type                               userid    x    y   w    h  str rad
-    // fill      fg        bg      fid iid  txt   touchparams...       ]
-    {{BAGL_RECTANGLE, 0x00, 0, 0, 128, 32, 0, 0, BAGL_FILL, 0x000000, 0xFFFFFF,
-      0, 0},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-    {{BAGL_LABELINE, 0x01, 33, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Confirm",
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-    {{BAGL_LABELINE, 0x01, 34, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Log-in",
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-    {{BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0,
-      BAGL_GLYPH_ICON_CROSS},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-    {{BAGL_ICON, 0x00, 117, 13, 8, 6, 0, 0, 0, 0xFFFFFF, 0x000000, 0,
-      BAGL_GLYPH_ICON_CHECK},
-     NULL,
-     0,
-     0,
-     0,
-     NULL,
-     NULL,
-     NULL},
-
-};
 
 //unsigned int ui_confirm_registration_nanos_button(unsigned int button_mask,unsigned int button_mask_counter);
 
@@ -298,71 +199,20 @@ unsigned int ui_confirm_login_nanos_button(unsigned int button_mask,unsigned int
     default:
         break;
     }
-} 
-
-const ux_menu_entry_t menu_settings[];
-const ux_menu_entry_t menu_about[] = {
-    {NULL, NULL, 0, NULL, "Version", APPVERSION, 0, 0},
-    {ui_idle_mainmenu, NULL, 1, &C_icon_back, "Back", NULL, 61, 40},
-    UX_MENU_END};                                              
-
-// change the setting
-void menu_settings_confirm_login_change(uint32_t confirm) {
-  nvm_write(&N_storage.dont_confirm_login, (void*)&confirm, sizeof(uint32_t));
-  // go back to the menu entry
-  UX_MENU_DISPLAY(0, menu_settings, NULL);
 }
-
-// change the setting
-void menu_settings_dlock_change(uint32_t confirm) {
-  nvm_write(&N_storage.dynamic_lock, (void*)&confirm, sizeof(uint32_t));
-  // go back to the menu entry
-  UX_MENU_DISPLAY(1, menu_settings, NULL);
-}
-
-const ux_menu_entry_t menu_settings_confirm_login[] = {
-  {NULL, menu_settings_confirm_login_change, 1, NULL, "No", NULL, 0, 0},
-  {NULL, menu_settings_confirm_login_change, 0, NULL, "Yes", NULL, 0, 0},
-  UX_MENU_END
-};
-
-const ux_menu_entry_t menu_settings_dlock[] = {
-  {NULL, menu_settings_dlock_change, 0, NULL, "No", NULL, 0, 0},
-  {NULL, menu_settings_dlock_change, 1, NULL, "Yes", NULL, 0, 0},
-  UX_MENU_END
-};
-
-// show the currently activated entry
-void menu_settings_confirm_login_init(unsigned int ignored) {
-  UNUSED(ignored);
-  UX_MENU_DISPLAY(!N_storage.dont_confirm_login, menu_settings_confirm_login, NULL);
-}
-
-// show the currently activated entry
-void menu_settings_dlock_init(unsigned int ignored) {
-  UNUSED(ignored);
-  UX_MENU_DISPLAY(N_storage.dynamic_lock, menu_settings_dlock, NULL);
-}
-
-const ux_menu_entry_t menu_settings[] = {
-  {NULL, menu_settings_confirm_login_init, 0, NULL, "Confirm login", NULL, 0, 0},
-  {NULL, menu_settings_dlock_init, 0, NULL, "Lock when unplugged", NULL, 0, 0},
-  {ui_idle_mainmenu, NULL, 0, &C_icon_back, "Back", NULL, 61, 40},
-  UX_MENU_END
-};
-
-const ux_menu_entry_t ui_idle_mainmenu[] = {
-  {NULL, NULL, 0, &C_icon_hello, "Ready to", "authenticate", 37, 11},
-  {menu_settings, NULL, 0, NULL, "Settings", NULL, 0, 0},
-  {menu_about, NULL, 0, NULL, "About", NULL, 0, 0},
-  {NULL, os_sched_exit, 0, &C_icon_dashboard, "Quit app", NULL, 50, 29},
-  UX_MENU_END
-};
 
 void ui_idle_init(void) {
   ux_step = 0;
   ux_step_count = 2;
-  UX_MENU_DISPLAY(0, ui_idle_mainmenu, NULL);
+  #if defined (TARGET_NANOS)
+    UX_MENU_DISPLAY(0, ui_idle_mainmenu_nanos, NULL);
+  #elif defined (TARGET_BLUE)
+    UX_SET_STATUS_BAR_COLOR(0xFFFFFF, COLOR_APP);
+    UX_DISPLAY(ui_idle_mainmenu_blue, NULL);
+  #elif defined (TARGET_ARAMIS)
+  #else
+  #error unknown TARGET_ID
+  #endif
   // setup the first screen changing
   UX_CALLBACK_SET_INTERVAL(1000);
 }

@@ -46,7 +46,7 @@
 #define USBD_LANGID_STRING            0x409
 
 #define USBD_VID                      0x2C97
-#if TARGET_ID == 0x31000002 // blue
+#if defined (TARGET_BLUE)
 #define USBD_PID                      0x0000
 static const uint8_t const USBD_PRODUCT_FS_STRING[] = {
   4*2+2,
@@ -57,7 +57,7 @@ static const uint8_t const USBD_PRODUCT_FS_STRING[] = {
   'e', 0,
 };
 
-#elif TARGET_ID == 0x31100002 // nano s
+#elif defined (TARGET_NANOS)
 #define USBD_PID                      0x0001
 static const uint8_t const USBD_PRODUCT_FS_STRING[] = {
   6*2+2,
@@ -69,7 +69,7 @@ static const uint8_t const USBD_PRODUCT_FS_STRING[] = {
   ' ', 0,
   'S', 0,
 };
-#elif TARGET_ID == 0x31200002 // aramis
+#elif defined (TARGET_ARAMIS)
 #define USBD_PID                      0x0002
 static const uint8_t const USBD_PRODUCT_FS_STRING[] = {
   6*2+2,
@@ -445,6 +445,16 @@ void USB_CCID_power(unsigned char enabled) {
   else {
     USBD_DeInit(&USBD_Device);
   }
+}
+
+void SC_Poweroff(void) {
+  // nothing to do ?
+}
+
+uint8_t SC_ExecuteEscape (uint8_t* escapePtr, uint32_t escapeLen, 
+                          uint8_t* responseBuff,
+                          uint16_t* responseLen) {
+  // nothing to do ?
 }
 
 #endif // HAVE_USB_CLASS_CCID

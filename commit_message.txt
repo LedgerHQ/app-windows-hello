@@ -1,6 +1,11 @@
-UI integration 19:
-- Updated Ressources.resw for en-US
-- In every string calling deviceFriendlyName, deviceFriendlyName is sourrounded with double quotes
+Nanos-Blue app app :
+- Created new files to slit nanos and blue code:
+	- ux_common.c/h
+	- ux_nanos.c/h
+	- ux_blue.c/h
+- Moved code from main.c to those files
+- Implemented ui_idle_mainmenu_blue, ui_settings_blue with confirm login and lock when unplugged options
+
 
 TODO : 
 - Rename apdu.cs and its containing classes
