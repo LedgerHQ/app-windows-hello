@@ -1,4 +1,3 @@
-
 #include "os.h"
 #include "cx.h"
 
@@ -7,8 +6,6 @@
 #include "glyphs.h"
 
 #include "ux_common.h"
-//#include "ux_nanos.h"
-
 #if defined (TARGET_BLUE)
   #include "ux_blue.h"
 #elif defined (TARGET_NANOS)
@@ -18,24 +15,12 @@
 #error unknown TARGET_ID
 #endif
 
-
-
 unsigned char G_io_seproxyhal_spi_buffer[IO_SEPROXYHAL_BUFFER_SIZE_B];
 
 unsigned char string_buffer[64];
 
-unsigned int ux_step;
-unsigned int ux_step_count;
 unsigned int demo_counter;
 ux_state_t ux;
-
-
-
-// enum app_state_e{
-//   unregistered,
-//   registered
-// };
-// typedef enum app_state_e app_state_t;
 
 #define DERIVE_PATH         "72'/69/76/76/79" //HELLO
 #define DERIVE_PATH_LEN     (sizeof(DERIVE_PATH)-1)
@@ -46,78 +31,15 @@ ux_state_t ux;
 #define DEVICE_GUID_STR     "ID"
 #define DEVICE_GUID_STR_LEN (sizeof(DEVICE_GUID_STR)-1)
 
-#define SW_OK 0x9000
-#define SW_CONDITIONS_NOT_SATISFIED 0x6985
-#define LOGIN_DENIED_BY_USER 0x6984
-
 unsigned char secret_computed;
 unsigned char derived_key[32];
-unsigned char device_key[32];
-unsigned char auth_key[32];
+
 unsigned char device_id[32];
 unsigned char nonce_srv[32];
 uint8_t refreshUi;
 uint8_t replySize;
 
-
-
 const bagl_element_t* ui_idle_menu_preprocessor(const ux_menu_entry_t* entry, bagl_element_t* element);
-void ui_idle_init(void);
-
-// void ui_idle_submenu_action(unsigned int value) {
-//   if (value == 0) {
-//     demo_counter = 0;  
-//   }
-//   else {
-//     demo_counter += value;
-//   }
-//   // redisplay first entry of the idle menu
-//   UX_MENU_DISPLAY(0, ui_idle_mainmenu, ui_idle_menu_preprocessor);
-// }
-
-// const ux_menu_entry_t ui_idle_submenu[] = {
-//   {NULL, ui_idle_submenu_action,    0, NULL, "Reset", NULL, 0, 0},
-//   {NULL, ui_idle_submenu_action,   10, NULL, "+10", NULL, 0, 0},
-//   {NULL, ui_idle_submenu_action,  100, NULL, "+100", NULL, 0, 0},
-//   {NULL, ui_idle_submenu_action, 1000, NULL, "+1000", NULL, 0, 0},
-//   {ui_idle_mainmenu, NULL, 1 /*target entry in the referenced menu*/, &C_badge_back, "Back", NULL, 61, 40},
-//   UX_MENU_END
-// };
-
-// void ui_idle_click(unsigned int value) {
-//   demo_counter ++;
-// }
-
-
-
-//unsigned int ui_confirm_registration_nanos_button(unsigned int button_mask,unsigned int button_mask_counter);
-
-unsigned int ui_confirm_registration_nanos_button(unsigned int button_mask,unsigned int button_mask_counter) {
-    uint8_t replySize;
-    switch (button_mask) {
-    case BUTTON_EVT_RELEASED | BUTTON_RIGHT:
-        // confirm
-        memcpy(G_io_apdu_buffer,device_key,32);
-        memcpy(G_io_apdu_buffer+32,auth_key,32);
-        G_io_apdu_buffer[32+32] = SW_OK >> 8;
-        G_io_apdu_buffer[32+32+1] = SW_OK & 0xff;
-        replySize = 32+32+2;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, replySize);
-        ui_idle_init();
-        break;
-
-    case BUTTON_EVT_RELEASED | BUTTON_LEFT:
-        // deny
-        G_io_apdu_buffer[0] = SW_CONDITIONS_NOT_SATISFIED >> 8;
-        G_io_apdu_buffer[1] = SW_CONDITIONS_NOT_SATISFIED & 0xff;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, 2);
-        ui_idle_init();
-        break;
-
-    default:
-        break;
-    }
-}
 
 void compute_device_secrets(void) {
   if (!secret_computed) {
@@ -180,82 +102,6 @@ unsigned int compute_login_reply(void) {
   G_io_apdu_buffer[32+32+1] = SW_OK & 0xff;
   return 32+32+2;
 }
-
-unsigned int ui_confirm_login_nanos_button(unsigned int button_mask,unsigned int button_mask_counter) {
-    switch (button_mask) {
-    case BUTTON_EVT_RELEASED | BUTTON_RIGHT:       
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, compute_login_reply());
-        ui_idle_init();
-        break;
-
-    case BUTTON_EVT_RELEASED | BUTTON_LEFT:
-        // deny
-        G_io_apdu_buffer[0] = LOGIN_DENIED_BY_USER >> 8;
-        G_io_apdu_buffer[1] = LOGIN_DENIED_BY_USER & 0xff;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, 2);
-        ui_idle_init();
-        break;
-
-    default:
-        break;
-    }
-}
-
-void ui_idle_init(void) {
-  ux_step = 0;
-  ux_step_count = 2;
-  #if defined (TARGET_NANOS)
-    UX_MENU_DISPLAY(0, ui_idle_mainmenu_nanos, NULL);
-  #elif defined (TARGET_BLUE)
-    UX_SET_STATUS_BAR_COLOR(0xFFFFFF, COLOR_APP);
-    UX_DISPLAY(ui_idle_mainmenu_blue, NULL);
-  #elif defined (TARGET_ARAMIS)
-  #else
-  #error unknown TARGET_ID
-  #endif
-  // setup the first screen changing
-  UX_CALLBACK_SET_INTERVAL(1000);
-}
-
-// const bagl_element_t* ui_idle_menu_preprocessor(const ux_menu_entry_t* entry, bagl_element_t* element) {
-//   // display all entries but the first one which will be altered.
-//   if (entry != &ui_idle_mainmenu[0]) {
-//     return element;
-//   }
-
-//   switch(element->component.userid) {
-//     // display the icon only for the ux step 0
-//     case 0x10:
-//       if (ux_step != 0) {
-//         return 0;
-//       }
-//       break;
-//     // alter the text line
-//     case 0x20:
-//       switch (ux_step) {
-//         case 0x00:
-//           // nothing to do this is just a mere string (could overload its position by copying it to a mutable buffer and change it and return the mutable buffer address)
-//           // only setup the next screen display delay
-//           UX_CALLBACK_SET_INTERVAL(1000);
-//           element->text = "Hello world";
-//           break;
-
-//         case 0x01:
-//           // update the displayed string
-//           snprintf(string_buffer, 64, "Current counter value: %d", demo_counter);
-//           // setup delay before switching to next screen 
-//           // next delay is : at least 3sec, or the time for a label scroll round trip + 1 sec (a pause in either sides).
-//           UX_CALLBACK_SET_INTERVAL(MAX(3000, 2*(1000+bagl_label_roundtrip_duration_ms(element, 7))));
-//           element->component.stroke = 10; // 1 second stop in each way
-//           element->component.icon_id = 26; // roundtrip speed in pixel/s
-//           element->text = string_buffer;
-//           break;
-//       }
-//       break;
-//   }
-
-//   return element;
-// } 
 
 unsigned short io_exchange_al(unsigned char channel, unsigned short tx_len) {
 
@@ -330,7 +176,8 @@ void sample_main(void) {
             }
             else {
               flags |= IO_ASYNCH_REPLY;
-              UX_DISPLAY(ui_confirm_login_nanos,NULL);
+              ui_confirm_login_init();
+              //UX_DISPLAY(ui_confirm_login_nanos,NULL);
             }
             break;
 
@@ -346,7 +193,8 @@ void sample_main(void) {
                 // always asks for a user content
                 compute_device_secrets();
                 flags |= IO_ASYNCH_REPLY;
-                UX_DISPLAY(ui_confirm_registration_nanos,NULL);
+                ui_confirm_registration_init();
+                //UX_DISPLAY(ui_confirm_registration_nanos,NULL);
                 break;
               case 0x02: //D-Lock state
                 G_io_apdu_buffer[0] = N_storage.dynamic_lock;
@@ -451,9 +299,6 @@ unsigned char io_event(unsigned char channel) {
   // command has been processed, DO NOT reset the current APDU transport
   return 1;
 }
-
-
-
 
 void app_exit(void) {
     BEGIN_TRY_L(exit) {

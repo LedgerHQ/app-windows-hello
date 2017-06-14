@@ -11,7 +11,9 @@
 
 bagl_element_t tmp_element;
 
+void ui_idle_init(void);
 
+////// refqctor after
 unsigned int io_seproxyhal_touch_settings(const bagl_element_t *e);
 unsigned int io_seproxyhal_touch_exit(const bagl_element_t *e);
 void ui_idle_init(void);
