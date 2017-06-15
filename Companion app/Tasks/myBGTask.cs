@@ -68,8 +68,8 @@ namespace Tasks
                                     Task t = PerformAuthentication();
                                     await t;
                                 }
-                                
-                                if (e.DeviceInformation.Name.Contains("Ledger Nano S"))
+                                //Debugger.Break();
+                                if (e.DeviceInformation.Name.Contains("Ledger"))
                                 {
                                     Task t = writeConnectedRegisteredDevices();
                                     await t;
