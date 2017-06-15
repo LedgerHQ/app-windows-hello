@@ -21,4 +21,10 @@ extern WIDE internalStorage_t N_storage_real;
 #define LOGIN_DENIED_BY_USER 0x6984
 #define SW_CONDITIONS_NOT_SATISFIED 0x6985
 
+
+void hello_register_cancel(void);
+void hello_register_confirm(void);
+void hello_login_cancel(void);
+void hello_login_confirm(void);
+
 #endif // UX_COMMON_H

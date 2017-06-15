@@ -169,7 +169,7 @@ void sample_main(void) {
           // mutual authenticate
           case 0x82:
             compute_device_secrets();
-            if (N_storage.dont_confirm_login) {
+            if (!N_storage.dont_confirm_login) {
               tx = compute_login_reply();
               // status word is appended during compute
               //THROW(SW_OK);

@@ -153,16 +153,12 @@ const ux_menu_entry_t menu_settings_dlock_nanos[] = {
 unsigned int ui_confirm_login_nanos_button(unsigned int button_mask,unsigned int button_mask_counter) {
     switch (button_mask) {
     case BUTTON_EVT_RELEASED | BUTTON_RIGHT:       
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, compute_login_reply());
-        ui_idle_init();
+        hello_login_confirm();
         break;
 
     case BUTTON_EVT_RELEASED | BUTTON_LEFT:
         // deny
-        G_io_apdu_buffer[0] = LOGIN_DENIED_BY_USER >> 8;
-        G_io_apdu_buffer[1] = LOGIN_DENIED_BY_USER & 0xff;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, 2);
-        ui_idle_init();
+        hello_login_cancel();
         break;
 
     default:
@@ -175,21 +171,12 @@ unsigned int ui_confirm_registration_nanos_button(unsigned int button_mask,unsig
     switch (button_mask) {
     case BUTTON_EVT_RELEASED | BUTTON_RIGHT:
         // confirm
-        memcpy(G_io_apdu_buffer,device_key,32);
-        memcpy(G_io_apdu_buffer+32,auth_key,32);
-        G_io_apdu_buffer[32+32] = SW_OK >> 8;
-        G_io_apdu_buffer[32+32+1] = SW_OK & 0xff;
-        replySize = 32+32+2;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, replySize);
-        ui_idle_init();
+        hello_register_confirm();
         break;
 
     case BUTTON_EVT_RELEASED | BUTTON_LEFT:
         // deny
-        G_io_apdu_buffer[0] = SW_CONDITIONS_NOT_SATISFIED >> 8;
-        G_io_apdu_buffer[1] = SW_CONDITIONS_NOT_SATISFIED & 0xff;
-        io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, 2);
-        ui_idle_init();
+        hello_register_cancel();
         break;
 
     default:

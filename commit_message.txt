@@ -1,6 +1,5 @@
-Nanos-Blue app # 2 :
-All Nano-s specific code moved to ux_nanos.c/h
-
+Nanos-Blue app # 3 :
+Added login confirmation screen
 
 TODO : 
 - Rename apdu.cs and its containing classes
