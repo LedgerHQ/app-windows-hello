@@ -1,5 +1,5 @@
-Nanos-Blue app # 3 :
-Added login confirmation screen
+Nanos-Blue app # 4 :
+Updated Menus with titles
 
 TODO : 
 - Rename apdu.cs and its containing classes
