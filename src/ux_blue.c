@@ -79,15 +79,15 @@ const bagl_element_t ui_confirm_registration_blue[] = {
      NULL},
 
     /// TOP STATUS BAR
-    /*{{BAGL_LABELINE, 0x30, 0, 45, 320, 30, 0, 0, BAGL_FILL, 0xFFFFFF, COLOR_APP,
+    {{BAGL_LABELINE, 0x30, 0, 45, 320, 30, 0, 0, BAGL_FILL, 0xFFFFFF, COLOR_APP,
       BAGL_FONT_OPEN_SANS_SEMIBOLD_10_13PX | BAGL_FONT_ALIGNMENT_CENTER, 0},
-     tmp_string,
+     "WINDOWS HELLO",
      0,
      0,
      0,
      NULL,
      NULL,
-     NULL},*/
+     NULL},
 
     // BADGE_LOCK_BLUE.GIF
     /*{{BAGL_ICON, 0x00, 30, 98, 50, 50, 0, 0, BAGL_FILL, 0, COLOR_BG_1, 0, 0},
@@ -272,15 +272,15 @@ const bagl_element_t ui_confirm_login_blue[] = {
      NULL},
 
     /// TOP STATUS BAR
-    /*{{BAGL_LABELINE, 0x30, 0, 45, 320, 30, 0, 0, BAGL_FILL, 0xFFFFFF, COLOR_APP,
+    {{BAGL_LABELINE, 0x30, 0, 45, 320, 30, 0, 0, BAGL_FILL, 0xFFFFFF, COLOR_APP,
       BAGL_FONT_OPEN_SANS_SEMIBOLD_10_13PX | BAGL_FONT_ALIGNMENT_CENTER, 0},
-     tmp_string,
+     "WINDOWS HELLO",
      0,
      0,
      0,
      NULL,
      NULL,
-     NULL},*/
+     NULL},
 
     // BADGE_LOCK_BLUE.GIF
     /*{{BAGL_ICON, 0x00, 30, 98, 50, 50, 0, 0, BAGL_FILL, 0, COLOR_BG_1, 0, 0},

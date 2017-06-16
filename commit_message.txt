@@ -4,7 +4,6 @@ All device enumeration are made for current user (some of them were for all user
 Set preffered view size for all windows
 Force window size when user tries to resize window
 
-
 TODO : 
 - Rename apdu.cs and its containing classes
 - Add shade around subgrid
