@@ -23,6 +23,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI;
+using System.Threading.Tasks;
+using System.Threading;
 
 
 
@@ -63,6 +65,7 @@ namespace WindowsHelloWithLedger
         bool taskRegistered = false;
         static string authBGTaskName = "authBGTask";
         static string authBGTaskEntryPoint = "Tasks.authBGTask";
+        //DispatcherTimer resizeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500) };
 
         public MainPage()
         {
@@ -73,21 +76,43 @@ namespace WindowsHelloWithLedger
 
             Application.Current.Resources["SystemControlHighlightListLowBrush"] = new SolidColorBrush(Colors.Transparent);
             Application.Current.Resources["SystemControlHighlightListAccentLowBrush"] = new SolidColorBrush(Colors.Transparent);
+            //Application.Current.Resources["SystemAltHighColor"] = new SolidColorBrush(Colors.Black);
+            //this.SizeChanged += new SizeChangedEventHandler(this.Window_SizeChanged);
             StartWatcher();
 
             ObservableCollection<listContent> ContentList = new ObservableCollection<listContent>();
+
+            //Window.Current.SizeChanged += Current_SizeChanged;            
+            //resizeTimer.Stop();
+            //resizeTimer.Tick += ResizeTimer_Tick;
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void ResizeTimer_Tick(object sender, object e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            //resizeTimer.Stop();
+            //resizeTimer.Start();
+
+            ApplicationView.GetForCurrentView().TryResizeView(new Size(480, 485));
+            e.Handled = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
             if (deviceList.Count == 0)
             {
                 this.Frame.Navigate(typeof(waitingForDevice));
             }
             RefreshDeviceList(deviceList, 1000); //1000 ie: no item selected, max nb of items is 5
-            //this.Frame.Navigate(typeof(TestRelativePanel));
+            //await CommomMethods.CompactOverlayMode();
+            //this.Frame.Navigate(typeof(TestRelativePanel));            
             return;
         }
 
@@ -223,7 +248,15 @@ namespace WindowsHelloWithLedger
                     plugTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
                     plugTaskBuilder.SetTrigger(deviceWatcherTrigger);
                     BackgroundTaskRegistration taskReg2 = plugTaskBuilder.Register();
-                    String taskRegName = taskReg.Name;
+                    //String taskRegName = taskReg.Name;
+
+                    //BackgroundTaskBuilder rebootTaskBuilder = new BackgroundTaskBuilder();
+                    //rebootTaskBuilder.Name = authBGTaskName;
+                    //rebootTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
+                    //SystemTrigger trigger = new SystemTrigger(SystemTriggerType.UserPresent, false);
+                    //rebootTaskBuilder.SetTrigger(trigger);
+                    //BackgroundTaskRegistration taskReg3 = rebootTaskBuilder.Register();
+                    //String taskRegName = taskReg.Name;
                     //taskReg.Progress += OnBgTaskProgress;
                     System.Diagnostics.Debug.WriteLine("[RegisterTask] Background task registration is completed.");
                     taskRegistered = true;

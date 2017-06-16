@@ -40,6 +40,11 @@ namespace Tasks
         {
             deferral = taskInstance.GetDeferral();
 
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile ConnectedRegisteredDeviceListFile = await folder.CreateFileAsync("BGtask.txt", CreationCollisionOption.OpenIfExists);
+            string txt = "[RUN]: " + DateTime.Now.ToString() + Environment.NewLine;
+            await FileIO.WriteTextAsync(ConnectedRegisteredDeviceListFile, txt);
+
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
             SecondaryAuthenticationFactorAuthentication.AuthenticationStageChanged += OnStageChanged;
@@ -119,7 +124,7 @@ namespace Tasks
                                 }
 
                                     IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList_removeEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                                    SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                                    SecondaryAuthenticationFactorDeviceFindScope.User);
 
                                 List<SecondaryAuthenticationFactorInfo> pluggedRegisteredDeviceListAfterRemove = await getConnectedRegisteredDeviceList(registeredDeviceList_removeEvent);
                                 
@@ -207,7 +212,7 @@ namespace Tasks
             DeviceInformationCollection readers = await DeviceInformation.FindAllAsync(selector);
 
             IReadOnlyList<SecondaryAuthenticationFactorInfo> RegisteredDeviceList_addEvent = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                                SecondaryAuthenticationFactorDeviceFindScope.AllUsers);            
+                                SecondaryAuthenticationFactorDeviceFindScope.User);            
 
             List<SecondaryAuthenticationFactorInfo> ConnectedRegisteredDeviceList = await getConnectedRegisteredDeviceList(RegisteredDeviceList_addEvent);
             
@@ -416,7 +421,7 @@ namespace Tasks
             //ShowToastNotification("Post Collecting Credential");
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Post Collecting Credential");
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                    SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                    SecondaryAuthenticationFactorDeviceFindScope.User);
             if (deviceList.Count == 0)
             {
                 //ShowToastNotification("Unexpected exception, device list = 0");
@@ -664,7 +669,7 @@ namespace Tasks
         {
             Debug.WriteLine("[LockDevice]");
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
-                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
             if (deviceInfoList.Count == 0)
             {
                 return;
@@ -689,7 +694,7 @@ namespace Tasks
             System.Diagnostics.Debug.WriteLine("[PresenceMonitor] triggered");
             // Query the devices which can do presence check for the console user
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceInfoList =
-                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
 
             if (deviceInfoList.Count == 0)
             {
@@ -758,7 +763,7 @@ namespace Tasks
                 // Getting the dispatcher from the MainView works as long as we only have one view.               
 
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                            SecondaryAuthenticationFactorDeviceFindScope.User);
 
                 String deviceName = deviceList.ElementAt(deviceList.Count()-1).DeviceFriendlyName;
 
@@ -773,8 +778,7 @@ namespace Tasks
                 //ShowToastNotification("Stage = CollectingCredential");
                 System.Diagnostics.Debug.WriteLine("[OnStageChanged] Perform Auth / auth trigger");
                 try
-                {
-                    
+                {                    
                     Task t = PerformAuthentication(); ;
                     await t;
                     t = writeConnectedRegisteredDevices();

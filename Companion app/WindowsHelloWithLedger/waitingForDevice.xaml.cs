@@ -9,6 +9,7 @@ using Windows.Devices.SmartCards;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Identity.Provider;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,11 +33,19 @@ namespace WindowsHelloWithLedger
             this.InitializeComponent();
             CancelButtonVisibilityUpdate();
             waitingForDeviceInsertion();
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            ApplicationView.GetForCurrentView().TryResizeView(new Size(480, 485));
+            e.Handled = true;
+            //throw new NotImplementedException();
         }
 
         private async void CancelButtonVisibilityUpdate()
         {
-            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+            IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
             if (deviceList.Count != 0)
             {
                 ((Grid)((Grid)this.Content).Children.ElementAt(3)).Children.ElementAt(5).Visibility = Visibility.Visible;

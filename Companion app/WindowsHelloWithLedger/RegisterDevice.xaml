@@ -11,7 +11,7 @@
     MinWidth="480"
     MaxHeight="485"
     MaxWidth="480"
-    
+    HorizontalContentAlignment="Left" VerticalContentAlignment="Top" HorizontalAlignment="Left" VerticalAlignment="Top"
     mc:Ignorable="d" >
 
     <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">

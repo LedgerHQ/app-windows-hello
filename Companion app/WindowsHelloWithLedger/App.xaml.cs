@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.Security.Authentication.Identity.Provider;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -24,7 +26,7 @@ namespace WindowsHelloWithLedger
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            this.Suspending += OnSuspending;             
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace WindowsHelloWithLedger
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                            SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
+                            SecondaryAuthenticationFactorDeviceFindScope.User);
                 if (registeredDeviceList.Count == 0)
                 {
                     rootFrame.Navigate(typeof(waitingForDevice), e.Arguments);
@@ -79,6 +81,8 @@ namespace WindowsHelloWithLedger
                 }                
             }
             // Ensure the current window is active
+            
+            await CommomMethods.CompactOverlayMode();
             Window.Current.Activate();
         }
 

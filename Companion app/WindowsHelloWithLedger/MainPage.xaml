@@ -12,7 +12,7 @@
     MinWidth="480"
     MaxHeight="485"
     MaxWidth="480"
-    mc:Ignorable="d">
+    mc:Ignorable="d" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" HorizontalAlignment="Left" VerticalAlignment="Top">
     <Page.Resources>
         <local:BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style x:Key="ListViewItemStyleCustom" TargetType="ListViewItem">
@@ -44,7 +44,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
+    <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.BorderBrush>
             <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                 <GradientStop Color="Black" Offset="0"/>
@@ -74,7 +74,7 @@
             <ListView x:Name="DeviceListBox" ItemsSource="{Binding}"  Height="200" ItemContainerStyle="{StaticResource ListViewItemStyleCustom}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ListViewItem Height="53" Width="400" MinWidth="400" PointerEntered="ListItem_PointerEntered" PointerExited="ListItem_PointerExited" >
+                        <ListViewItem Height="53" Width="400" MinWidth="400" PointerEntered="ListItem_PointerEntered" PointerExited="ListItem_PointerExited">
                             <RelativePanel Height="53" Width="400" MinWidth="400" Margin="-12,0,0,0">
                                 <Rectangle Name="Select"  Width="5" Height="24" Fill="#20e3ff" Visibility="Collapsed" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True"></Rectangle>
                                 <TextBlock Name="DeviceName" Text="{Binding deviceFriendlyName, Mode=OneWay}" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="13" Width="195" Foreground="#000000" RelativePanel.RightOf="Select" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="40,0,0,0"></TextBlock>

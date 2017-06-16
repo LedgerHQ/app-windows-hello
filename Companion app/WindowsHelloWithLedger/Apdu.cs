@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
+using Windows.Foundation;
 using Windows.Security.Authentication.Identity.Provider;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -67,6 +69,17 @@ namespace WindowsHelloWithLedger
     }
     class CommomMethods
     {
+        public static async Task CompactOverlayMode()
+        {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(480, 485));            
+            ApplicationView.PreferredLaunchViewSize = new Size(480, 485);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            //ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            //compactOptions.CustomSize = new Windows.Foundation.Size(480, 485);
+            //compactOptions.ViewSizePreference = ViewSizePreference.Custom;
+            //await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, compactOptions);            
+        }
+
         public static async Task RegisterDevice_Click(string deviceFriendlyName)
         {
             String deviceId = "";
@@ -233,7 +246,9 @@ namespace WindowsHelloWithLedger
                                 //For PinSetupRequired Exception:Ensure PIN is setup on the device
                                 //Either use gpedit.msc or set reg key
                                 //This setting can be enabled by creating the AllowDomainPINLogon REG_DWORD value under the HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System Registry key and setting it to 1.
-                                myDlg = new MessageDialog("Please setup PIN for your device and try again.");
+                                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                                var str = loader.GetString("PleaseSetupPin_error");
+                                myDlg = new MessageDialog(str);
                             }
 
                             if (myDlg != null)
@@ -285,7 +300,11 @@ namespace WindowsHelloWithLedger
             }
             if (numberOfDevices == numberOfRegisteredDevices)
             {
-                throw new Exception("No unregistered device present");
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                string str = loader.GetString("DeviceAlreadyRegistered1_error");
+
+
+                throw new Exception(str);
                 //myDlg = new MessageDialog("Ledger Nano-s for Windows Hello not found" + Environment.NewLine + Environment.NewLine + "Please plug a ledger Nano-s in a usb port");
                 //await myDlg.ShowAsync();
                 //return;
