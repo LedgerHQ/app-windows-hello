@@ -111,7 +111,7 @@ namespace LedgerHello
                 this.Frame.Navigate(typeof(waitingForDevice));
             }
             RefreshDeviceList(deviceList, 1000); //1000 ie: no item selected, max nb of items is 5
-            //await CommomMethods.CompactOverlayMode();
+            //await CommomMethods.SetWindowSize();
             //this.Frame.Navigate(typeof(TestRelativePanel));            
             return;
         }

@@ -42,9 +42,9 @@ namespace Tasks
             deferral = taskInstance.GetDeferral();
 
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile logsFile = await folder.CreateFileAsync("BGtask.txt", CreationCollisionOption.OpenIfExists);
-            string txt = "[RUN]: " + DateTime.Now.ToString() + Environment.NewLine;
-            await FileIO.WriteTextAsync(logsFile, txt);
+            //StorageFile logsFile = await folder.CreateFileAsync("BGtask.txt", CreationCollisionOption.OpenIfExists);
+            //string txt = "[RUN]: " + DateTime.Now.ToString() + Environment.NewLine;
+            //await FileIO.WriteTextAsync(logsFile, txt);
 
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);

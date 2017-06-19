@@ -178,7 +178,7 @@
     <value>Connect your Ledger device to your computer. Make sure it is powered on and unlocked.</value>
   </data>
   <data name="PleaseSetupPin_error" xml:space="preserve">
-    <value>Your Windows account needs to be protected with a PIN to register a new Ledger device. Please enable it and try again.</value>
+    <value>Your Windows account needs to be protected with a PIN to register a new Ledger device. Please enable it and try again (Windows Settings &gt; Accounts &gt; Sign-in options).</value>
   </data>
   <data name="Register.Text" xml:space="preserve">
     <value>REGISTER</value>

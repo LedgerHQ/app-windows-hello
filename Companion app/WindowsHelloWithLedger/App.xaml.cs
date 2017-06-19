@@ -4,6 +4,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Security.Authentication.Identity.Provider;
+using Windows.Security.Credentials;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -69,6 +71,22 @@ namespace LedgerHello
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+
+                bool isSupported;
+                MessageDialog myDlg;
+                isSupported = await KeyCredentialManager.IsSupportedAsync();
+
+                if (!isSupported)
+                {
+                    var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                    var str = loader.GetString("PleaseSetupPin_error");
+
+                    myDlg = new MessageDialog(str);
+                    await myDlg.ShowAsync();
+                    Application.Current.Exit();
+                    return;
+                }
+
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> registeredDeviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
                             SecondaryAuthenticationFactorDeviceFindScope.User);
                 if (registeredDeviceList.Count == 0)
@@ -82,7 +100,7 @@ namespace LedgerHello
             }
             // Ensure the current window is active
             
-            await CommomMethods.CompactOverlayMode();
+            CommomMethods.SetWindowSize();
             Window.Current.Activate();
         }
 

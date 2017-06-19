@@ -69,7 +69,7 @@ namespace LedgerHello
     }
     class CommomMethods
     {
-        public static async Task CompactOverlayMode()
+        public static void SetWindowSize()
         {
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(480, 485));            
             ApplicationView.PreferredLaunchViewSize = new Size(480, 485);

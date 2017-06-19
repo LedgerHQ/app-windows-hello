@@ -1,7 +1,5 @@
-UI integration 21 :
-New App Name :
-- Display name is "Ledger Hello"
-- String for configuration file, and project code files is "LedgerHello"
+UI integration 22 :
+- Rename CompactOverlayMode() method to SetWindowSize()
 
 TODO : 
 - Rename apdu.cs and its containing classes
