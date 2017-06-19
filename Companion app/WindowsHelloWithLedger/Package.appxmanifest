@@ -3,7 +3,7 @@
   <Identity Name="bd01bd19-d124-49a4-8ce0-da850c3b7d91" Publisher="CN=Philippe" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="bd01bd19-d124-49a4-8ce0-da850c3b7d91" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>WindowsHelloWithLedger</DisplayName>
+    <DisplayName>LedgerHello</DisplayName>
     <PublisherDisplayName>Ledger</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,8 +14,8 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WindowsHelloWithLedger.App">
-      <uap:VisualElements DisplayName="Windows Hello with Ledger" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="CDFSampleApp Sample Source Code" BackgroundColor="white">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="LedgerHello.App">
+      <uap:VisualElements DisplayName="Ledger Hello" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="CDFSampleApp Sample Source Code" BackgroundColor="white">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
@@ -26,7 +26,7 @@
         <uap:LockScreen BadgeLogo="Assets\SmallLogo.png" Notification="badgeAndTileText" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" Executable="WindowsHelloWithLedger.exe" EntryPoint="Tasks.authBGTask">
+        <Extension Category="windows.backgroundTasks" Executable="LedgerHello.exe" EntryPoint="Tasks.authBGTask">
           <BackgroundTasks>
             <Task Type="timer" />
             <Task Type="pushNotification" />

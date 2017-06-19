@@ -1,10 +1,8 @@
-UI integration 20 :
-Updated Resources.resw file for "en-US"
-All device enumeration are made for current user (some of them were for all users)
-Set preffered view size for all windows
-Force window size when user tries to resize window
+UI integration 21 :
+New App Name :
+- Display name is "Ledger Hello"
+- String for configuration file, and project code files is "LedgerHello"
 
 TODO : 
 - Rename apdu.cs and its containing classes
 - Add shade around subgrid
-- Border outside mainpage is white, find a way to make it grey

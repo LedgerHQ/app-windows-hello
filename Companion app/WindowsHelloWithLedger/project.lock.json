@@ -15832,9 +15832,9 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
-      "projectName": "WindowsHelloWithLedger",
-      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\WindowsHelloWithLedger.csproj",
+      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
+      "projectName": "LedgerHello",
+      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
       "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\project.json",
       "projectStyle": "ProjectJson",
       "frameworks": {

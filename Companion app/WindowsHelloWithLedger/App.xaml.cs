@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace WindowsHelloWithLedger
+namespace LedgerHello
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

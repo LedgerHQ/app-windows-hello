@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Notifications;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
-using WindowsHelloWithLedger;
+using LedgerHello;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -35,15 +35,16 @@ namespace Tasks
     {
         ManualResetEvent opCompletedEvent = null;
         BackgroundTaskDeferral deferral;
+
        
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
 
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile ConnectedRegisteredDeviceListFile = await folder.CreateFileAsync("BGtask.txt", CreationCollisionOption.OpenIfExists);
+            StorageFile logsFile = await folder.CreateFileAsync("BGtask.txt", CreationCollisionOption.OpenIfExists);
             string txt = "[RUN]: " + DateTime.Now.ToString() + Environment.NewLine;
-            await FileIO.WriteTextAsync(ConnectedRegisteredDeviceListFile, txt);
+            await FileIO.WriteTextAsync(logsFile, txt);
 
             // This event is signaled when the operation completes
             opCompletedEvent = new ManualResetEvent(false);
@@ -387,7 +388,7 @@ namespace Tasks
                         }
                         catch
                         {
-
+                            
                         }
                     }
                 }
