@@ -176,10 +176,11 @@ namespace LedgerHello
                         if (sw1sw2 != "9000")
                         {
                             var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-                            var str = loader.GetString("RegsitrationDenied_error");
+                            string RegistrationDeniedContent = loader.GetString("RegsitrationDenied_content_error");
+                            string RegistrationDeniedTitle = loader.GetString("RegsitrationDenied_title_error");
 
                             myDlg = null;
-                            myDlg = new MessageDialog(str);
+                            myDlg = new MessageDialog(RegistrationDeniedContent, RegistrationDeniedTitle);
                             await myDlg.ShowAsync();                            
                             return;
                         }

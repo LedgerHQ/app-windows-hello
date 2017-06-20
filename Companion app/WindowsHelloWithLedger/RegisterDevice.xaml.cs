@@ -40,6 +40,10 @@ namespace LedgerHello
             
             StartWatcher();
             Window.Current.SizeChanged += Current_SizeChanged;
+            //NameYourDevice.Focus(FocusState.Programmatic);
+            //NameYourDevice.Select(0, NameYourDevice.Text.Length);
+
+            //NameYourDevice.Select(NameYourDevice.Text.Length, 0);            
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -142,7 +146,7 @@ namespace LedgerHello
         private async void Assistance_Click(object sender, TappedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
-            string uriToLaunch = @"http://www.ledgerwallet.com";
+            string uriToLaunch = @"http://support.ledgerwallet.com";
             var uri = new Uri(uriToLaunch);
             var success = await Windows.System.Launcher.LaunchUriAsync(uri);
         }
@@ -273,6 +277,8 @@ namespace LedgerHello
                 }                
             }
         }
+
+
     }    
 }
  

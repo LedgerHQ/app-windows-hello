@@ -186,7 +186,7 @@
   <data name="RegsiterYourDevice_info.Text" xml:space="preserve">
     <value>Register your device</value>
   </data>
-  <data name="RegsitrationDenied_error" xml:space="preserve">
+  <data name="RegsitrationDenied_content_error" xml:space="preserve">
     <value>The device registration has been rejected. Make sure to accept the request to continue.</value>
   </data>
   <data name="September" xml:space="preserve">
@@ -233,5 +233,8 @@
   </data>
   <data name="PleaseSetupPin_title_error" xml:space="preserve">
     <value>PIN setup required</value>
+  </data>
+  <data name="RegsitrationDenied_title_error" xml:space="preserve">
+    <value>Regsitration denied</value>
   </data>
 </root>

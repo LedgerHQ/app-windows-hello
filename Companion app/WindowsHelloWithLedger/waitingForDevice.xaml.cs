@@ -108,7 +108,7 @@ namespace LedgerHello
 
         private async void Assistance_Click(object sender, TappedRoutedEventArgs e)
         {
-            string uriToLaunch = @"http://www.ledgerwallet.com";
+            string uriToLaunch = @"http://support.ledgerwallet.com";
             var uri = new Uri(uriToLaunch);
             var success = await Windows.System.Launcher.LaunchUriAsync(uri);
         }

@@ -1,7 +1,7 @@
-UI integration 23 :
-- Added error message Title and Content for every MessageDialog displayed (added those messages to the ressources file)
-- Transparent background for all generated badges and tiles
-- Added border/shade on the subgrid on all pages
+UI integration 24 :
+- Added title to regsitration denied error 
+- Assistance button links to support.ledgerwallet.com
+- Updated package version to 1.0.3
 
 TODO : 
 - Rename apdu.cs and its containing classes
