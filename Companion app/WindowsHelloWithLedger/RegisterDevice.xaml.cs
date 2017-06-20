@@ -218,9 +218,12 @@ namespace LedgerHello
             string deviceFriendlyName = NameYourDevice.Text.Trim();
 
             var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-            string deviceNameAlreadyUsed = loader.GetString("DeviceNameAlreadyUsed_error");
-            string deviceAlreadyRegistered1 = loader.GetString("DeviceAlreadyRegistered1_error");
-            string deviceAlreadyRegistered2 = loader.GetString("DeviceAlreadyRegistered2_error");
+            string deviceNameAlreadyUsedContent = loader.GetString("DeviceNameAlreadyUsed_content_error");
+            string deviceNameAlreadyUsedTitle = loader.GetString("DeviceNameAlreadyUsed_title_error");
+
+            string deviceAlreadyRegisteredContent = loader.GetString("DeviceAlreadyRegistered_content_error");
+            string deviceAlreadyRegisteredTitle = loader.GetString("DeviceAlreadyRegistered_title_error");
+
             try
             {
                 IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(SecondaryAuthenticationFactorDeviceFindScope.User);
@@ -228,23 +231,23 @@ namespace LedgerHello
                 {
                     if (device.DeviceFriendlyName == deviceFriendlyName)
                     {
-                        throw new Exception(deviceNameAlreadyUsed);
+                        throw new Exception(deviceNameAlreadyUsedContent);
                     }
                 }
                 await CommomMethods.RegisterDevice_Click(deviceFriendlyName);
             }
             catch (Exception ex)
             {
-                if (ex.Message == deviceNameAlreadyUsed)
+                if (ex.Message == deviceNameAlreadyUsedContent)
                 {                    
-                    myDlg = new MessageDialog(ex.Message);
+                    myDlg = new MessageDialog(ex.Message, deviceNameAlreadyUsedTitle);
                     await myDlg.ShowAsync();
                     this.Frame.Navigate(typeof(RegisterDevice));
                     executeFinally = false;
                 }
-                else if (ex.Message == deviceAlreadyRegistered1)
+                else if (ex.Message == deviceAlreadyRegisteredContent)
                 {
-                    myDlg = new MessageDialog(deviceAlreadyRegistered1 + Environment.NewLine + Environment.NewLine + deviceAlreadyRegistered2);
+                    myDlg = new MessageDialog(deviceAlreadyRegisteredContent, deviceAlreadyRegisteredTitle);
                     await myDlg.ShowAsync();
                     this.Frame.Navigate(typeof(waitingForDevice));
                     executeFinally = false;

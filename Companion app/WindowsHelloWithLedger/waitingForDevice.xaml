@@ -27,7 +27,7 @@
         </StackPanel>
         <!--<Image Source="ms-appx:///Assets/Button-assistance.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" PointerEntered="Assistance_pointerEntered"/>
         <Image Source="ms-appx:///Assets/Button-assistance-select.png" Height="13" Width="81" VerticalAlignment="Top" HorizontalAlignment="right" Margin="0,46,40,0" Visibility="Collapsed"  PointerExited="Assistance_pointerExited" Tapped="Assistance_Click"/>-->
-        <Grid Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
+        <Grid Name="SubGrid" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,35" BorderThickness="2,1,2,5" BorderBrush="#05000000" Background="White">
             <Image Source="ms-appx:///Assets/picto-device.png" Width="50" Height="21" VerticalAlignment="Top" Margin="40"/>
             <TextBlock x:Uid="RegsiterYourDevice_info" x:Name="Header" TextWrapping="Wrap" Text="Register your device" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" FontSize="16" IsColorFontEnabled="True" Foreground="#000000" TextAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top"/>
             <Image Source="ms-appx:///Assets/divider.png" Height="1" Width="320" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,137,40,0"/>

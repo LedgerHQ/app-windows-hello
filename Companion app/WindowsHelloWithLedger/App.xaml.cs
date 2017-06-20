@@ -79,9 +79,10 @@ namespace LedgerHello
                 if (!isSupported)
                 {
                     var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-                    var str = loader.GetString("PleaseSetupPin_error");
+                    string PleaseSetUpPinContent = loader.GetString("PleaseSetupPin_content_error");
+                    string PleaseSetUpPinTitle = loader.GetString("PleaseSetupPin_title_error");
 
-                    myDlg = new MessageDialog(str);
+                    myDlg = new MessageDialog(PleaseSetUpPinContent, PleaseSetUpPinTitle);
                     await myDlg.ShowAsync();
                     Application.Current.Exit();
                     return;

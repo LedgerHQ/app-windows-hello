@@ -175,19 +175,19 @@
     <value>OK</value>
   </data>
   <data name="One.Text" xml:space="preserve">
-    <value>Connect your Ledger device to your computer. Make sure it is powered on and unlocked.</value>
+    <value>Connect your Ledger device. Make sure it is powered on and unlocked.</value>
   </data>
-  <data name="PleaseSetupPin_error" xml:space="preserve">
+  <data name="PleaseSetupPin_content_error" xml:space="preserve">
     <value>Your Windows account needs to be protected with a PIN to register a new Ledger device. Please enable it and try again (Windows Settings &gt; Accounts &gt; Sign-in options).</value>
   </data>
   <data name="Register.Text" xml:space="preserve">
     <value>REGISTER</value>
   </data>
   <data name="RegsiterYourDevice_info.Text" xml:space="preserve">
-    <value>Regsiter your device</value>
+    <value>Register your device</value>
   </data>
   <data name="RegsitrationDenied_error" xml:space="preserve">
-    <value>Device registration has been rejected. Please try again.</value>
+    <value>The device registration has been rejected. Make sure to accept the request to continue.</value>
   </data>
   <data name="September" xml:space="preserve">
     <value>SEP, </value>
@@ -199,21 +199,39 @@
     <value>Open the Hello app on the device. When prompted, confirm the registration request.</value>
   </data>
   <data name="TypeDeviceName_info.Text" xml:space="preserve">
-    <value>Enter a device name</value>
+    <value>Enter a name for this device</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>YESTERDAY, </value>
   </data>
   <data name="LookingForDevice" xml:space="preserve">
-    <value>a registered ledger device</value>
+    <value>a registered Ledger device</value>
   </data>
-  <data name="DeviceAlreadyRegistered1_error" xml:space="preserve">
-    <value>Detected device is already registered</value>
+  <data name="DeviceNameAlreadyUsed_content_error" xml:space="preserve">
+    <value>A Ledger device with this name is already registered. Make sure the name is unique and try again.</value>
   </data>
-  <data name="DeviceAlreadyRegistered2_error" xml:space="preserve">
-    <value>Please plug an unregistered ledger device in an USB port and try again</value>
+  <data name="DeletingDevice_content" xml:space="preserve">
+    <value>Are you sure you want to delete the selected device?</value>
   </data>
-  <data name="DeviceNameAlreadyUsed_error" xml:space="preserve">
+  <data name="DeletingDevice_title" xml:space="preserve">
+    <value>Deleting device</value>
+  </data>
+  <data name="DeviceAlreadyRegistered_content_error" xml:space="preserve">
+    <value>This Ledger device is already registered. Connect a new Ledger device and try again.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DeviceAlreadyRegistered_title_error" xml:space="preserve">
+    <value>Device already registered</value>
+  </data>
+  <data name="DeviceNameAlreadyUsed_title_error" xml:space="preserve">
     <value>Device name already used</value>
+  </data>
+  <data name="PleaseSetupPin_title_error" xml:space="preserve">
+    <value>PIN setup required</value>
   </data>
 </root>

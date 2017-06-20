@@ -489,11 +489,14 @@ namespace LedgerHello
             ((TextBlock)((RelativePanel)((Image)sender).Parent).Children.ElementAt(2)).Width = 125;
             ((RelativePanel)((Image)sender).Parent).Children.ElementAt(3).Visibility = Visibility.Collapsed;
 
-            var title = "Deleting device";
-            var content = "Are you sure you want to delete the selected device?";
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            string title = loader.GetString("DeletingDevice_title");
 
-            var yesCommand = new UICommand("Yes", cmd => { UnregisterDevice_Click(sender, e); });
-            var noCommand = new UICommand("No", cmd => { this.Frame.Navigate(typeof(MainPage)); });
+            string content = loader.GetString("DeletingDevice_content");
+
+
+            var yesCommand = new UICommand(loader.GetString("Yes"), cmd => { UnregisterDevice_Click(sender, e); });
+            var noCommand = new UICommand(loader.GetString("No"), cmd => { this.Frame.Navigate(typeof(MainPage)); });
 
             var dialog = new MessageDialog(content, title);
             dialog.Options = MessageDialogOptions.None;

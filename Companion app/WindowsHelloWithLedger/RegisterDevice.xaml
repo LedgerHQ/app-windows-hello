@@ -14,7 +14,13 @@
     HorizontalContentAlignment="Left" VerticalContentAlignment="Top" HorizontalAlignment="Left" VerticalAlignment="Top"
     mc:Ignorable="d" >
 
-    <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480">
+    <Grid Name="MainGrid" Background="#f9f9f9" Height="485" Width="480" MinHeight="485" MinWidth="480" MaxHeight="485" MaxWidth="480" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Grid.BorderBrush>
+            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#0AFFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.BorderBrush>
         <Image Name="logo" Source="ms-appx:///Assets/Logo-ledger-Hello.png" Margin="40,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Height="25"/>
         <!--<TextBlock x:Name="assistance" Text="ASSISTANCE" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" FontSize="10" IsColorFontEnabled="True" Foreground="#999999" HorizontalAlignment="Right" Margin="0,1,20,0"/>-->
         <StackPanel Name="Assistance" Orientation="Horizontal" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="40,46" PointerEntered="Assistance_pointerEntered">
@@ -25,7 +31,7 @@
             <TextBlock x:Uid="Assistance" Text="ASSISTANCE" FontSize="10" FontFamily="ms-appx:///Assets/OpenSans-Semibold.ttf" Foreground="#737575" VerticalAlignment="Center"></TextBlock>
             <Image Source="ms-appx:///Assets/Assistance-select.png" Height="13" Width="13" Margin="10,0,0,0" VerticalAlignment="Center"></Image>
         </StackPanel>
-        <Grid Name="SubGrid" Background="#ffffff" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,0">
+        <Grid Name="SubGrid" Height="263" Width="400" MinHeight="340" MinWidth="400" MaxHeight="340" MaxWidth="400" VerticalAlignment="top" HorizontalAlignment="Left" Margin="40,105,0,35" BorderThickness="2,1,2,5" BorderBrush="#05000000" Background="White">
             <StackPanel>
                 <Image Name="PictoName" Source="ms-appx:///Assets/Picto-name.png" Width="28" Height="32" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0"></Image>
                 <TextBox x:Uid="DeviceNameDefault" Name="NameYourDevice" Height="16" BorderThickness="0" FontSize="16" FontFamily="ms-appx:///Assets/OpenSans-Regular.ttf" Text="My Ledger Nano-s" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"></TextBox>

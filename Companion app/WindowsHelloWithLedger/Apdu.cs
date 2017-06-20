@@ -105,9 +105,10 @@ namespace LedgerHello
             if (!isSupported)
             {
                 var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-                var str = loader.GetString("PleaseSetupPin_error");
+                string PleaseSetUpPinContent = loader.GetString("PleaseSetupPin_content_error");
+                string PleaseSetUpPinTitle = loader.GetString("PleaseSetupPin_title_error");
 
-                myDlg = new MessageDialog(str);
+                myDlg = new MessageDialog(PleaseSetUpPinContent, PleaseSetUpPinTitle);
                 await myDlg.ShowAsync();
                 return;
             }
@@ -301,7 +302,7 @@ namespace LedgerHello
             if (numberOfDevices == numberOfRegisteredDevices)
             {
                 var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-                string str = loader.GetString("DeviceAlreadyRegistered1_error");
+                string str = loader.GetString("DeviceAlreadyRegistered_content_error");
 
 
                 throw new Exception(str);
