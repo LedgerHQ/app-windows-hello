@@ -1,0 +1,10 @@
+Ledger Hello 1.0.0 :
+
+1) App Features:
+- Register / Unregister companion device
+- Unlock workstation with companion device (if device is already plugged, press space or enter on locked screen, if device is not plugged, plug it and start Hello app)
+- Dynamic lock : locks the workstation on companion device removal (If companion device setting "Unplug to lock" is set to yes, and if companion device was used for last logon)
+
+2) Limitations
+Multi-User, if several devices are registered for several user accounts, we advise to unplug all companion devices defore trying to switch user account
+

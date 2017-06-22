@@ -12,6 +12,7 @@ using Windows.Security.Authentication.Identity.Provider;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -100,7 +101,7 @@ namespace LedgerHello
             MessageDialog myDlg;
 
             bool isSupported;
-            isSupported = await KeyCredentialManager.IsSupportedAsync();
+            isSupported = await KeyCredentialManager.IsSupportedAsync();           
 
             if (!isSupported)
             {
@@ -112,6 +113,9 @@ namespace LedgerHello
                 await myDlg.ShowAsync();
                 return;
             }
+
+            IReadOnlyList<User> users = await User.FindAllAsync(UserType.LocalUser, UserAuthenticationStatus.LocallyAuthenticated);
+            string userId = users.ElementAt(0).NonRoamableId;
 
             string selector = SmartCardReader.GetDeviceSelector();
             selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
@@ -211,11 +215,11 @@ namespace LedgerHello
                         //DateTime addDate = new DateTime(2017, 5, 31, 13, 23, 45);
                         if (deviceDlockState[0] == 0)
                         {
-                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString();
+                            deviceConfigString = deviceId + "-0-0-" + deviceFriendlyName + "-" + addDate.ToString() + "-" + userId;
                         }
                         else
                         {
-                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName + "-" + addDate.ToString();
+                            deviceConfigString = deviceId + "-1-0-" + deviceFriendlyName + "-" + addDate.ToString() + "-" + userId;
                         }
 
                         // Get a Ibuffer from combinedDataArray

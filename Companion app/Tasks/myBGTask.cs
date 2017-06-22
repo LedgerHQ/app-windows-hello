@@ -65,8 +65,9 @@ namespace Tasks
                             deferral = taskInstance.GetDeferral();
                             try
                             {
-                                
                                 SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
+                                SecondaryAuthenticationFactorAuthenticationStage stage = authStageInfo.Stage;
+                                //Debugger.Break();
                                 if ((authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation)
                                     || (authStageInfo.Stage == SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential))
                                 {
@@ -414,15 +415,14 @@ namespace Tasks
 
             SecondaryAuthenticationFactorAuthenticationStageInfo authStageInfo = await SecondaryAuthenticationFactorAuthentication.GetAuthenticationStageInfoAsync();
 
-            if (authStageInfo.Stage != SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential)
-            {
-                
-                //throw new Exception("Unexpected! Stage: " + authStageInfo.Stage);
+            if ((authStageInfo.Stage != SecondaryAuthenticationFactorAuthenticationStage.CollectingCredential) && (authStageInfo.Stage != SecondaryAuthenticationFactorAuthenticationStage.WaitingForUserConfirmation))
+            {                
+                throw new Exception("Unexpected! Stage: " + authStageInfo.Stage);
             }
             //ShowToastNotification("Post Collecting Credential");
             System.Diagnostics.Debug.WriteLine("[AuthenticateWithSmartCardAsync] Post Collecting Credential");
             IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList = await SecondaryAuthenticationFactorRegistration.FindAllRegisteredDeviceInfoAsync(
-                    SecondaryAuthenticationFactorDeviceFindScope.User);
+                    SecondaryAuthenticationFactorDeviceFindScope.AllUsers);
             if (deviceList.Count == 0)
             {
                 //ShowToastNotification("Unexpected exception, device list = 0");

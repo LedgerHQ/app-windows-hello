@@ -132,7 +132,7 @@ namespace LedgerHello
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
                 listItem.deviceGUID = deviceInfo.DeviceId;
                 int count = deviceInfo.DeviceFriendlyName.Count();
-                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1));
+                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1, 19));
                 dateString = CommomMethods.FormatDate(listItem.date);
                 listItem.dateString = dateString;
                 if (DeviceListBox.Items.Count > index - cpt)
@@ -149,7 +149,7 @@ namespace LedgerHello
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
                 listItem.deviceGUID = deviceInfo.DeviceId;
                 int count = deviceInfo.DeviceFriendlyName.Count();
-                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1));
+                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1, 19));
                 dateString = CommomMethods.FormatDate(listItem.date);
                 listItem.dateString = dateString;
                 if (index == deviceList.Count - 1)

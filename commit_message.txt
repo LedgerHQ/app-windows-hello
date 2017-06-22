@@ -1,7 +1,6 @@
-UI integration 24 :
-- Added title to regsitration denied error 
-- Assistance button links to support.ledgerwallet.com
-- Updated package version to 1.0.3
+Prepare Multi-User management :
+- On registration, add userId in deviceConfigData (in order to know which user registered which device)
+- Add ReleaseNote.txt
 
 TODO : 
 - Rename apdu.cs and its containing classes
