@@ -31,6 +31,7 @@ namespace LedgerHello
     {
         private DeviceWatcher deviceWatcher = null;
         private TypedEventHandler<DeviceWatcher, DeviceInformationUpdate> handlerRemoved = null;
+        bool bAfterLoaded = false;
 
         //internal IEnumerable<DeviceInformationDisplay> ResultCollection { get; private set; }
 
@@ -40,10 +41,23 @@ namespace LedgerHello
             
             StartWatcher();
             Window.Current.SizeChanged += Current_SizeChanged;
-            //NameYourDevice.Focus(FocusState.Programmatic);
-            //NameYourDevice.Select(0, NameYourDevice.Text.Length);
+            this.Loaded += RegisterDevice_Loaded;
+            this.LayoutUpdated += RegisterDevice_LayoutUpdated;
+        }
 
-            //NameYourDevice.Select(NameYourDevice.Text.Length, 0);            
+        private void RegisterDevice_LayoutUpdated(object sender, object e)
+        {
+            if (bAfterLoaded)
+            {
+                NameYourDevice.Select(NameYourDevice.Text.Length, 0);
+                NameYourDevice.Focus(FocusState.Programmatic);
+                bAfterLoaded = !bAfterLoaded;
+            }
+        }
+
+        private void RegisterDevice_Loaded(object sender, RoutedEventArgs e)
+        {
+            bAfterLoaded = !bAfterLoaded;
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -54,7 +68,6 @@ namespace LedgerHello
 
         private void StartWatcher()
         {
-
             string selector = SmartCardReader.GetDeviceSelector();
             selector += " AND System.Devices.DeviceInstanceId:~~\"Ledger\"";
 
@@ -245,6 +258,7 @@ namespace LedgerHello
                 if (ex.Message == deviceNameAlreadyUsedContent)
                 {                    
                     myDlg = new MessageDialog(ex.Message, deviceNameAlreadyUsedTitle);
+                    
                     await myDlg.ShowAsync();
                     this.Frame.Navigate(typeof(RegisterDevice));
                     executeFinally = false;

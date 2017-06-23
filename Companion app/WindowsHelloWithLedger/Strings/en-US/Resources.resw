@@ -127,7 +127,7 @@
     <value>AUG, </value>
   </data>
   <data name="AwaitingConfirm.Text" xml:space="preserve">
-    <value>AWAITING CONFIRM...</value>
+    <value>AWAITING CONFIRMATION...</value>
   </data>
   <data name="AwaitingDevice" xml:space="preserve">
     <value>AWAITING DEVICE...</value>
@@ -214,7 +214,7 @@
     <value>Are you sure you want to delete the selected device?</value>
   </data>
   <data name="DeletingDevice_title" xml:space="preserve">
-    <value>Deleting device</value>
+    <value>Remove device</value>
   </data>
   <data name="DeviceAlreadyRegistered_content_error" xml:space="preserve">
     <value>This Ledger device is already registered. Connect a new Ledger device and try again.</value>
@@ -226,15 +226,15 @@
     <value>Yes</value>
   </data>
   <data name="DeviceAlreadyRegistered_title_error" xml:space="preserve">
-    <value>Device already registered</value>
+    <value>Already registered</value>
   </data>
   <data name="DeviceNameAlreadyUsed_title_error" xml:space="preserve">
-    <value>Device name already used</value>
+    <value>Name is already used</value>
   </data>
   <data name="PleaseSetupPin_title_error" xml:space="preserve">
-    <value>PIN setup required</value>
+    <value>PIN required</value>
   </data>
   <data name="RegsitrationDenied_title_error" xml:space="preserve">
-    <value>Regsitration denied</value>
+    <value>Registration rejected</value>
   </data>
 </root>
