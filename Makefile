@@ -21,7 +21,7 @@ endif
 include $(BOLOS_SDK)/Makefile.defines
 
 APP_LOAD_PARAMS=--path "" --curve secp256k1 $(COMMON_LOAD_PARAMS) 
-APPNAME = WindowsHello
+APPNAME = Hello
 ICONNAME = icon.gif
 
 APPVERSION_M=0

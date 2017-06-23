@@ -59,8 +59,8 @@ const bagl_icon_details_t C_icon_dashboard;
 #endif // GLYPH_icon_dashboard_BPP
 #endif // OS_IO_SEPROXYHAL
 #ifndef GLYPH_icon_hello_BPP
-#define GLYPH_icon_hello_WIDTH 16
-#define GLYPH_icon_hello_HEIGHT 16
+#define GLYPH_icon_hello_WIDTH 14
+#define GLYPH_icon_hello_HEIGHT 14
 #define GLYPH_icon_hello_BPP 1
 extern
 unsigned int const C_icon_hello_colors[]
@@ -72,6 +72,21 @@ unsigned char const C_icon_hello_bitmap[];
 extern
 const bagl_icon_details_t C_icon_hello;
 #endif // GLYPH_icon_hello_BPP
+#endif // OS_IO_SEPROXYHAL
+#ifndef GLYPH_icon_hello_old_BPP
+#define GLYPH_icon_hello_old_WIDTH 16
+#define GLYPH_icon_hello_old_HEIGHT 16
+#define GLYPH_icon_hello_old_BPP 1
+extern
+unsigned int const C_icon_hello_old_colors[]
+;
+extern	
+unsigned char const C_icon_hello_old_bitmap[];
+#ifdef OS_IO_SEPROXYHAL
+#include "os_io_seproxyhal.h"
+extern
+const bagl_icon_details_t C_icon_hello_old;
+#endif // GLYPH_icon_hello_old_BPP
 #endif // OS_IO_SEPROXYHAL
 #ifndef GLYPH_icon_toggle_reset_BPP
 #define GLYPH_icon_toggle_reset_WIDTH 32

@@ -23,8 +23,8 @@ const bagl_element_t ui_confirm_registration_nanos[] = {
      NULL,
      NULL},
 
-    {{BAGL_LABELINE, 0x01, 33, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
+    {{BAGL_LABELINE, 0x01, 0, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
+      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px | BAGL_FONT_ALIGNMENT_CENTER , 0},
      "Confirm",
      0,
      0,
@@ -32,9 +32,9 @@ const bagl_element_t ui_confirm_registration_nanos[] = {
      NULL,
      NULL,
      NULL},
-    {{BAGL_LABELINE, 0x01, 34, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Registration",
+    {{BAGL_LABELINE, 0x01, 1, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
+      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px | BAGL_FONT_ALIGNMENT_CENTER , 0},
+     "registration",
      0,
      0,
      0,
@@ -77,8 +77,8 @@ const bagl_element_t ui_confirm_login_nanos[] = {
      NULL,
      NULL},
 
-    {{BAGL_LABELINE, 0x01, 33, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
+    {{BAGL_LABELINE, 0x01, 0, 12, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
+      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px | BAGL_FONT_ALIGNMENT_CENTER , 0},
      "Confirm",
      0,
      0,
@@ -86,9 +86,9 @@ const bagl_element_t ui_confirm_login_nanos[] = {
      NULL,
      NULL,
      NULL},
-    {{BAGL_LABELINE, 0x01, 34, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
-      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px, 0},
-     "Log-in",
+    {{BAGL_LABELINE, 0x01, 1, 26, 128, 32, 0, 0, 0, 0xFFFFFF, 0x000000,
+      BAGL_FONT_OPEN_SANS_EXTRABOLD_11px | BAGL_FONT_ALIGNMENT_CENTER , 0},
+     "authentication",
      0,
      0,
      0,
@@ -124,7 +124,7 @@ const ux_menu_entry_t menu_about_nanos[] = {
     UX_MENU_END}; 
 
 const ux_menu_entry_t ui_idle_mainmenu_nanos[] = {
-  {NULL, NULL, 0, &C_icon_hello, "Ready to", "authenticate", 37, 11},
+  {NULL, NULL, 0, &C_icon_hello, "Ready to", "authenticate", 32, 10},
   {menu_settings_nanos, NULL, 0, NULL, "Settings", NULL, 0, 0},
   {menu_about_nanos, NULL, 0, NULL, "About", NULL, 0, 0},
   {NULL, os_sched_exit, 0, &C_icon_dashboard, "Quit app", NULL, 50, 29},
@@ -132,8 +132,8 @@ const ux_menu_entry_t ui_idle_mainmenu_nanos[] = {
 };
 
 const ux_menu_entry_t menu_settings_nanos[] = {
-  {NULL, menu_settings_confirm_login_init_nanos, 0, NULL, "Confirm login", NULL, 0, 0},
-  {NULL, menu_settings_dlock_init_nanos, 0, NULL, "Lock when unplugged", NULL, 0, 0},
+  {NULL, menu_settings_confirm_login_init_nanos, 0, NULL, "Auto-unlock", NULL, 0, 0},
+  {NULL, menu_settings_dlock_init_nanos, 0, NULL, "Unplug to lock", NULL, 0, 0},
   {ui_idle_mainmenu_nanos, NULL, 0, &C_icon_back, "Back", NULL, 61, 40},
   UX_MENU_END
 };

@@ -65,13 +65,28 @@ unsigned int const C_icon_hello_colors[]
 };
 	
 unsigned char const C_icon_hello_bitmap[] = {
+0xe0, 0x01, 0xfe, 0xc1, 0xff, 0xf8, 0x7f, 0xce, 0xdc, 0x33, 0xff, 0xff, 0xff, 0xff, 0xe7, 0xb9, 
+  0x01, 0xe6, 0xe1, 0xf1, 0x3f, 0xf8, 0x07, 0x78, 0x00, };
+
+#ifdef OS_IO_SEPROXYHAL
+#include "os_io_seproxyhal.h"
+const bagl_icon_details_t C_icon_hello = { GLYPH_icon_hello_WIDTH, GLYPH_icon_hello_HEIGHT, 1, C_icon_hello_colors, C_icon_hello_bitmap };
+#endif // OS_IO_SEPROXYHAL
+#include "glyphs.h"
+unsigned int const C_icon_hello_old_colors[]
+ = {
+  0x00000000, 
+  0x00ffffff, 
+};
+	
+unsigned char const C_icon_hello_old_bitmap[] = {
 0x18, 0x18, 0x3c, 0x3c, 0x3c, 0x3c, 0x18, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x03, 0xc0, 0x07, 0xe0, 0x0e, 0x70, 0x3c, 0x3c, 0xf8, 0x1f, 0xe0, 0x07, 0x00, 0x00, 0x00, 0x00, 
   };
 
 #ifdef OS_IO_SEPROXYHAL
 #include "os_io_seproxyhal.h"
-const bagl_icon_details_t C_icon_hello = { GLYPH_icon_hello_WIDTH, GLYPH_icon_hello_HEIGHT, 1, C_icon_hello_colors, C_icon_hello_bitmap };
+const bagl_icon_details_t C_icon_hello_old = { GLYPH_icon_hello_old_WIDTH, GLYPH_icon_hello_old_HEIGHT, 1, C_icon_hello_old_colors, C_icon_hello_old_bitmap };
 #endif // OS_IO_SEPROXYHAL
 #include "glyphs.h"
 unsigned int const C_icon_toggle_reset_colors[]

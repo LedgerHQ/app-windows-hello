@@ -1,6 +1,6 @@
-UI integration 25 :
-- On RegisterDevice page, show carret at the end of default text when navigating to page
-- Wording review with UI team (update Ressources.resw) 
+ Nanos-Blue app # 5 :
+- Updated nano-s UI to comply with UI spec
+- Added new logos and badges
 
 TODO : 
 - Rename apdu.cs and its containing classes
