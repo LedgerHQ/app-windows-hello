@@ -89,6 +89,22 @@ unsigned char const C_icon_hello_old_bitmap[] = {
 const bagl_icon_details_t C_icon_hello_old = { GLYPH_icon_hello_old_WIDTH, GLYPH_icon_hello_old_HEIGHT, 1, C_icon_hello_old_colors, C_icon_hello_old_bitmap };
 #endif // OS_IO_SEPROXYHAL
 #include "glyphs.h"
+unsigned int const C_icon_pirate_colors[]
+ = {
+  0x00000000, 
+  0x00ffffff, 
+};
+	
+unsigned char const C_icon_pirate_bitmap[] = {
+0x00, 0x00, 0x70, 0x0f, 0xfc, 0x3e, 0xfc, 0x31, 0xce, 0x61, 0xce, 0x61, 0xfe, 0x63, 0xfe, 0x5f, 
+  0xfe, 0x3f, 0xe6, 0x67, 0x86, 0x61, 0x0e, 0x70, 0x3c, 0x3c, 0xfc, 0x3f, 0xf0, 0x0f, 0x00, 0x00, 
+  };
+
+#ifdef OS_IO_SEPROXYHAL
+#include "os_io_seproxyhal.h"
+const bagl_icon_details_t C_icon_pirate = { GLYPH_icon_pirate_WIDTH, GLYPH_icon_pirate_HEIGHT, 1, C_icon_pirate_colors, C_icon_pirate_bitmap };
+#endif // OS_IO_SEPROXYHAL
+#include "glyphs.h"
 unsigned int const C_icon_toggle_reset_colors[]
  = {
   0x00cccccc, 

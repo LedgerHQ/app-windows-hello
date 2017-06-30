@@ -2,6 +2,8 @@
 
 #if defined (TARGET_NANOS)
 
+#define ICON_CHANGE_MAX_INTERVAL 40
+
 extern const bagl_element_t ui_confirm_registration_nanos[];
 extern const bagl_element_t ui_confirm_login_nanos[];
 extern const ux_menu_entry_t ui_idle_mainmenu_nanos[];
@@ -9,6 +11,9 @@ extern const ux_menu_entry_t menu_settings_nanos[];
 extern const ux_menu_entry_t menu_settings_confirm_login_nanos[];
 extern const ux_menu_entry_t menu_settings_dlock_nanos[];
 extern const ux_menu_entry_t menu_settings_nanos[];
+
+bagl_icon_details_t icon_hack;
+uint8_t icon_hack_flag;
 
 const bagl_element_t ui_confirm_registration_nanos[] = {
     // type                               userid    x    y   w    h  str rad
@@ -124,7 +129,7 @@ const ux_menu_entry_t menu_about_nanos[] = {
     UX_MENU_END}; 
 
 const ux_menu_entry_t ui_idle_mainmenu_nanos[] = {
-  {NULL, NULL, 0, &C_icon_hello, "Ready to", "authenticate", 32, 10},
+  {NULL, icon_change_callback, 0, &icon_hack, "Ready to", "authenticate", 32, 10},
   {menu_settings_nanos, NULL, 0, NULL, "Settings", NULL, 0, 0},
   {menu_about_nanos, NULL, 0, NULL, "About", NULL, 0, 0},
   {NULL, os_sched_exit, 0, &C_icon_dashboard, "Quit app", NULL, 50, 29},
@@ -149,6 +154,41 @@ const ux_menu_entry_t menu_settings_dlock_nanos[] = {
   {NULL, menu_settings_dlock_change_nanos, 1, NULL, "Yes", NULL, 0, 0},
   UX_MENU_END
 };
+
+void icon_change_callback(unsigned int ignored){
+	UNUSED(ignored);
+
+	icon_change_click_cnt++;
+
+	if (icon_change_click_cnt == 1){
+    icon_change_timer_cnt_t1 = icon_change_timer_cnt = 0;
+	}
+
+	if (icon_change_click_cnt == 10){
+		icon_change_click_cnt = 0;
+		icon_change_timer_cnt_t10 = icon_change_timer_cnt;
+
+		if (icon_change_timer_cnt_t10 - icon_change_timer_cnt_t1 < ICON_CHANGE_MAX_INTERVAL){
+			//Change icon
+			if (icon_hack_flag == 0){
+				icon_hack = C_icon_hello_old;
+				icon_hack_flag = 1;
+			}
+			else if (icon_hack_flag == 1){
+				icon_hack = C_icon_pirate;
+				icon_hack_flag = 2;
+			}
+      else {
+        icon_hack = C_icon_hello;
+        icon_hack_flag = 0;
+      }
+			
+			UX_MENU_DISPLAY(0, ui_idle_mainmenu_nanos, NULL);
+  			// setup the first screen changing
+  			UX_CALLBACK_SET_INTERVAL(1000);
+		}
+	}
+}
 
 unsigned int ui_confirm_login_nanos_button(unsigned int button_mask,unsigned int button_mask_counter) {
     switch (button_mask) {
@@ -221,6 +261,13 @@ void ui_confirm_login_init(void){
 void ui_idle_init(void) {
   ux_step = 0;
   ux_step_count = 2;
+
+  if (icon_hack_flag == 0){
+  	icon_hack = C_icon_hello;
+  }
+  
+  icon_change_click_cnt = 0;
+
   UX_MENU_DISPLAY(0, ui_idle_mainmenu_nanos, NULL);
   // setup the first screen changing
   UX_CALLBACK_SET_INTERVAL(1000);

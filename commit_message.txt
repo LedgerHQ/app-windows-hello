@@ -1,5 +1,5 @@
-Companion app update :
-Update device capabilities with : SecureStorage/HMacSha256/StoreKeys/SupportSecureUserPresenceCheck
+BOLOS app update :
+Add new nanos icons
 
 TODO : 
 - Rename apdu.cs and its containing classes

@@ -22,6 +22,8 @@ unsigned char string_buffer[64];
 unsigned int demo_counter;
 ux_state_t ux;
 
+
+
 #define DERIVE_PATH         "72'/69/76/76/79" //HELLO
 #define DERIVE_PATH_LEN     (sizeof(DERIVE_PATH)-1)
 #define DEVICE_KEY_STR      "Device"
@@ -279,8 +281,10 @@ unsigned char io_event(unsigned char channel) {
       //UX_DISPLAYED_EVENT(display_done(););
       break;
     case SEPROXYHAL_TAG_TICKER_EVENT:
+
+        icon_change_timer_cnt++;
         UX_TICKER_EVENT(G_io_seproxyhal_spi_buffer, 
-        {
+        {//// here
 		  // only allow display when not locked of overlayed by an OS UX.
           if (UX_ALLOWED && ux_step_count) {
             // prepare next screen
@@ -319,6 +323,9 @@ int main(void) {
   __asm volatile ("cpsie i");
 
   secret_computed = 0;
+  #if defined (TARGET_NANOS)
+    icon_hack_flag = 0;
+  #endif
   
   // ensure exception will work as planned
   os_boot();
