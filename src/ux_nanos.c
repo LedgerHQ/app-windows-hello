@@ -265,6 +265,12 @@ void ui_idle_init(void) {
   if (icon_hack_flag == 0){
   	icon_hack = C_icon_hello;
   }
+  else if (icon_hack_flag == 1){
+    icon_hack = C_icon_hello_old;
+  }
+  else{
+    icon_hack = C_icon_pirate;
+  }
   
   icon_change_click_cnt = 0;
 

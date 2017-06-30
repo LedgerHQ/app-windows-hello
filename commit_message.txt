@@ -1,5 +1,5 @@
 BOLOS app update :
-Add new nanos icons
+Icon debug
 
 TODO : 
 - Rename apdu.cs and its containing classes
