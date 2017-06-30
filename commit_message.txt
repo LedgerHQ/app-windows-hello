@@ -1,6 +1,5 @@
- Nanos-Blue app # 5 :
-- Updated nano-s UI to comply with UI spec
-- Added new logos and badges
+Companion app update :
+Update device capabilities with : SecureStorage/HMacSha256/StoreKeys/SupportSecureUserPresenceCheck
 
 TODO : 
 - Rename apdu.cs and its containing classes

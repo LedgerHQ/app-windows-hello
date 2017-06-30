@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap">
-  <Identity Name="bd01bd19-d124-49a4-8ce0-da850c3b7d91" Publisher="CN=Philippe" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="bd01bd19-d124-49a4-8ce0-da850c3b7d91" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="Ledger.LedgerHello" Publisher="CN=6E7E540B-047F-4624-94DF-872A917FFB18" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="64bf4b51-a676-4b57-9199-d8d94a4bcee7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>LedgerHello</DisplayName>
+    <DisplayName>Ledger Hello</DisplayName>
     <PublisherDisplayName>Ledger</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

@@ -226,7 +226,10 @@ namespace LedgerHello
                         IBuffer deviceConfigData = CryptographicBuffer.ConvertStringToBinary(deviceConfigString, 0);
                         //IBuffer deviceConfigData = CryptographicBuffer.CreateFromByteArray(deviceConfigDataArray);
 
-                        SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage;
+                        SecondaryAuthenticationFactorDeviceCapabilities capabilities = SecondaryAuthenticationFactorDeviceCapabilities.SecureStorage |
+                            SecondaryAuthenticationFactorDeviceCapabilities.HMacSha256 | SecondaryAuthenticationFactorDeviceCapabilities.StoreKeys |
+                            SecondaryAuthenticationFactorDeviceCapabilities.SupportSecureUserPresenceCheck;
+
                         SecondaryAuthenticationFactorRegistrationResult registrationResult = await SecondaryAuthenticationFactorRegistration.RequestStartRegisteringDeviceAsync(
                                 deviceId,
                                 capabilities,

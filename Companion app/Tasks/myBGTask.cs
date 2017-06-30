@@ -30,13 +30,13 @@ namespace Tasks
             isUsedForLastLogin = lastLogin;
         }
     }
-
+    
     public sealed class authBGTask : IBackgroundTask
     {
         ManualResetEvent opCompletedEvent = null;
         BackgroundTaskDeferral deferral;
+        
 
-       
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
@@ -50,7 +50,7 @@ namespace Tasks
             opCompletedEvent = new ManualResetEvent(false);
             SecondaryAuthenticationFactorAuthentication.AuthenticationStageChanged += OnStageChanged;
             //ShowToastNotification("BG Task Hit!");
-            
+
 
             if (taskInstance.TriggerDetails is DeviceWatcherTriggerDetails)
             {
@@ -915,6 +915,6 @@ namespace Tasks
         public void DisplayError()
         {
             Debug.WriteLine("UnauthorizedUserException n." + s_errorNumber + " Date: " + m_errorTime);
-        }
+        }        
     }
 }

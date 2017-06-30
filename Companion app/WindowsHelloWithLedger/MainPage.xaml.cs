@@ -249,7 +249,7 @@ namespace LedgerHello
                     plugTaskBuilder.SetTrigger(deviceWatcherTrigger);
                     BackgroundTaskRegistration taskReg2 = plugTaskBuilder.Register();
                     //String taskRegName = taskReg.Name;
-
+                    
                     //BackgroundTaskBuilder rebootTaskBuilder = new BackgroundTaskBuilder();
                     //rebootTaskBuilder.Name = authBGTaskName;
                     //rebootTaskBuilder.TaskEntryPoint = authBGTaskEntryPoint;
