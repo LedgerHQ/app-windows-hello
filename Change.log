@@ -1,0 +1,6 @@
+V 1.0.0
+
+- Regsiter/Unregister companion device
+- Unlock Win 10 workstation with companion device (Nano S or Blue)
+- Lock Win 10 workstation with companion device (Nano S or Blue) (this feature is unactivable in app settings)
+- Activate/Deactivate user consent for login (in app settings)

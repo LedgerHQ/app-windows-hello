@@ -33,4 +33,12 @@ unsigned int hello_register_callback_cancel_blue(void);
 unsigned int hello_register_callback_confirm_blue(void);
 unsigned int hello_login_callback_cancel_blue(void);
 unsigned int hello_login_callback_confirm_blue(void);
+
+
+unsigned int ui_idle_mainmenu_list_blue_button(unsigned int button_mask, unsigned int button_mask_counter); // To remove for testing list
+extern unsigned int list_idx;
+unsigned int ui_list_text1_cb(const bagl_element_t *e);
+unsigned int ui_list_text5_cb(const bagl_element_t *e);
+const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * e);
+
 #endif //UX_BLUE_H 

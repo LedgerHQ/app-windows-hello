@@ -290,7 +290,7 @@ unsigned char io_event(unsigned char channel) {
             // prepare next screen
             ux_step = (ux_step+1)%ux_step_count;
             // redisplay screen
-            UX_REDISPLAY(); 
+            //UX_REDISPLAY(); // If uncommented causes flickering on ledger blue TODO : find out why ?
           }
         });
         break;
@@ -322,10 +322,17 @@ int main(void) {
   // exit critical section
   __asm volatile ("cpsie i");
 
-  secret_computed = 0;
+  secret_computed = 0;  
+
   #if defined (TARGET_NANOS)
     icon_hack_flag = 0;
   #endif
+
+  /// TODO remove : list test
+  #if defined (TARGET_BLUE)
+    list_idx = 0;
+  #endif
+  /// TODO remove : list test
   
   // ensure exception will work as planned
   os_boot();
