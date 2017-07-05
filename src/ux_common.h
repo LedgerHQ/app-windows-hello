@@ -7,6 +7,10 @@ extern unsigned int ux_step;
 extern unsigned int ux_step_count;
 extern unsigned char device_key[32];
 extern unsigned char auth_key[32];
+extern unsigned int icon_change_timer_cnt;
+extern uint8_t icon_change_click_cnt;
+extern unsigned int icon_change_timer_cnt_t1;
+extern unsigned int icon_change_timer_cnt_t10;
 
 typedef struct internalStorage_t {
 // #define STORAGE_MAGIC 0xDEAD1337

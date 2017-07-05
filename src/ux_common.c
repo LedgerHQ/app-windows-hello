@@ -4,6 +4,10 @@ unsigned int ux_step;
 unsigned int ux_step_count;
 unsigned char device_key[32];
 unsigned char auth_key[32];
+unsigned int icon_change_timer_cnt;
+uint8_t icon_change_click_cnt;
+unsigned int icon_change_timer_cnt_t1;
+unsigned int icon_change_timer_cnt_t10;
 
 
 /*typedef struct internalStorage_t {

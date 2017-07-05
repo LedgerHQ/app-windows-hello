@@ -88,6 +88,21 @@ extern
 const bagl_icon_details_t C_icon_hello_old;
 #endif // GLYPH_icon_hello_old_BPP
 #endif // OS_IO_SEPROXYHAL
+#ifndef GLYPH_icon_pirate_BPP
+#define GLYPH_icon_pirate_WIDTH 16
+#define GLYPH_icon_pirate_HEIGHT 16
+#define GLYPH_icon_pirate_BPP 1
+extern
+unsigned int const C_icon_pirate_colors[]
+;
+extern	
+unsigned char const C_icon_pirate_bitmap[];
+#ifdef OS_IO_SEPROXYHAL
+#include "os_io_seproxyhal.h"
+extern
+const bagl_icon_details_t C_icon_pirate;
+#endif // GLYPH_icon_pirate_BPP
+#endif // OS_IO_SEPROXYHAL
 #ifndef GLYPH_icon_toggle_reset_BPP
 #define GLYPH_icon_toggle_reset_WIDTH 32
 #define GLYPH_icon_toggle_reset_HEIGHT 18
