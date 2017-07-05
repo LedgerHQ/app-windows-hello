@@ -1,5 +1,6 @@
-Companion app update :
-Update device capabilities with : SecureStorage/HMacSha256/StoreKeys/SupportSecureUserPresenceCheck
+App Package :
+Add AppPackage in repo for users to test the app
+For installation, first enable "Developper Mode" in windows settings, then right click "Add-AppDevPackage" in "Companion app\WindowsHelloWithLedger\AppPackages\LedgerHello_1.0.0.0_Test", then "Run with powershell"
 
 TODO : 
 - Rename apdu.cs and its containing classes
