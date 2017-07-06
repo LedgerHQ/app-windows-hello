@@ -611,10 +611,10 @@ void ui_idle_init(void) {
   ux_step = 0;
   ux_step_count = 2;
   UX_SET_STATUS_BAR_COLOR(0xFFFFFF, COLOR_APP);
-  UX_DISPLAY(ui_idle_mainmenu_blue, NULL);
+  //UX_DISPLAY(ui_idle_mainmenu_blue, NULL);
 
   //UX_DISPLAY(ui_idle_mainmenu_list_blue, NULL);
-  //UX_DISPLAY(ui_idle_mainmenu_list_blue, ui_idle_mainmenu_list_blue_prepro);
+  UX_DISPLAY(ui_idle_mainmenu_list_blue, ui_idle_mainmenu_list_blue_prepro);
   
   // setup the first screen changing
   UX_CALLBACK_SET_INTERVAL(1000);

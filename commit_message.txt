@@ -1,6 +1,5 @@
-BOLOS app update :
-Add Change.log in repo
-UX blue tests : added generic code to handle ListView UI element (in progress)
+v 1.0.0 commit (final)
+Updated makefile with good version (1.0.0 instead of 0.0.1)
 
 TODO : 
 - Rename apdu.cs and its containing classes
