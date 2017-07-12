@@ -1,5 +1,6 @@
-v 1.0.0 commit (final)
-Updated makefile with good version (1.0.0 instead of 0.0.1)
+v 1.0.0 commit (final #2) 
+Added LICENSE file in repo
+Added copyright header to source file
 
 TODO : 
 - Rename apdu.cs and its containing classes

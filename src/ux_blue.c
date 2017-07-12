@@ -1,3 +1,20 @@
+/*******************************************************************************
+*   Ledger Nano S - Secure firmware
+*   (c) 2016, 2017 Ledger
+*
+*  Licensed under the Apache License, Version 2.0 (the "License");
+*  you may not use this file except in compliance with the License.
+*  You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing, software
+*  distributed under the License is distributed on an "AS IS" BASIS,
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*  See the License for the specific language governing permissions and
+*  limitations under the License.
+********************************************************************************/
+
 #include "ux_blue.h"
 
 #if defined (TARGET_BLUE)
@@ -42,16 +59,16 @@ extern const bagl_element_t ui_idle_mainmenu_list_blue[];
 unsigned int list_idx;
 unsigned int sel_idx;
 
-#define LIST_POSITION 180
+#define LIST_POSITION 80
 #define LINE_SIZE 50
 #define FONT_UP_DOWN BAGL_FONT_OPEN_SANS_REGULAR_8_11PX
 #define SIZE_UP_DOWN  8
 #define FONT_LIST_ELEM  BAGL_FONT_OPEN_SANS_REGULAR_11_14PX
 #define SIZE_LIST_ELEM  11
 #define RECT_SEL_HEIGHT LINE_SIZE - 12
-#define LIST_LEN  10
+#define LIST_LEN  9
 
-const char * const ui_list_text[LIST_LEN] = {"Text1","Text2","Text3","Text4","Text5","Text6","Text7","Text8","Text9"," "};
+const char * const ui_list_text[LIST_LEN] = {"Text1","Text2","Text3","Text4","Text5","Text6","Text7","Text8","Text9"};
 
 
 const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * e) {
@@ -77,7 +94,7 @@ const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * 
             }
             break;
           case 0x01:
-            if (list_idx == LIST_LEN-4){
+            if ((LIST_LEN < 3)||(list_idx == LIST_LEN-3)){
               //tmp_element.text = " ";
               return 0;
             }
@@ -87,33 +104,28 @@ const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * 
             break;
         }
         break;
-      //case 0x40: // Selection rectangle
-        // if (sel_idx != e->component.userid&0x0F){
-        //   return 0;
-        // }
-        //break;
+      case 0x40: // Selection rectangle
+
+        if ((e->component.userid&0x0F)>=LIST_LEN){
+          return 0;
+        }
+        break;
       case 0x20:
-        idx = LIST_LEN-1;
+        if ((e->component.userid&0x0F)>=LIST_LEN){
+          return 0;
+        }
         switch (e->component.userid&0x0F){
           case 0:            
-            if (list_idx<=LIST_LEN-1){
-              idx = list_idx;
-            }
-            tmp_element.text = ui_list_text[idx];
+            idx = list_idx;
             break;
           case 1:
-            if (list_idx+1<=LIST_LEN-1){
-              idx = list_idx+1;
-            }
-            tmp_element.text = ui_list_text[idx];
+            idx = list_idx+1;
             break;
           case 2:
-            if (list_idx+2<=LIST_LEN-1){
-              idx = list_idx+2;
-            }
-            tmp_element.text = ui_list_text[idx];
-            break;
-        }        
+            idx = list_idx+2;
+            break;          
+        }
+        tmp_element.text = ui_list_text[idx];        
       break;
     }
   }
@@ -122,6 +134,15 @@ const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * 
 
 
 unsigned int ui_list_item_out_over(const bagl_element_t *e) {  
+  // bagl_element_t *last_e = (const bagl_element_t*)(((unsigned int)e)-sizeof(bagl_element_t));
+  // if (last_e->text == NULL){
+  //   return 0;
+  // }
+  // else {
+  //   e = (const bagl_element_t*)(((unsigned int)e)+sizeof(bagl_element_t));
+  //   return e;
+  // }
+
   e = (const bagl_element_t*)(((unsigned int)e)+sizeof(bagl_element_t));
   return e;
 }
@@ -130,8 +151,8 @@ unsigned int ui_list_item_tap(const bagl_element_t *e) {
   return 0;
 }
 
-unsigned int ui_list_text1_cb(const bagl_element_t *e) {
-  if (list_idx > 0){
+unsigned int ui_list_up_cb(const bagl_element_t *e) {
+  if ((LIST_LEN > 3)&&(list_idx > 0)){
     list_idx--;
     UX_REDISPLAY_IDX(5);
     return 0;
@@ -139,8 +160,8 @@ unsigned int ui_list_text1_cb(const bagl_element_t *e) {
   return 1;
 }
 
-unsigned int ui_list_text5_cb(const bagl_element_t *e) {
-  if (list_idx < LIST_LEN-4){
+unsigned int ui_list_down_cb(const bagl_element_t *e) {
+  if ((LIST_LEN > 3)&&(list_idx < LIST_LEN-3)){
     list_idx++;
     //UX_REDISPLAY();
     UX_REDISPLAY_IDX(5);
@@ -161,20 +182,27 @@ const bagl_element_t ui_idle_mainmenu_list_blue[] = {
   {{BAGL_RECTANGLE | BAGL_FLAG_TOUCHABLE, 0x00,   0,  19,  56,  44, 0, 0, BAGL_FILL, COLOR_APP, COLOR_APP_LIGHT, BAGL_FONT_SYMBOLS_0|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0 }, BAGL_FONT_SYMBOLS_0_SETTINGS, 0, COLOR_APP, 0xFFFFFF, io_seproxyhal_touch_settings, NULL, NULL},
   {{BAGL_RECTANGLE | BAGL_FLAG_TOUCHABLE, 0x00, 264,  19,  56,  44, 0, 0, BAGL_FILL, COLOR_APP, COLOR_APP_LIGHT, BAGL_FONT_SYMBOLS_0|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0 }, BAGL_FONT_SYMBOLS_0_DASHBOARD, 0, COLOR_APP, 0xFFFFFF, io_seproxyhal_touch_exit, NULL, NULL},
 
-  {{BAGL_RECTANGLE                      , 0x31,  130, LIST_POSITION - (SIZE_LIST_ELEM + 1 )            , 60,  LINE_SIZE, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1, NULL                                                                                   , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
-  {{BAGL_RECTANGLE                      , 0x30,  130, LIST_POSITION+4*LINE_SIZE - (SIZE_LIST_ELEM + 1 ), 60,  LINE_SIZE, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1, NULL                                                                                   , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
   
-  {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x10,  130, LIST_POSITION                                    , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, "UP", 0, 0, COLOR_BG_1, ui_list_text1_cb, NULL, NULL},
-  {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x11,  130, LIST_POSITION+4*LINE_SIZE                        , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, "DOWN", 0, 0, COLOR_BG_1, ui_list_text5_cb, NULL, NULL},
+  
+  
+  // Display List UP
+  {{BAGL_RECTANGLE                      , 0x30,  130, LIST_POSITION - (SIZE_LIST_ELEM + 1 )            , 60,  LINE_SIZE, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1, NULL                                                                                   , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
+  {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x10,  130, LIST_POSITION                                    , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, NULL, 0, 0, COLOR_BG_1, ui_list_up_cb, NULL, NULL},
+  // Display List DOWN
+  {{BAGL_RECTANGLE                      , 0x31,  130, LIST_POSITION+4*LINE_SIZE - (SIZE_LIST_ELEM + 1 ), 60,  LINE_SIZE, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1, NULL                                                                                   , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
+  {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x11,  130, LIST_POSITION+4*LINE_SIZE                        , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, NULL, 0, 0, COLOR_BG_1, ui_list_down_cb, NULL, NULL},
 
+  // Display list Element 1
   {{BAGL_LABELINE                       , 0x20,  130, LIST_POSITION+LINE_SIZE                          , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},  
   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,  0  , LIST_POSITION+LINE_SIZE-(2*SIZE_LIST_ELEM)   , 320 , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000 , 0 , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_list_item_tap, ui_list_item_out_over, ui_list_item_out_over},
   {{BAGL_RECTANGLE                      , 0x40,  0  , LIST_POSITION+LINE_SIZE-(2*SIZE_LIST_ELEM)   , 5   , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1 , FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, COLOR_APP, 0, NULL, NULL, NULL},  
 
+  // Display list Element 2
   {{BAGL_LABELINE                       , 0x21,  130, LIST_POSITION+2*LINE_SIZE                        , 60  ,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,  0  , LIST_POSITION+2*LINE_SIZE-(2*SIZE_LIST_ELEM) , 320 , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000 , 0 , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_list_item_tap, ui_list_item_out_over, ui_list_item_out_over},
   {{BAGL_RECTANGLE                      , 0x41,  0  , LIST_POSITION+2*LINE_SIZE-(2*SIZE_LIST_ELEM) , 5   , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1 , FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, COLOR_APP, 0, NULL, NULL, NULL},
 
+  // Display list Element 3
   {{BAGL_LABELINE                       , 0x22,  130, LIST_POSITION+3*LINE_SIZE                        , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,  0  , LIST_POSITION+3*LINE_SIZE-(2*SIZE_LIST_ELEM) , 320 , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000 , 0 , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_list_item_tap, ui_list_item_out_over, ui_list_item_out_over},
   {{BAGL_RECTANGLE                      , 0x42,  0  , LIST_POSITION+3*LINE_SIZE-(2*SIZE_LIST_ELEM) , 5 , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1 , FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, COLOR_APP, 0, NULL, NULL, NULL},
@@ -599,12 +627,12 @@ unsigned int hello_login_callback_confirm_blue(void){
 
 unsigned int hello_register_callback_cancel_blue(void){
 	hello_register_cancel();
-    return 0;
+  return 0;
 }
 
 unsigned int hello_register_callback_confirm_blue(void){
 	hello_register_confirm();
-    return 0;
+  return 0;
 }
 
 void ui_idle_init(void) {
