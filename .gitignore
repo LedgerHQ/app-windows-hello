@@ -1,0 +1,6 @@
+.vs/
+bin/
+obj/
+debug/
+dep/
+*.bak
