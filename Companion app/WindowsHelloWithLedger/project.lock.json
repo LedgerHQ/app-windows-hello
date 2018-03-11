@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
-    "UAP,Version=v10.0": {
+    "UAP,Version=v10.0.14393": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -1920,13 +1920,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-arm": {
+    "UAP,Version=v10.0.14393/win10-arm": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -3702,13 +3702,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-arm-aot": {
+    "UAP,Version=v10.0.14393/win10-arm-aot": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -5447,13 +5447,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-x64": {
+    "UAP,Version=v10.0.14393/win10-x64": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -7236,13 +7236,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-x64-aot": {
+    "UAP,Version=v10.0.14393/win10-x64-aot": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -8981,13 +8981,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-x86": {
+    "UAP,Version=v10.0.14393/win10-x86": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -10770,13 +10770,13 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
       }
     },
-    "UAP,Version=v10.0/win10-x86-aot": {
+    "UAP,Version=v10.0.14393/win10-x86-aot": {
       "Microsoft.ApplicationInsights/1.0.0": {
         "type": "package",
         "compile": {
@@ -12515,7 +12515,7 @@
       },
       "Tasks/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.14393",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
         }
@@ -15825,36 +15825,52 @@
       "Microsoft.ApplicationInsights.WindowsApps >= 1.0.0",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0"
     ],
-    "UAP,Version=v10.0": []
+    "UAP,Version=v10.0.14393": []
   },
   "packageFolders": {
-    "C:\\Users\\Philippe\\.nuget\\packages\\": {}
+    "C:\\Users\\Marco\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
+      "projectUniqueName": "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
       "projectName": "LedgerHello",
-      "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
-      "projectJsonPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\project.json",
+      "projectPath": "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\LedgerHello.csproj",
+      "projectJsonPath": "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\project.json",
+      "packagesPath": "C:\\Users\\Marco\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\WindowsHelloWithLedger\\obj\\",
       "projectStyle": "ProjectJson",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Marco\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\Marco\\source\\repos\\fbchat-sharp\\fbchat-sharp": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
       "frameworks": {
-        "uap10.0": {
+        "uap10.0.14393": {
           "projectReferences": {
-            "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj": {
-              "projectPath": "C:\\Users\\Philippe\\Repositories\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj"
+            "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj": {
+              "projectPath": "C:\\Users\\Marco\\Downloads\\Programmazione\\Ledger\\apps\\bolos-app-win_hello\\Companion app\\Tasks\\Tasks.csproj"
             }
           }
         }
       }
     },
     "dependencies": {
-      "Microsoft.ApplicationInsights": "1.0.0",
-      "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
-      "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
-      "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+      "Microsoft.ApplicationInsights": "[1.0.0, )",
+      "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )",
+      "Microsoft.ApplicationInsights.WindowsApps": "[1.0.0, )",
+      "Microsoft.NETCore.UniversalWindowsPlatform": "[5.0.0, )"
     },
     "frameworks": {
-      "uap10.0": {}
+      "uap10.0.14393": {}
     },
     "runtimes": {
       "win10-arm": {

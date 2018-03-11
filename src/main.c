@@ -360,10 +360,9 @@ int main(void) {
     TRY {
       io_seproxyhal_init();
 
-      // HID // USB_power(1);
-      USB_CCID_power(1);
+      USB_power(1);
 
-	    ui_idle_init();
+      ui_idle_init();
 
       sample_main();
     }
