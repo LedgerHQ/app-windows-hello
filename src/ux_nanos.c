@@ -211,6 +211,7 @@ unsigned int ui_confirm_login_nanos_button(unsigned int button_mask,unsigned int
     switch (button_mask) {
     case BUTTON_EVT_RELEASED | BUTTON_RIGHT:       
         hello_login_confirm();
+        //hello_register_confirm();
         break;
 
     case BUTTON_EVT_RELEASED | BUTTON_LEFT:

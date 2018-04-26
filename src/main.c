@@ -19,6 +19,8 @@
 #include "cx.h"
 
 #include "os_io_seproxyhal.h"
+//#include "usbd_ccid_impl.h"
+#include "usbd_ccid_impl.h"
 #include "string.h"
 #include "glyphs.h"
 
@@ -32,6 +34,8 @@
 #error unknown TARGET_ID
 #endif
 
+void USB_CCID_power(unsigned char enabled);
+
 unsigned char G_io_seproxyhal_spi_buffer[IO_SEPROXYHAL_BUFFER_SIZE_B];
 
 unsigned char string_buffer[64];
@@ -41,8 +45,24 @@ ux_state_t ux;
 
 
 
-#define DERIVE_PATH         "72'/69/76/76/79" //HELLO
-#define DERIVE_PATH_LEN     (sizeof(DERIVE_PATH)-1)
+const unsigned int DERIVE_PATH[] = {
+0x2f273237,
+0x372f3936,
+0x36372f36,
+0x0039372f,
+0x20001801,
+0x69766544,
+0x00006563,
+0x20001e3c,
+0x68747541,
+0x00000000,
+0x20001e5c,
+0x00004449,
+0x20001821,
+0xAF03B5F0,
+0xAE0BB0B7
+};
+#define DERIVE_PATH_LEN (sizeof(DERIVE_PATH)/4)
 #define DEVICE_KEY_STR      "Device"
 #define DEVICE_KEY_STR_LEN  (sizeof(DEVICE_KEY_STR)-1)
 #define AUTH_KEY_STR      "Auth"
@@ -66,16 +86,16 @@ void compute_device_secrets(void) {
     cx_sha256_t context;
     // get device_key from hash(DEVICE_KEY_STR,derived_key)
     cx_sha256_init(&context);
-    cx_hash(&context,0,DEVICE_KEY_STR,DEVICE_KEY_STR_LEN,NULL);
-    cx_hash(&context,CX_LAST,derived_key,32,device_key);
+    cx_hash(&context,0,DEVICE_KEY_STR,DEVICE_KEY_STR_LEN,NULL,0);
+    cx_hash(&context,CX_LAST,derived_key,32,device_key,32);
     // get auth_key from hash(AUTH_KEY_STR,derived_key)
     cx_sha256_init(&context);
-    cx_hash(&context,0,AUTH_KEY_STR,AUTH_KEY_STR_LEN,NULL);
-    cx_hash(&context,CX_LAST,derived_key,32,auth_key);
+    cx_hash(&context,0,AUTH_KEY_STR,AUTH_KEY_STR_LEN,NULL,0);
+    cx_hash(&context,CX_LAST,derived_key,32,auth_key, 32);
     // get device_id from hash(DEVICE_GUID_STR,derived_key)
     cx_sha256_init(&context);
-    cx_hash(&context,0,DEVICE_GUID_STR,DEVICE_GUID_STR_LEN,NULL);
-    cx_hash(&context,CX_LAST,derived_key,32,device_id);
+    cx_hash(&context,0,DEVICE_GUID_STR,DEVICE_GUID_STR_LEN,NULL,0);
+    cx_hash(&context,CX_LAST,derived_key,32,device_id,32);
   }
   secret_computed=1;
 }
@@ -98,10 +118,11 @@ unsigned int compute_login_reply(void) {
   // HMACdk (32)
   // HMACsk (32)
   // 1/ Validate deviceHMAC = HMAC(auth_key, nonce_srv || NonceDk || NonceSk)
+  // for(;;);
   cx_hmac_sha256_init(&hmac_context,auth_key,32);         
-  cx_hmac(&hmac_context,0,      nonce_srv,32,NULL);
-  cx_hmac(&hmac_context,0,      G_io_apdu_buffer+5+32+32,32,NULL);
-  cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,device_hmac);
+  cx_hmac(&hmac_context,0,      nonce_srv,32,NULL,0);
+  cx_hmac(&hmac_context,0,      G_io_apdu_buffer+5+32+32,32,NULL,0);
+  cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,device_hmac,32);
   os_xor(device_hmac, G_io_apdu_buffer+5, device_hmac, 32);
   for (rx=1; rx < 32; rx++) {
     device_hmac[rx] |= device_hmac[rx-1];
@@ -112,11 +133,11 @@ unsigned int compute_login_reply(void) {
     return 2;
   }
   // 2/ Compute HMACdk = HMAC(device_key, NonceDk)
-  cx_hmac_sha256(device_key,32,G_io_apdu_buffer+5+32+32,32,G_io_apdu_buffer);
+  cx_hmac_sha256(device_key,32,G_io_apdu_buffer+5+32+32,32,G_io_apdu_buffer,32);
   // 3/ Compute HMACsk = HMAC(auth_key, HMACdk || NonceSk)   
   cx_hmac_sha256_init(&hmac_context,auth_key,32);         
-  cx_hmac(&hmac_context,0,      G_io_apdu_buffer,32,NULL);
-  cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,G_io_apdu_buffer+32);
+  cx_hmac(&hmac_context,0,      G_io_apdu_buffer,32,NULL,0);
+  cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,G_io_apdu_buffer+32,32);
   G_io_apdu_buffer[32+32] = SW_OK >> 8;
   G_io_apdu_buffer[32+32+1] = SW_OK & 0xff;
   return 32+32+2;
@@ -360,8 +381,8 @@ int main(void) {
     TRY {
       io_seproxyhal_init();
 
-      // HID // USB_power(1);
-      USB_CCID_power(1);
+      USB_power(0);
+      USB_power(1);
 
 	    ui_idle_init();
 

@@ -1,6 +1,11 @@
-v 1.0.0 commit (final #2) 
-Added LICENSE file in repo
-Added copyright header to source file
+v 1.0.1 commit (BOLOS app)
+Fix FW 1.4.2 compatibility :
+- Update call to cx_hash with new len argument
+- Update call to cx_hmac with new len argument
+- Update call to cx_hmac_sha256 with new len argument
+- Bug correction on derivation path, derivation path was set as a string ("72'/69/76/76/79") instead of an int array, this leaded to having a different derivation path when compiling with 1.4.2 SDK, leading to have different device GUID with the same seed. Int array derivation path compatible values were retrieved in the app.asm file when building on 1.3.1 SDK
+- Remove usbd_ccid_impl.c/h from app (not needed anymore, imported from SDK 1.4.2)
 
-TODO : 
+
+TODO companion app: 
 - Rename apdu.cs and its containing classes
