@@ -116,9 +116,22 @@ namespace LedgerHello
             return;
         }
 
+        private string ExtractDateFromDeviceInfo(SecondaryAuthenticationFactorInfo info)
+        {
+
+            string deviceConfigurationData = CryptographicBuffer.ConvertBinaryToString(0, info.DeviceConfigurationData);
+            string[] dcdArray = deviceConfigurationData.
+                                Replace(info.DeviceFriendlyName, "").
+                                Replace(info.DeviceId, "").
+                                Split('-');
+
+            return dcdArray[4];
+
+        }
+
+
         void RefreshDeviceList(IReadOnlyList<SecondaryAuthenticationFactorInfo> deviceList, int slectedIndex)
         {
-            string deviceConfigurationString;
             string dateString = string.Empty;
             listContent listItem;
             List<DateTime> dateList = new List<DateTime>();
@@ -126,13 +139,15 @@ namespace LedgerHello
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
-                deviceConfigurationString = CryptographicBuffer.ConvertBinaryToString(0, deviceInfo.DeviceConfigurationData);
+                //Debug.WriteLine(deviceInfo.DeviceConfigurationData);
+
                 listItem = new listContent();
                 //DateTime now = DateTime.Now;
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
+
                 listItem.deviceGUID = deviceInfo.DeviceId;
                 int count = deviceInfo.DeviceFriendlyName.Count();
-                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1, 19));
+                listItem.date = DateTime.Parse(ExtractDateFromDeviceInfo(deviceInfo));
                 dateString = CommomMethods.FormatDate(listItem.date);
                 listItem.dateString = dateString;
                 if (DeviceListBox.Items.Count > index - cpt)
@@ -144,12 +159,13 @@ namespace LedgerHello
             for (int index = 0; index < deviceList.Count; ++index)
             {
                 SecondaryAuthenticationFactorInfo deviceInfo = deviceList.ElementAt(index);
-                deviceConfigurationString = CryptographicBuffer.ConvertBinaryToString(0, deviceInfo.DeviceConfigurationData);
+
                 listItem = new listContent();
                 listItem.deviceFriendlyName = deviceInfo.DeviceFriendlyName;
                 listItem.deviceGUID = deviceInfo.DeviceId;
                 int count = deviceInfo.DeviceFriendlyName.Count();
-                listItem.date = DateTime.Parse(deviceConfigurationString.Substring(35 + 1 + count + 1 + 1, 19));
+
+                listItem.date = DateTime.Parse(ExtractDateFromDeviceInfo(deviceInfo));
                 dateString = CommomMethods.FormatDate(listItem.date);
                 listItem.dateString = dateString;
                 if (index == deviceList.Count - 1)
@@ -159,10 +175,12 @@ namespace LedgerHello
                 else
                 {
                     listItem.isVisible = true;
-                }                
+                }
                 DeviceListBox.Items.Add(listItem);
             }
         }
+
+
         private void StartWatcher()
         {
             DeviceWatcherEventKind[] triggerEventKinds = { DeviceWatcherEventKind.Add, DeviceWatcherEventKind.Remove/*, DeviceWatcherEventKind.Update */};
