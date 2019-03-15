@@ -30,6 +30,13 @@
 #elif defined (TARGET_NANOS)
   #include "ux_nanos.h"
 #elif defined (TARGET_ARAMIS)
+#elif defined (TARGET_NANOX)
+  #include "ux.h"
+  #include "ux_nanox.h"
+  // #include "balenos_ble.h"
+  // extern ble_state_t G_io_ble;
+  ux_state_t G_ux;
+  bolos_ux_params_t G_ux_params;
 #else
 #error unknown TARGET_ID
 #endif
@@ -210,6 +217,7 @@ void sample_main(void) {
           case 0x82:
             compute_device_secrets();
             if (!N_storage.dont_confirm_login) {
+            // if (0){
               tx = compute_login_reply();
               // status word is appended during compute
               //THROW(SW_OK);
@@ -238,6 +246,7 @@ void sample_main(void) {
                 break;
               case 0x02: //D-Lock state
                 G_io_apdu_buffer[0] = N_storage.dynamic_lock;
+                // G_io_apdu_buffer[0] = 1;
                 tx = 1;
                 THROW(SW_OK);
                 break;
@@ -368,7 +377,7 @@ int main(void) {
 
   /// TODO remove : list test
   #if defined (TARGET_BLUE)
-    list_idx = 0;
+    // list_idx = 0;
   #endif
   /// TODO remove : list test
   
@@ -383,8 +392,12 @@ int main(void) {
 
       USB_power(0);
       USB_power(1);
+      // USB_CCID_power(1);
 
-	    ui_idle_init();
+      ui_idle_init();
+      
+      // BLE_power(0, NULL);
+      // BLE_power(1, "Nano X");
 
       sample_main();
     }

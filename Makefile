@@ -20,19 +20,23 @@ $(error Environment variable BOLOS_SDK is not set)
 endif
 include $(BOLOS_SDK)/Makefile.defines
 
-APP_LOAD_PARAMS=--path "" --curve secp256k1 $(COMMON_LOAD_PARAMS) 
+APP_LOAD_PARAMS=--path "" --curve secp256k1 $(COMMON_LOAD_PARAMS) --appFlags 0x200
 APPNAME = Hello
-ICONNAME = icon.gif
+# ICONNAME = icon.gif
 
 APPVERSION_M=1
-APPVERSION_N=0
-APPVERSION_P=1
+APPVERSION_N=1
+APPVERSION_P=0
 APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)
 
 ifeq ($(TARGET_NAME),TARGET_BLUE)
-ICONNAME=icon_blue.gif
+ICONNAME=blue_app_hello.gif
 else
-ICONNAME=icon.gif
+	ifeq ($(TARGET_NAME),TARGET_NANOX)
+ICONNAME=nanox_app_hello.gif
+	else
+ICONNAME=nanos_app_hello.gif
+	endif
 endif
 
 ################
@@ -51,15 +55,39 @@ DEFINES   += HAVE_BAGL HAVE_SPRINTF
 DEFINES   += PRINTF\(...\)=
 DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=6 IO_HID_EP_LENGTH=64 HAVE_USB_APDU 
 DEFINES   += HAVE_USB_CLASS_CCID 
-#DEFINES  += HAVE_BLE
+# DEFINES  += HAVE_BLE
 DEFINES   += UNUSED\(x\)=\(void\)x
 DEFINES   += APPVERSION=\"$(APPVERSION)\"
+
+ifeq ($(TARGET_NAME),TARGET_NANOX)
+# DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
+# DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
+
+DEFINES       += HAVE_GLO096 HAVE_UX_LEGACY
+DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
+DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
+DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
+DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
+DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
+endif
 
 ##############
 # Compiler #
 ##############
-#GCCPATH   := $(BOLOS_ENV)/gcc-arm-none-eabi-5_3-2016q1/bin/
-#CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+ifneq ($(BOLOS_ENV),)
+$(info BOLOS_ENV=$(BOLOS_ENV))
+CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+GCCPATH := $(BOLOS_ENV)/gcc-arm-none-eabi-5_3-2016q1/bin/
+else
+$(info BOLOS_ENV is not set: falling back to CLANGPATH and GCCPATH)
+endif
+ifeq ($(CLANGPATH),)
+$(info CLANGPATH is not set: clang will be used from PATH)
+endif
+ifeq ($(GCCPATH),)
+$(info GCCPATH is not set: arm-none-eabi-* will be used from PATH)
+endif
+
 CC       := $(CLANGPATH)clang 
 
 #CFLAGS   += -O0
@@ -77,6 +105,10 @@ include $(BOLOS_SDK)/Makefile.glyphs
 ### variables processed by the common makefile.rules of the SDK to grab source files and include dirs
 APP_SOURCE_PATH  += src
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl
+ifeq ($(TARGET_NAME),TARGET_NANOX)
+# SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
+SDK_SOURCE_PATH  += lib_ux
+endif
 
 
 load: all
@@ -91,3 +123,5 @@ include $(BOLOS_SDK)/Makefile.rules
 #add dependency on custom makefile filename
 dep/%.d: %.c Makefile
 
+listvariants:
+	@echo VARIANTS APP hello

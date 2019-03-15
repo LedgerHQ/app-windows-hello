@@ -34,8 +34,8 @@ unsigned int icon_change_timer_cnt_t10;
     uint32_t dynamic_lock;
 } internalStorage_t;*/
 
-WIDE internalStorage_t N_storage_real;
-#define N_storage (*(WIDE internalStorage_t *)PIC(&N_storage_real)) 
+WIDE internalStorage_t const N_storage_real;
+#define N_storage (*(volatile internalStorage_t *)PIC(&N_storage_real)) 
 
 void hello_register_cancel(void){
 	G_io_apdu_buffer[0] = LOGIN_DENIED_BY_USER >> 8;

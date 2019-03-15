@@ -36,7 +36,7 @@ typedef struct internalStorage_t {
     uint32_t dynamic_lock;
 } internalStorage_t;
 
-extern WIDE internalStorage_t N_storage_real;
+extern internalStorage_t const N_storage_real;
 #define N_storage (*(WIDE internalStorage_t *)PIC(&N_storage_real))
 #define SW_OK 0x9000
 #define LOGIN_DENIED_BY_USER 0x6984
