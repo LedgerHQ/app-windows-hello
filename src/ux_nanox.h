@@ -1,9 +1,12 @@
 #ifndef UX_NANOX_H
 #define UX_NANOX_H
 
+#include "ux_common.h"
+
+#if defined (TARGET_NANOX)
+
 #include "ux.h"
 #include "ux_layouts.h"
-#include "ux_common.h"
 
 void ui_idle_init(void);
 void ui_confirm_registration_init(void);
@@ -16,4 +19,6 @@ void settings_submenu_auto_unlock_selector(unsigned int idx);
 void settings_submenu_unplug_to_lock_selector(unsigned int idx);
 const char* settings_submenu_auto_unlock_getter(unsigned int idx);
 const char* settings_submenu_unplug_to_lock_getter(unsigned int idx);
-#endif
+
+#endif //TARGET_NANOX
+#endif //UX_NANOX_H

@@ -33,7 +33,9 @@ typedef struct internalStorage_t {
 // #define STORAGE_MAGIC 0xDEAD1337
 //     uint32_t magic;
     uint32_t dont_confirm_login;
+    #ifdef DYNAMIC_LOCK
     uint32_t dynamic_lock;
+    #endif
 } internalStorage_t;
 
 extern internalStorage_t const N_storage_real;

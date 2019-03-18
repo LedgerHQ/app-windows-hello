@@ -50,8 +50,6 @@ unsigned char string_buffer[64];
 unsigned int demo_counter;
 ux_state_t ux;
 
-
-
 const unsigned int DERIVE_PATH[] = {
 0x2f273237,
 0x372f3936,
@@ -245,7 +243,11 @@ void sample_main(void) {
                 //UX_DISPLAY(ui_confirm_registration_nanos,NULL);
                 break;
               case 0x02: //D-Lock state
-                G_io_apdu_buffer[0] = N_storage.dynamic_lock;
+                #ifdef DYNAMIC_LOCK
+                  G_io_apdu_buffer[0] = N_storage.dynamic_lock;
+                #else
+                  G_io_apdu_buffer[0] = 0;
+                #endif
                 // G_io_apdu_buffer[0] = 1;
                 tx = 1;
                 THROW(SW_OK);
@@ -392,13 +394,14 @@ int main(void) {
 
       USB_power(0);
       USB_power(1);
-      // USB_CCID_power(1);
 
       ui_idle_init();
-      
-      // BLE_power(0, NULL);
-      // BLE_power(1, "Nano X");
 
+      #ifdef HAVE_BLE
+        BLE_power(0, NULL);
+        BLE_power(1, "Nano X");
+      #endif
+      
       sample_main();
     }
     CATCH_ALL {

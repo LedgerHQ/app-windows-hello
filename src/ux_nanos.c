@@ -26,7 +26,9 @@ extern const bagl_element_t ui_confirm_login_nanos[];
 extern const ux_menu_entry_t ui_idle_mainmenu_nanos[];
 extern const ux_menu_entry_t menu_settings_nanos[];
 extern const ux_menu_entry_t menu_settings_confirm_login_nanos[];
+#ifdef DYNAMIC_LOCK
 extern const ux_menu_entry_t menu_settings_dlock_nanos[];
+#endif
 extern const ux_menu_entry_t menu_settings_nanos[];
 
 bagl_icon_details_t icon_hack;
@@ -155,7 +157,9 @@ const ux_menu_entry_t ui_idle_mainmenu_nanos[] = {
 
 const ux_menu_entry_t menu_settings_nanos[] = {
   {NULL, menu_settings_confirm_login_init_nanos, 0, NULL, "Auto-unlock", NULL, 0, 0},
-  {NULL, menu_settings_dlock_init_nanos, 0, NULL, "Unplug to lock", NULL, 0, 0},
+  #ifdef DYNAMIC_LOCK
+    {NULL, menu_settings_dlock_init_nanos, 0, NULL, "Unplug to lock", NULL, 0, 0},
+  #endif
   {ui_idle_mainmenu_nanos, NULL, 0, &C_icon_back, "Back", NULL, 61, 40},
   UX_MENU_END
 };
@@ -202,7 +206,7 @@ void icon_change_callback(unsigned int ignored){
 			
 			UX_MENU_DISPLAY(0, ui_idle_mainmenu_nanos, NULL);
   			// setup the first screen changing
-  			UX_CALLBACK_SET_INTERVAL(1000);
+  		UX_CALLBACK_SET_INTERVAL(1000);
 		}
 	}
 }
@@ -249,12 +253,14 @@ void menu_settings_confirm_login_change_nanos(uint32_t confirm) {
   UX_MENU_DISPLAY(0, menu_settings_nanos, NULL);
 }
 
+#ifdef DYNAMIC_LOCK
 // change the setting
 void menu_settings_dlock_change_nanos(uint32_t confirm) {
   nvm_write(&N_storage.dynamic_lock, (void*)&confirm, sizeof(uint32_t));
   // go back to the menu entry
   UX_MENU_DISPLAY(1, menu_settings_nanos, NULL);
   }
+#endif
 
 // show the currently activated entry
 void menu_settings_confirm_login_init_nanos(unsigned int ignored) {
@@ -262,11 +268,13 @@ void menu_settings_confirm_login_init_nanos(unsigned int ignored) {
   UX_MENU_DISPLAY(!N_storage.dont_confirm_login, menu_settings_confirm_login_nanos, NULL);
 }
 
+#ifdef DYNAMIC_LOCK
 // show the currently activated entry
 void menu_settings_dlock_init_nanos(unsigned int ignored) {
   UNUSED(ignored);
   UX_MENU_DISPLAY(N_storage.dynamic_lock, menu_settings_dlock_nanos, NULL);
 }
+#endif
 
 void ui_confirm_registration_init(void){
 	UX_DISPLAY(ui_confirm_registration_nanos,NULL);

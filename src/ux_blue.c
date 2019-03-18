@@ -43,11 +43,11 @@ const bagl_element_t ui_settings_blue[] = {
   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,   0,  78, 320,  68, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000, 0                                                                                        , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_settings_blue_toggle_confirm_login_blue, ui_settings_out_over, ui_settings_out_over },
 
   {{BAGL_RECTANGLE                      , 0x00,  30, 146, 260,   1, 1, 0, 0        , 0xEEEEEE, COLOR_BG_1, 0                                                                                    , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL },
-
+  #ifdef DYNAMIC_LOCK
   {{BAGL_LABELINE                       , 0x00,  30, 174, 160,  30, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, BAGL_FONT_OPEN_SANS_REGULAR_10_13PX, 0   }, "Unplug to lock", 0, 0, 0, NULL, NULL, NULL},
   {{BAGL_LABELINE                       , 0x00,  30, 195, 260,  30, 0, 0, BAGL_FILL, 0x999999, COLOR_BG_1, BAGL_FONT_OPEN_SANS_REGULAR_8_11PX, 0   }, "Enable dynamic lock feature", 0, 0, 0, NULL, NULL, NULL},
   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,   0, 147, 320,  68, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000, 0                                                                                        , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_settings_blue_toggle_dlock_blue, ui_settings_out_over, ui_settings_out_over },
-
+  #endif
   // at the end to minimize the number of refreshed items upon setting change
   {{BAGL_ICON                           , 0x02, 258, 167,  32,  18, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, 0, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
   {{BAGL_ICON                           , 0x01, 258,  98,  32,  18, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, 0, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
@@ -687,12 +687,17 @@ const bagl_element_t * ui_settings_blue_toggle_confirm_login_blue(const bagl_ele
   nvm_write(&N_storage.dont_confirm_login, (void*)&setting, sizeof(uint8_t));
 
   // only refresh settings mutable drawn elements
-  UX_REDISPLAY_IDX(12);
+  #ifdef DYNAMIC_LOCK
+    UX_REDISPLAY_IDX(12);
+  #else
+    UX_REDISPLAY_IDX(9);
+  #endif
 
   // won't redisplay the bagl_none
   return 0;
 }
 
+#ifdef DYNAMIC_LOCK
 const bagl_element_t * ui_settings_blue_toggle_dlock_blue(const bagl_element_t * e) {
   // swap setting and request redraw of settings elements
   uint8_t setting = N_storage.dynamic_lock?0:1;
@@ -704,6 +709,7 @@ const bagl_element_t * ui_settings_blue_toggle_dlock_blue(const bagl_element_t *
   // won't redisplay the bagl_none
   return 0;
 }
+#endif
 
 const bagl_element_t* ui_settings_out_over(const bagl_element_t* e) {
   return NULL;
@@ -727,6 +733,7 @@ const bagl_element_t * ui_settings_blue_prepro(const bagl_element_t * e) {
           tmp_element.text = &C_icon_toggle_reset;
         }
         break;
+      #ifdef DYNAMIC_LOCK
       case 0x02:
         // swap icon content
         if (N_storage.dynamic_lock) {
@@ -736,6 +743,7 @@ const bagl_element_t * ui_settings_blue_prepro(const bagl_element_t * e) {
           tmp_element.text = &C_icon_toggle_reset;
         }
         break;
+      #endif
     }
     return &tmp_element;
   }

@@ -1,15 +1,20 @@
+#include "ux_nanox.h"
+
 #if defined (TARGET_NANOX)
 
-#include "ux_nanox.h"
 
 extern unsigned int ux_step;
 extern unsigned int ux_step_count;
+
+bagl_icon_details_t icon_hack;
 
 ////////////////////////////////////////////////////////////////
 // Menu Settings
 const char* const settings_general_submenu_getter_values[] = {
   "Auto-unlock",
+  #ifdef DYNAMIC_LOCK
   "Unplug to lock",
+  #endif
   "Back",
 };
 
@@ -25,9 +30,11 @@ void settings_general_submenu_selector(unsigned int idx) {
     case 0:
       ui_auto_unlock_init();
       break;
+    #ifdef DYNAMIC_LOCK
     case 1:
       ui_unplug_to_lock_init();
       break;
+    #endif
     default:
       ui_idle_init();
   }
@@ -94,7 +101,7 @@ UX_FLOW_DEF_NOCB(
   ux_idle_flow_1_step, 
   pnn, //pnn, 
   {
-    &C_icon_hello,
+    &icon_hack,
     "Ready",
     "to authenticate",
   });
@@ -167,6 +174,7 @@ void menu_settings_confirm_login_change_nanos(uint32_t confirm) {
   ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
 }
 
+#ifdef DYNAMIC_LOCK
 ////////////////////////////////////////////////////////////////
 // Sub menu unplug to lock
 const char* const settings_submenu_unplug_to_lock_getter_values[] = {
@@ -202,9 +210,18 @@ void menu_settings_unplug_to_lock_change_nanos(uint32_t confirm) {
   // go back to the menu entry
   ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
 }
+#endif //DYNAMIC_LOCK
 
 void ui_idle_init(void){
   ux_step_count = 0;
+
+  #ifdef HAVE_ICON_PIRATE
+    icon_hack = C_icon_pirate;
+  #elif defined HAVE_ICON_OLD
+    icon_hack = C_icon_hello_old;
+  #else
+    icon_hack = C_icon_hello;
+  #endif
   if(G_ux.stack_count == 0) {
     ux_stack_push();
   }
@@ -223,9 +240,11 @@ void ui_auto_unlock_init(void){
   ux_menulist_init_select(settings_submenu_auto_unlock_getter, settings_submenu_auto_unlock_selector, !N_storage.dont_confirm_login);
 }
 
+#ifdef DYNAMIC_LOCK
 void ui_unplug_to_lock_init(void){
   // ux_flow_init(0, ux_unplug_to_lock_flow, NULL);
   ux_menulist_init_select(settings_submenu_unplug_to_lock_getter, settings_submenu_unplug_to_lock_selector, N_storage.dynamic_lock);
 }
+#endif
 
 #endif // (TARGET_NANOX)
