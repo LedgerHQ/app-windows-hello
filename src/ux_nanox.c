@@ -108,7 +108,7 @@ UX_FLOW_DEF_NOCB(
 UX_FLOW_DEF_VALID(
   ux_idle_flow_2_step, 
   pbb,
-  ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector),
+  ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector),
   {
     &C_icon_coggle,
     "Settings",
@@ -163,7 +163,7 @@ void settings_submenu_auto_unlock_selector(unsigned int idx) {
       break;
     default:
       // ui_idle_init();
-      ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
+      ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector);
       break;
   }
 }
@@ -171,7 +171,7 @@ void settings_submenu_auto_unlock_selector(unsigned int idx) {
 void menu_settings_confirm_login_change_nanos(uint32_t confirm) {
   nvm_write((void*)&N_storage.dont_confirm_login, (void*)&confirm, sizeof(uint32_t));
   // go back to the menu entry
-  ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
+  ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector);
 }
 
 #ifdef DYNAMIC_LOCK
@@ -200,7 +200,7 @@ void settings_submenu_unplug_to_lock_selector(unsigned int idx) {
       break;
     default:
       // ui_idle_init();
-      ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
+      ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector);
       break;
   }
 }
@@ -208,7 +208,7 @@ void settings_submenu_unplug_to_lock_selector(unsigned int idx) {
 void menu_settings_unplug_to_lock_change_nanos(uint32_t confirm) {
   nvm_write((void*)&N_storage.dynamic_lock, (void*)&confirm, sizeof(uint32_t));
   // go back to the menu entry
-  ux_menulist_init(settings_general_submenu_getter, settings_general_submenu_selector);
+  ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector);
 }
 #endif //DYNAMIC_LOCK
 
@@ -237,13 +237,13 @@ void ui_confirm_login_init(void){
 }
 
 void ui_auto_unlock_init(void){
-  ux_menulist_init_select(settings_submenu_auto_unlock_getter, settings_submenu_auto_unlock_selector, !N_storage.dont_confirm_login);
+  ux_menulist_init_select(0, settings_submenu_auto_unlock_getter, settings_submenu_auto_unlock_selector, !N_storage.dont_confirm_login);
 }
 
 #ifdef DYNAMIC_LOCK
 void ui_unplug_to_lock_init(void){
   // ux_flow_init(0, ux_unplug_to_lock_flow, NULL);
-  ux_menulist_init_select(settings_submenu_unplug_to_lock_getter, settings_submenu_unplug_to_lock_selector, N_storage.dynamic_lock);
+  ux_menulist_init_select(0, settings_submenu_unplug_to_lock_getter, settings_submenu_unplug_to_lock_selector, N_storage.dynamic_lock);
 }
 #endif
 
