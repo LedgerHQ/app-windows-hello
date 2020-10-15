@@ -35,14 +35,14 @@ unsigned int icon_change_timer_cnt_t10;
 } internalStorage_t;*/
 
 WIDE internalStorage_t const N_storage_real;
-#define N_storage (*(volatile internalStorage_t *)PIC(&N_storage_real)) 
+#define N_storage (*(volatile internalStorage_t *)PIC(&N_storage_real))
 
 void hello_register_cancel(void){
 	G_io_apdu_buffer[0] = LOGIN_DENIED_BY_USER >> 8;
     G_io_apdu_buffer[1] = LOGIN_DENIED_BY_USER & 0xff;
     io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, 2);
     ui_idle_init();
-} 
+}
 
 void hello_register_confirm(void){
 	uint8_t replySize;
