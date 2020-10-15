@@ -58,4 +58,4 @@ unsigned int ui_list_text1_cb(const bagl_element_t *e);
 unsigned int ui_list_text5_cb(const bagl_element_t *e);
 const bagl_element_t * ui_idle_mainmenu_list_blue_prepro(const bagl_element_t * e);
 
-#endif //UX_BLUE_H 
+#endif //UX_BLUE_H

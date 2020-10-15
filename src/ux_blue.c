@@ -80,7 +80,7 @@ const bagl_element_t ui_settings_blue[] = {
 //   if ((e->component.type&(~BAGL_FLAG_TOUCHABLE)) == BAGL_NONE) {
 //     return 0;
 //   }
-//   else {        
+//   else {
 //     switch (e->component.userid&0xF0){
 //       case 0x10:
 //         switch (e->component.userid&0x0F){
@@ -115,7 +115,7 @@ const bagl_element_t ui_settings_blue[] = {
 //           return 0;
 //         }
 //         switch (e->component.userid&0x0F){
-//           case 0:            
+//           case 0:
 //             idx = list_idx;
 //             break;
 //           case 1:
@@ -123,9 +123,9 @@ const bagl_element_t ui_settings_blue[] = {
 //             break;
 //           case 2:
 //             idx = list_idx+2;
-//             break;          
+//             break;
 //         }
-//         tmp_element.text = ui_list_text[idx];        
+//         tmp_element.text = ui_list_text[idx];
 //       break;
 //     }
 //   }
@@ -133,7 +133,7 @@ const bagl_element_t ui_settings_blue[] = {
 // }
 
 
-// unsigned int ui_list_item_out_over(const bagl_element_t *e) {  
+// unsigned int ui_list_item_out_over(const bagl_element_t *e) {
 //   // bagl_element_t *last_e = (const bagl_element_t*)(((unsigned int)e)-sizeof(bagl_element_t));
 //   // if (last_e->text == NULL){
 //   //   return 0;
@@ -156,7 +156,7 @@ const bagl_element_t ui_settings_blue[] = {
 //     list_idx--;
 //     UX_REDISPLAY_IDX(5);
 //     return 0;
-//   }    
+//   }
 //   return 1;
 // }
 
@@ -166,7 +166,7 @@ const bagl_element_t ui_settings_blue[] = {
 //     //UX_REDISPLAY();
 //     UX_REDISPLAY_IDX(5);
 //     return 0;
-//   }  
+//   }
 //   return 1;
 // }
 // const bagl_element_t ui_idle_mainmenu_list_blue[] = {
@@ -182,9 +182,9 @@ const bagl_element_t ui_settings_blue[] = {
 //   {{BAGL_RECTANGLE | BAGL_FLAG_TOUCHABLE, 0x00,   0,  19,  56,  44, 0, 0, BAGL_FILL, COLOR_APP, COLOR_APP_LIGHT, BAGL_FONT_SYMBOLS_0|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0 }, BAGL_FONT_SYMBOLS_0_SETTINGS, 0, COLOR_APP, 0xFFFFFF, io_seproxyhal_touch_settings, NULL, NULL},
 //   {{BAGL_RECTANGLE | BAGL_FLAG_TOUCHABLE, 0x00, 264,  19,  56,  44, 0, 0, BAGL_FILL, COLOR_APP, COLOR_APP_LIGHT, BAGL_FONT_SYMBOLS_0|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0 }, BAGL_FONT_SYMBOLS_0_DASHBOARD, 0, COLOR_APP, 0xFFFFFF, io_seproxyhal_touch_exit, NULL, NULL},
 
-  
-  
-  
+
+
+
 //   // Display List UP
 //   {{BAGL_RECTANGLE                      , 0x30,  130, LIST_POSITION - (SIZE_LIST_ELEM + 1 )            , 60,  LINE_SIZE, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1, NULL                                                                                   , 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
 //   {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x10,  130, LIST_POSITION                                    , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, NULL, 0, 0, COLOR_BG_1, ui_list_up_cb, NULL, NULL},
@@ -193,9 +193,9 @@ const bagl_element_t ui_settings_blue[] = {
 //   {{BAGL_LABELINE| BAGL_FLAG_TOUCHABLE  , 0x11,  130, LIST_POSITION+4*LINE_SIZE                        , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x707070, COLOR_BG_1, FONT_UP_DOWN|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE  , 0   }, NULL, 0, 0, COLOR_BG_1, ui_list_down_cb, NULL, NULL},
 
 //   // Display list Element 1
-//   {{BAGL_LABELINE                       , 0x20,  130, LIST_POSITION+LINE_SIZE                          , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},  
+//   {{BAGL_LABELINE                       , 0x20,  130, LIST_POSITION+LINE_SIZE                          , 60,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
 //   {{BAGL_NONE   | BAGL_FLAG_TOUCHABLE   , 0x00,  0  , LIST_POSITION+LINE_SIZE-(2*SIZE_LIST_ELEM)   , 320 , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000 , 0 , 0   }, NULL, 0, 0xEEEEEE, 0x000000, ui_list_item_tap, ui_list_item_out_over, ui_list_item_out_over},
-//   {{BAGL_RECTANGLE                      , 0x40,  0  , LIST_POSITION+LINE_SIZE-(2*SIZE_LIST_ELEM)   , 5   , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1 , FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, COLOR_APP, 0, NULL, NULL, NULL},  
+//   {{BAGL_RECTANGLE                      , 0x40,  0  , LIST_POSITION+LINE_SIZE-(2*SIZE_LIST_ELEM)   , 5   , RECT_SEL_HEIGHT, 0, 0, BAGL_FILL, COLOR_BG_1, COLOR_BG_1 , FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, COLOR_APP, 0, NULL, NULL, NULL},
 
 //   // Display list Element 2
 //   {{BAGL_LABELINE                       , 0x21,  130, LIST_POSITION+2*LINE_SIZE                        , 60  ,  LINE_SIZE, 0, 0, BAGL_FILL, 0x000000, COLOR_BG_1, FONT_LIST_ELEM|BAGL_FONT_ALIGNMENT_CENTER|BAGL_FONT_ALIGNMENT_MIDDLE, 0   }, NULL, 0, 0, 0, NULL, NULL, NULL},
@@ -643,7 +643,7 @@ void ui_idle_init(void) {
 
   // UX_DISPLAY(ui_idle_mainmenu_list_blue, NULL);
   // UX_DISPLAY(ui_idle_mainmenu_list_blue, ui_idle_mainmenu_list_blue_prepro);
-  
+
   // setup the first screen changing
   UX_CALLBACK_SET_INTERVAL(1000);
 }
@@ -759,7 +759,7 @@ unsigned int ui_idle_mainmenu_list_blue_button(unsigned int button_mask, unsigne
 }
 
 unsigned int ui_settings_blue_button(unsigned int button_mask, unsigned int button_mask_counter) {
-  return 0;  
+  return 0;
 }
 
 unsigned int io_seproxyhal_touch_settings(const bagl_element_t *e) {
@@ -773,4 +773,4 @@ unsigned int io_seproxyhal_touch_exit(const bagl_element_t *e) {
     return 0; // do not redraw the widget
 }
 
-#endif 
+#endif

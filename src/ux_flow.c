@@ -1,12 +1,12 @@
-#include "ux_nanox.h"
+#include "ux_flow.h"
 
-#if defined (TARGET_NANOX)
+#if defined (HAVE_UX_FLOW)
 
 
 extern unsigned int ux_step;
 extern unsigned int ux_step_count;
 
-bagl_icon_details_t icon_hack;
+bagl_icon_details_t idle_icon;
 
 ////////////////////////////////////////////////////////////////
 // Menu Settings
@@ -42,7 +42,7 @@ void settings_general_submenu_selector(unsigned int idx) {
 
 ////////////////////////////////////////////////////////////////
 // Confirm login flow
-UX_FLOW_DEF_VALID(
+UX_STEP_CB(
   ux_confirm_login_flow_1_step,
   pbb,
   hello_login_confirm(),
@@ -51,7 +51,7 @@ UX_FLOW_DEF_VALID(
     "Confirm",
     "registration",
   });
-UX_FLOW_DEF_VALID(
+UX_STEP_CB(
   ux_confirm_login_flow_2_step,
   pbb,
   hello_login_cancel(),
@@ -61,15 +61,14 @@ UX_FLOW_DEF_VALID(
     "registration",
   });
 
-const ux_flow_step_t *        const ux_confirm_login_flow [] = {
+UX_FLOW(ux_confirm_login_flow,
   &ux_confirm_login_flow_1_step,
-  &ux_confirm_login_flow_2_step,
-  FLOW_END_STEP,
-}; 
+  &ux_confirm_login_flow_2_step
+);
 
 ////////////////////////////////////////////////////////////////
 // Confirm registration flow
-UX_FLOW_DEF_VALID(
+UX_STEP_CB(
   ux_confirm_registration_flow_1_step,
   pbb,
   hello_register_confirm(),
@@ -78,7 +77,7 @@ UX_FLOW_DEF_VALID(
     "Confirm",
     "registration",
   });
-UX_FLOW_DEF_VALID(
+UX_STEP_CB(
   ux_confirm_registration_flow_2_step,
   pbb,
   hello_register_cancel(),
@@ -88,55 +87,64 @@ UX_FLOW_DEF_VALID(
     "registration",
   });
 
-const ux_flow_step_t *        const ux_confirm_registration_flow [] = {
+UX_FLOW(ux_confirm_registration_flow,
   &ux_confirm_registration_flow_1_step,
-  &ux_confirm_registration_flow_2_step,
-  FLOW_END_STEP,
-}; 
+  &ux_confirm_registration_flow_2_step
+);
 
 
 ////////////////////////////////////////////////////////////////
-// Ui idle flow
-UX_FLOW_DEF_NOCB(
-  ux_idle_flow_1_step, 
-  pnn, //pnn, 
-  {
-    &icon_hack,
-    "Ready",
-    "to authenticate",
-  });
-UX_FLOW_DEF_VALID(
-  ux_idle_flow_2_step, 
-  pbb,
-  ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector),
-  {
-    &C_icon_coggle,
-    "Settings",
-    "",
-  });
-UX_FLOW_DEF_NOCB(
-  ux_idle_flow_3_step, 
-  bn, 
-  {
-    "Version",
-    APPVERSION,
-  });
-UX_FLOW_DEF_VALID(
-  ux_idle_flow_4_step,
-  pb,
-  os_sched_exit(-1),
-  {
-    &C_icon_dashboard,
-    "Quit",
-  });
 
-const ux_flow_step_t *        const ux_idle_flow [] = {
+void switch_icon();
+switch_icon_count;
+
+// Ui idle flow
+UX_STEP_CB(
+ux_idle_flow_1_step,
+pnn,
+switch_icon(),
+{
+  &idle_icon,
+  "Ready",
+  "to authenticate",
+});
+UX_STEP_CB(
+ux_idle_flow_2_step,
+pb,
+ux_menulist_init(0, settings_general_submenu_getter, settings_general_submenu_selector),
+{
+  &C_icon_coggle,
+  "Settings",
+});
+UX_STEP_NOCB(
+ux_idle_flow_3_step,
+bn,
+{
+  "Version",
+  APPVERSION,
+});
+UX_STEP_CB(
+ux_idle_flow_4_step,
+pb,
+os_sched_exit(-1),
+{
+  &C_icon_dashboard,
+  "Quit",
+});
+
+UX_FLOW(ux_idle_flow,
   &ux_idle_flow_1_step,
   &ux_idle_flow_2_step,
   &ux_idle_flow_3_step,
   &ux_idle_flow_4_step,
-  FLOW_END_STEP,
-}; 
+  FLOW_LOOP
+);
+
+void switch_icon(){
+  ux_step_count++;
+  idle_icon = ux_step_count > 5 ? C_icon_pirate : C_icon_hello;
+  ux_flow_init(0, ux_idle_flow, NULL);
+}
 
 ////////////////////////////////////////////////////////////////
 // Sub menu auto-unlock
@@ -215,12 +223,10 @@ void menu_settings_unplug_to_lock_change_nanos(uint32_t confirm) {
 void ui_idle_init(void){
   ux_step_count = 0;
 
-  #ifdef HAVE_ICON_PIRATE
-    icon_hack = C_icon_pirate;
-  #elif defined HAVE_ICON_OLD
-    icon_hack = C_icon_hello_old;
+  #if defined HAVE_ICON_OLD
+    idle_icon = C_icon_hello_old;
   #else
-    icon_hack = C_icon_hello;
+    idle_icon = C_icon_hello;
   #endif
   if(G_ux.stack_count == 0) {
     ux_stack_push();
@@ -247,4 +253,4 @@ void ui_unplug_to_lock_init(void){
 }
 #endif
 
-#endif // (TARGET_NANOX)
+#endif // (HAVE_UX_FLOW)

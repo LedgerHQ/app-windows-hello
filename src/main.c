@@ -27,18 +27,13 @@
 #include "ux_common.h"
 #if defined (TARGET_BLUE)
   #include "ux_blue.h"
-#elif defined (TARGET_NANOS)
-  #include "ux_nanos.h"
-#elif defined (TARGET_ARAMIS)
-#elif defined (TARGET_NANOX)
+#elif defined (HAVE_UX_FLOW)
   #include "ux.h"
-  #include "ux_nanox.h"
+  #include "ux_flow.h"
   // #include "balenos_ble.h"
   // extern ble_state_t G_io_ble;
   ux_state_t G_ux;
   bolos_ux_params_t G_ux_params;
-#else
-#error unknown TARGET_ID
 #endif
 
 void USB_CCID_power(unsigned char enabled);
@@ -83,8 +78,6 @@ unsigned char nonce_srv[32];
 uint8_t refreshUi;
 uint8_t replySize;
 
-const bagl_element_t* ui_idle_menu_preprocessor(const ux_menu_entry_t* entry, bagl_element_t* element);
-
 void compute_device_secrets(void) {
   if (!secret_computed) {
     os_perso_derive_node_bip32(CX_CURVE_SECP256K1, DERIVE_PATH, DERIVE_PATH_LEN, derived_key, NULL);
@@ -105,14 +98,14 @@ void compute_device_secrets(void) {
   secret_computed=1;
 }
 
-unsigned int compute_login_reply(void) {    
+unsigned int compute_login_reply(void) {
   cx_hmac_sha256_t hmac_context;
   unsigned char device_hmac[32];
   unsigned int rx = 0;
 
   // confirm
   // Command APDU:
-  // ------------- 
+  // -------------
   // header (5)
   // HMACsrv (32)
   // NonceSk (32)
@@ -124,7 +117,7 @@ unsigned int compute_login_reply(void) {
   // HMACsk (32)
   // 1/ Validate deviceHMAC = HMAC(auth_key, nonce_srv || NonceDk || NonceSk)
   // for(;;);
-  cx_hmac_sha256_init(&hmac_context,auth_key,32);         
+  cx_hmac_sha256_init(&hmac_context,auth_key,32);
   cx_hmac(&hmac_context,0,      nonce_srv,32,NULL,0);
   cx_hmac(&hmac_context,0,      G_io_apdu_buffer+5+32+32,32,NULL,0);
   cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,device_hmac,32);
@@ -139,8 +132,8 @@ unsigned int compute_login_reply(void) {
   }
   // 2/ Compute HMACdk = HMAC(device_key, NonceDk)
   cx_hmac_sha256(device_key,32,G_io_apdu_buffer+5+32+32,32,G_io_apdu_buffer,32);
-  // 3/ Compute HMACsk = HMAC(auth_key, HMACdk || NonceSk)   
-  cx_hmac_sha256_init(&hmac_context,auth_key,32);         
+  // 3/ Compute HMACsk = HMAC(auth_key, HMACdk || NonceSk)
+  cx_hmac_sha256_init(&hmac_context,auth_key,32);
   cx_hmac(&hmac_context,0,      G_io_apdu_buffer,32,NULL,0);
   cx_hmac(&hmac_context,CX_LAST,G_io_apdu_buffer+5+32,32,G_io_apdu_buffer+32,32);
   G_io_apdu_buffer[32+32] = SW_OK >> 8;
@@ -175,13 +168,13 @@ unsigned short io_exchange_al(unsigned char channel, unsigned short tx_len) {
   return 0;
 }
 
-void sample_main(void) {
+void app_main(void) {
   volatile unsigned int rx = 0;
   volatile unsigned int tx = 0;
   volatile unsigned int flags = 0;
 
   // DESIGN NOTE: the bootloader ignores the way APDU are fetched. The only goal is to retrieve APDU.
-  // When APDU are to be fetched from multiple IOs, like NFC+USB+BLE, make sure the io_event is called with a 
+  // When APDU are to be fetched from multiple IOs, like NFC+USB+BLE, make sure the io_event is called with a
   // switch event, before the apdu is replied to the bootloader. This avoid APDU injection faults.
   for (;;) {
     volatile unsigned short sw = 0;
@@ -227,7 +220,7 @@ void sample_main(void) {
             }
             break;
 
-          case 0xCA: 
+          case 0xCA:
             switch (G_io_apdu_buffer[2]) {
               case 0x00: // device_id
                 compute_device_secrets();
@@ -283,13 +276,13 @@ void sample_main(void) {
             sw = 0x6800 | (e&0x7FF);
             break;
         }
-        // Unexpected exception => report 
+        // Unexpected exception => report
         G_io_apdu_buffer[tx] = sw>>8;
         G_io_apdu_buffer[tx+1] = sw;
         tx += 2;
       }
       FINALLY {
-        
+
       }
     }
     END_TRY;
@@ -332,7 +325,7 @@ unsigned char io_event(unsigned char channel) {
     case SEPROXYHAL_TAG_TICKER_EVENT:
 
         icon_change_timer_cnt++;
-        UX_TICKER_EVENT(G_io_seproxyhal_spi_buffer, 
+        UX_TICKER_EVENT(G_io_seproxyhal_spi_buffer,
         {//// here
 		  // only allow display when not locked of overlayed by an OS UX.
           if (UX_ALLOWED && ux_step_count) {
@@ -348,7 +341,7 @@ unsigned char io_event(unsigned char channel) {
   if (!io_seproxyhal_spi_is_status_sent()) {
     io_seproxyhal_general_status();
   }
-  
+
   // command has been processed, DO NOT reset the current APDU transport
   return 1;
 }
@@ -367,22 +360,13 @@ void app_exit(void) {
 
 __attribute__ ((section(".boot")))
 int main(void) {
-  
+
   // exit critical section
   __asm volatile ("cpsie i");
 
-  secret_computed = 0;  
+  secret_computed = 0;
 
-  #if defined (TARGET_NANOS)
-    icon_hack_flag = 0;
-  #endif
 
-  /// TODO remove : list test
-  #if defined (TARGET_BLUE)
-    // list_idx = 0;
-  #endif
-  /// TODO remove : list test
-  
   // ensure exception will work as planned
   os_boot();
 
@@ -401,11 +385,11 @@ int main(void) {
         BLE_power(0, NULL);
         BLE_power(1, "Nano X");
       #endif
-      
-      sample_main();
+
+      app_main();
     }
     CATCH_ALL {
-      
+
     }
     FINALLY {
 

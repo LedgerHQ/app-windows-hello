@@ -22,7 +22,6 @@ include $(BOLOS_SDK)/Makefile.defines
 
 APP_LOAD_PARAMS=--path "" --curve secp256k1 $(COMMON_LOAD_PARAMS) --appFlags 0x200
 APPNAME = Hello
-# ICONNAME = icon.gif
 
 APPVERSION_M=1
 APPVERSION_N=1
@@ -51,13 +50,15 @@ all: default
 
 DEFINES   += OS_IO_SEPROXYHAL IO_SEPROXYHAL_BUFFER_SIZE_B=300
 DEFINES   += HAVE_BAGL HAVE_SPRINTF
-#DEFINES   += HAVE_PRINTF PRINTF=screen_printf
-DEFINES   += PRINTF\(...\)=
-DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=6 IO_HID_EP_LENGTH=64 HAVE_USB_APDU 
-DEFINES   += HAVE_USB_CLASS_CCID 
+DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=6 IO_HID_EP_LENGTH=64 HAVE_USB_APDU
+DEFINES   += HAVE_USB_CLASS_CCID
 DEFINES   += UNUSED\(x\)=\(void\)x
 DEFINES   += APPVERSION=\"$(APPVERSION)\"
 # DEFINES 	+= DYNAMIC_LOCK
+
+ifneq ($(TARGET_NAME), TARGET_BLUE)
+	DEFINES		  += HAVE_UX_FLOW
+endif
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
 # DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
@@ -69,10 +70,20 @@ DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
-DEFINES       += HAVE_UX_FLOW
+# DEFINES 	  += HAVE_ICON_OLD
+endif
 
-# DEFINES       += HAVE_ICON_PIRATE
-# DEFINES 			+= HAVE_ICON_OLD
+# Enabling debug PRINTF
+DEBUG:=0
+ifneq ($(DEBUG),0)
+DEFINES += HAVE_STACK_OVERFLOW_CHECK
+ifeq ($(TARGET_NAME),TARGET_NANOX)
+DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
+else
+DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+endif
+else
+DEFINES   += PRINTF\(...\)=
 endif
 
 ##############
@@ -92,16 +103,16 @@ ifeq ($(GCCPATH),)
 $(info GCCPATH is not set: arm-none-eabi-* will be used from PATH)
 endif
 
-CC       := $(CLANGPATH)clang 
+CC       := $(CLANGPATH)clang
 
 #CFLAGS   += -O0
-CFLAGS   += -O3 -Os
+CFLAGS   += -O3 -Os -I/usr/include
 
 AS     := $(GCCPATH)arm-none-eabi-gcc
 
 LD       := $(GCCPATH)arm-none-eabi-gcc
 LDFLAGS  += -O3 -Os
-LDLIBS   += -lm -lgcc -lc 
+LDLIBS   += -lm -lgcc -lc
 
 # import rules to compile glyphs(/pone)
 include $(BOLOS_SDK)/Makefile.glyphs
@@ -109,7 +120,7 @@ include $(BOLOS_SDK)/Makefile.glyphs
 ### variables processed by the common makefile.rules of the SDK to grab source files and include dirs
 APP_SOURCE_PATH  += src
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl
-ifeq ($(TARGET_NAME),TARGET_NANOX)
+ifneq ($(TARGET_NAME),TARGET_BLUE)
 #SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
 SDK_SOURCE_PATH  += lib_ux
 endif

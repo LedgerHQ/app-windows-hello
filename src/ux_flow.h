@@ -1,9 +1,9 @@
-#ifndef UX_NANOX_H
-#define UX_NANOX_H
+#ifndef UX_FLOW_H
+#define UX_FLOW_H
 
 #include "ux_common.h"
 
-#if defined (TARGET_NANOX)
+#if defined (HAVE_UX_FLOW)
 
 #include "ux.h"
 #include "ux_layouts.h"
@@ -20,5 +20,5 @@ void settings_submenu_unplug_to_lock_selector(unsigned int idx);
 const char* settings_submenu_auto_unlock_getter(unsigned int idx);
 const char* settings_submenu_unplug_to_lock_getter(unsigned int idx);
 
-#endif //TARGET_NANOX
-#endif //UX_NANOX_H
+#endif //HAVE_UX_FLOW
+#endif //UX_FLOW_H
