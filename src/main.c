@@ -22,13 +22,12 @@
 //#include "usbd_ccid_impl.h"
 #include "usbd_ccid_impl.h"
 #include "string.h"
-#include "glyphs.h"
+#include "ux.h"
 
 #include "ux_common.h"
 #if defined (TARGET_BLUE)
   #include "ux_blue.h"
 #elif defined (HAVE_UX_FLOW)
-  #include "ux.h"
   #include "ux_flow.h"
   // #include "balenos_ble.h"
   // extern ble_state_t G_io_ble;

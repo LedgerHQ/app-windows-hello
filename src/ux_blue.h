@@ -19,7 +19,7 @@
 #define UX_BLUE_H
 
 #include "ux_common.h"
-#include "glyphs.h"
+#include "ux.h"
 
 #define BAGL_FONT_OPEN_SANS_LIGHT_16_22PX_AVG_WIDTH 10
 #define BAGL_FONT_OPEN_SANS_REGULAR_10_13PX_AVG_WIDTH 8
