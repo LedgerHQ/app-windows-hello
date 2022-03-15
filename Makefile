@@ -30,12 +30,10 @@ APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)
 
 ifeq ($(TARGET_NAME),TARGET_BLUE)
 ICONNAME=blue_app_hello.gif
-else
-	ifeq ($(TARGET_NAME),TARGET_NANOX)
-ICONNAME=nanox_app_hello.gif
-	else
+else ifeq ($(TARGET_NAME),TARGET_NANOS)
 ICONNAME=nanos_app_hello.gif
-	endif
+else
+ICONNAME=nanox_app_hello.gif
 endif
 
 ################
@@ -60,27 +58,23 @@ ifneq ($(TARGET_NAME), TARGET_BLUE)
 	DEFINES		  += HAVE_UX_FLOW
 endif
 
-ifeq ($(TARGET_NAME),TARGET_NANOX)
-# DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
-# DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
-
+ifneq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES       += HAVE_GLO096 HAVE_UX_LEGACY
 DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
 DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
-# DEFINES 	  += HAVE_ICON_OLD
 endif
 
 # Enabling debug PRINTF
 DEBUG:=0
 ifneq ($(DEBUG),0)
 DEFINES += HAVE_STACK_OVERFLOW_CHECK
-ifeq ($(TARGET_NAME),TARGET_NANOX)
-DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
-else
+ifeq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+else
+DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
 endif
 else
 DEFINES   += PRINTF\(...\)=
@@ -121,7 +115,6 @@ include $(BOLOS_SDK)/Makefile.glyphs
 APP_SOURCE_PATH  += src
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl
 ifneq ($(TARGET_NAME),TARGET_BLUE)
-#SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
 SDK_SOURCE_PATH  += lib_ux
 endif
 
