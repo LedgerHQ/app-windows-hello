@@ -50,6 +50,7 @@ DEFINES   += OS_IO_SEPROXYHAL IO_SEPROXYHAL_BUFFER_SIZE_B=300
 DEFINES   += HAVE_BAGL HAVE_SPRINTF
 DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=6 IO_HID_EP_LENGTH=64 HAVE_USB_APDU
 DEFINES   += HAVE_USB_CLASS_CCID
+DEFINES   += HAVE_CCID_USB
 DEFINES   += UNUSED\(x\)=\(void\)x
 DEFINES   += APPVERSION=\"$(APPVERSION)\"
 # DEFINES 	+= DYNAMIC_LOCK
@@ -114,6 +115,11 @@ include $(BOLOS_SDK)/Makefile.glyphs
 ### variables processed by the common makefile.rules of the SDK to grab source files and include dirs
 APP_SOURCE_PATH  += src
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl
+
+ifneq ("$(wildcard $(BOLOS_SDK)/lib_ccid)", "")
+SDK_SOURCE_PATH  += lib_ccid
+endif
+
 ifneq ($(TARGET_NAME),TARGET_BLUE)
 SDK_SOURCE_PATH  += lib_ux
 endif
